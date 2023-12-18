@@ -1,0 +1,268 @@
+---
+title: "Deciding the un-correlated tissues used in multi-tissue analysis"
+author: "XSun"
+date: "2023-12-13"
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+    toc: true
+---
+
+# Data 
+
+## Used in cTWAS analysis: 
+
+- Traits (4): LB, MC, OxHb, Pulse
+
+- Weights:Expression models from 9 tissues: Artery_Coronary, Artery_Tibial, Heart_Atrial_Appendage, Heart_Left_Ventricle, Kidney_Cortex, Liver, Lung, Pancreas, Whole_Blood. PredictDB, MASHR-based models.
+
+- LD reference: UKBB
+
+## Used in deciding the uncorrelated tissues
+
+Tissue-tissue correlation data are from [MASH paper, PMID30478440](https://www.nature.com/articles/s41588-018-0268-8)
+
+The MASH paper provides a matrix indicating the shared magnitude of eQTLs among tissues [by computing the proportion of effects significant in either tissue that are within 2-fold magnitude of one another](https://stephenslab.github.io/gtexresults/SharingMag.html).
+
+[data download link (MASH matrix)](https://github.com/stephenslab/gtexresults)
+
+```{r}
+load("/project/xinhe/xsun/ctwas/1.matching_tissue/data/tissue_cor.rdata")
+clrs <- colorRampPalette(rev(c("#D73027","#FC8D59","#FEE090","#FFFFBF",
+                               "#E0F3F8","#91BFDB","#4575B4")))(64)
+
+tissue_select <- c("Artery_Coronary","Artery_Tibial","Heart_Atrial_Appendage", "Heart_Left_Ventricle", "Kidney_Cortex", "Liver", "Lung", "Pancreas", "Whole_Blood")
+
+print(sprintf("%s was not included in MESH",paste0(tissue_select[!tissue_select%in%rownames(lat)], collapse = ", ")))
+
+```
+
+We filtered the correlation using 0.8 as cutoff.
+
+## Functions 
+
+```{r }
+library(lattice)
+
+get_correlation <- function(tissue1, tissue2, cor_matrix) {
+  # Check if tissues are in the matrix and find their positions
+  pos1 <- match(tissue1, colnames(cor_matrix))
+  pos2 <- match(tissue2, rownames(cor_matrix))
+  
+  return(cor_matrix[pos2, pos1]) 
+}
+
+r2cutoff <- 0.8
+filter_tissues <- function(tissue_list, cor_matrix) {
+  filtered_list <- c(tissue_list[1]) # Start with the first tissue
+  
+  for (i in 2:length(tissue_list)) {
+    high_correlation_found <- FALSE
+    for (j in 1:length(filtered_list)) {
+      if (!is.na(get_correlation(filtered_list[j], tissue_list[i], cor_matrix)) &&
+          get_correlation(filtered_list[j], tissue_list[i], cor_matrix) > r2cutoff) {
+        high_correlation_found <- TRUE
+        break # Break the inner loop as high correlation is found
+      }
+    }
+    
+    if (!high_correlation_found) {
+      filtered_list <- c(filtered_list, tissue_list[i])
+    }
+  }
+  return(filtered_list)
+}
+
+fill_upper_triangle <- function(cor_matrix) {
+    for (i in 1:nrow(cor_matrix)) {
+        for (j in 1:ncol(cor_matrix)) {
+            # Check if the upper triangle element is NA and the lower triangle element is not NA
+            if (is.na(cor_matrix[i, j]) && !is.na(cor_matrix[j, i])) {
+                # Copy the value from the lower triangle to the upper triangle
+                cor_matrix[i, j] <- cor_matrix[j, i]
+            }
+        }
+    }
+    cor_matrix[lower.tri(cor_matrix)] <- NA
+    return(cor_matrix)
+}
+
+combine_vectors <- function(vec1, vec_cor1, vec2, vec_cor2, pad_with_na = TRUE) {
+  # Check if padding with NAs is required
+  if (pad_with_na) {
+    # Pad the shorter primary vector and its corresponding vector with NAs
+    if (length(vec1) < length(vec2)) {
+      extra_length <- length(vec2) - length(vec1)
+      vec1 <- c(vec1, rep(NA, extra_length))
+      vec_cor1 <- c(vec_cor1, rep(NA, extra_length))
+    } else {
+      extra_length <- length(vec1) - length(vec2)
+      vec2 <- c(vec2, rep(NA, extra_length))
+      vec_cor2 <- c(vec_cor2, rep(NA, extra_length))
+    }
+    # Combine the vectors into a matrix/data frame
+    return(cbind(vec1, vec_cor1, vec2, vec_cor2))
+  } else {
+    # Combine the vectors into a list
+    return(list(vec1=vec1, vec_cor1=vec_cor1, vec2=vec2, vec_cor2=vec_cor2))
+  }
+}
+
+
+```
+
+# Results
+
+```{r }
+load("/project/xinhe/xsun/ctwas/2.TIBETN/results/summary_table.rdata")
+num_top <- 9
+```
+
+## LB
+
+```{r }
+
+sum_cat <- sum_all[sum_all$traits =="LB",]
+
+DT::datatable(sum_cat,caption = htmltools::tags$caption( style = 'caption-side: topleft; text-align = left; color:black;  font-size:150% ;','summary for ctwas parameters and high pip genes'),options = list(pageLength = 5) )
+
+sum_cat <- sum_cat[order(as.numeric(sum_cat$group_pve_gene),decreasing = T),]
+
+tissue_select <- sum_cat$weights[num_top:1]
+tissue_select <- tissue_select[tissue_select%in%rownames(lat)]
+
+##heatmap
+cor <- lat[tissue_select,tissue_select]
+cor <- fill_upper_triangle(cor)
+print(levelplot(cor,col.regions = clrs,xlab = "",ylab = "",
+                colorkey = TRUE,main = "heatmap showing the tissue-tissue correlation"))
+
+##cor matrix
+cor <- cor[rev(tissue_select),rev(tissue_select)]
+DT::datatable(cor,caption = htmltools::tags$caption( style = 'caption-side: topleft; text-align = left; color:black;  font-size:150% ;','tissue-tissue correlation matrix '),options = list(pageLength = 10) )
+
+
+tissue_select_f1 <- sum_cat$weights[1:num_top]
+filtered_tissues <- filter_tissues(tissue_select_f1, cor)
+
+tissue_select_f1_cor <- sum_cat$group_pve_gene[sum_cat$weights %in% tissue_select_f1 ]
+filtered_tissues_cor <- sum_cat$group_pve_gene[sum_cat$weights %in% filtered_tissues ]
+comb <- combine_vectors(tissue_select_f1, tissue_select_f1_cor, filtered_tissues, filtered_tissues_cor, pad_with_na = TRUE)
+colnames(comb) <- c("without_filtering","#group_pve_gene","filtered","#group_pve_gene")
+
+
+DT::datatable(comb,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Comparing the top tissue lists (with/without filtering by tissue correlation) '),options = list(pageLength = 10) )
+
+```
+
+## MC
+
+```{r }
+
+sum_cat <- sum_all[sum_all$traits =="MC",]
+
+DT::datatable(sum_cat,caption = htmltools::tags$caption( style = 'caption-side: topleft; text-align = left; color:black;  font-size:150% ;','summary for ctwas parameters and high pip genes'),options = list(pageLength = 5) )
+
+sum_cat <- sum_cat[order(as.numeric(sum_cat$group_pve_gene),decreasing = T),]
+
+tissue_select <- sum_cat$weights[num_top:1]
+tissue_select <- tissue_select[tissue_select%in%rownames(lat)]
+
+##heatmap
+cor <- lat[tissue_select,tissue_select]
+cor <- fill_upper_triangle(cor)
+print(levelplot(cor,col.regions = clrs,xlab = "",ylab = "",
+                colorkey = TRUE,main = "heatmap showing the tissue-tissue correlation"))
+
+##cor matrix
+cor <- cor[rev(tissue_select),rev(tissue_select)]
+DT::datatable(cor,caption = htmltools::tags$caption( style = 'caption-side: topleft; text-align = left; color:black;  font-size:150% ;','tissue-tissue correlation matrix '),options = list(pageLength = 10) )
+
+
+tissue_select_f1 <- sum_cat$weights[1:num_top]
+filtered_tissues <- filter_tissues(tissue_select_f1, cor)
+
+tissue_select_f1_cor <- sum_cat$group_pve_gene[sum_cat$weights %in% tissue_select_f1 ]
+filtered_tissues_cor <- sum_cat$group_pve_gene[sum_cat$weights %in% filtered_tissues ]
+comb <- combine_vectors(tissue_select_f1, tissue_select_f1_cor, filtered_tissues, filtered_tissues_cor, pad_with_na = TRUE)
+colnames(comb) <- c("without_filtering","#group_pve_gene","filtered","#group_pve_gene")
+
+
+DT::datatable(comb,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Comparing the top tissue lists (with/without filtering by tissue correlation) '),options = list(pageLength = 10) )
+
+```
+
+
+## OxHb
+
+```{r }
+
+sum_cat <- sum_all[sum_all$traits =="OxHb",]
+
+DT::datatable(sum_cat,caption = htmltools::tags$caption( style = 'caption-side: topleft; text-align = left; color:black;  font-size:150% ;','summary for ctwas parameters and high pip genes'),options = list(pageLength = 5) )
+
+sum_cat <- sum_cat[order(as.numeric(sum_cat$group_pve_gene),decreasing = T),]
+
+tissue_select <- sum_cat$weights[num_top:1]
+tissue_select <- tissue_select[tissue_select%in%rownames(lat)]
+
+##heatmap
+cor <- lat[tissue_select,tissue_select]
+cor <- fill_upper_triangle(cor)
+print(levelplot(cor,col.regions = clrs,xlab = "",ylab = "",
+                colorkey = TRUE,main = "heatmap showing the tissue-tissue correlation"))
+
+##cor matrix
+cor <- cor[rev(tissue_select),rev(tissue_select)]
+DT::datatable(cor,caption = htmltools::tags$caption( style = 'caption-side: topleft; text-align = left; color:black;  font-size:150% ;','tissue-tissue correlation matrix '),options = list(pageLength = 10) )
+
+
+tissue_select_f1 <- sum_cat$weights[1:num_top]
+filtered_tissues <- filter_tissues(tissue_select_f1, cor)
+
+tissue_select_f1_cor <- sum_cat$group_pve_gene[sum_cat$weights %in% tissue_select_f1 ]
+filtered_tissues_cor <- sum_cat$group_pve_gene[sum_cat$weights %in% filtered_tissues ]
+comb <- combine_vectors(tissue_select_f1, tissue_select_f1_cor, filtered_tissues, filtered_tissues_cor, pad_with_na = TRUE)
+colnames(comb) <- c("without_filtering","#group_pve_gene","filtered","#group_pve_gene")
+
+
+DT::datatable(comb,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Comparing the top tissue lists (with/without filtering by tissue correlation) '),options = list(pageLength = 10) )
+
+```
+
+## Pulse
+
+```{r }
+
+sum_cat <- sum_all[sum_all$traits =="Pulse",]
+
+DT::datatable(sum_cat,caption = htmltools::tags$caption( style = 'caption-side: topleft; text-align = left; color:black;  font-size:150% ;','summary for ctwas parameters and high pip genes'),options = list(pageLength = 5) )
+
+sum_cat <- sum_cat[order(as.numeric(sum_cat$group_pve_gene),decreasing = T),]
+
+tissue_select <- sum_cat$weights[num_top:1]
+tissue_select <- tissue_select[tissue_select%in%rownames(lat)]
+
+##heatmap
+cor <- lat[tissue_select,tissue_select]
+cor <- fill_upper_triangle(cor)
+print(levelplot(cor,col.regions = clrs,xlab = "",ylab = "",
+                colorkey = TRUE,main = "heatmap showing the tissue-tissue correlation"))
+
+##cor matrix
+cor <- cor[rev(tissue_select),rev(tissue_select)]
+DT::datatable(cor,caption = htmltools::tags$caption( style = 'caption-side: topleft; text-align = left; color:black;  font-size:150% ;','tissue-tissue correlation matrix '),options = list(pageLength = 10) )
+
+
+tissue_select_f1 <- sum_cat$weights[1:num_top]
+filtered_tissues <- filter_tissues(tissue_select_f1, cor)
+
+tissue_select_f1_cor <- sum_cat$group_pve_gene[sum_cat$weights %in% tissue_select_f1 ]
+filtered_tissues_cor <- sum_cat$group_pve_gene[sum_cat$weights %in% filtered_tissues ]
+comb <- combine_vectors(tissue_select_f1, tissue_select_f1_cor, filtered_tissues, filtered_tissues_cor, pad_with_na = TRUE)
+colnames(comb) <- c("without_filtering","#group_pve_gene","filtered","#group_pve_gene")
+
+
+DT::datatable(comb,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Comparing the top tissue lists (with/without filtering by tissue correlation) '),options = list(pageLength = 10) )
+
+```

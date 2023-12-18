@@ -1,0 +1,244 @@
+---
+title: "Single tissue analysis (LD merge =T)"
+author: "XSun"
+date: "2023-12-14"
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+    toc: true
+---
+
+# Data 
+
+## Used in cTWAS analysis: 
+
+- Traits (4): LB, MC, OxHb, Pulse
+
+- Weights:Expression models from 9 tissues: Artery_Coronary, Artery_Tibial, Heart_Atrial_Appendage, Heart_Left_Ventricle, Kidney_Cortex, Liver, Lung, Pancreas, Whole_Blood. PredictDB, MASHR-based models.
+
+- Weights for negtive control:Expression models from 6 tissues: Skin_Sun_Exposed_Lower_leg Nerve_Tibial Esophagus_Mucosa Breast_Mammary_Tissue Testis Brain_Cerebellum
+
+- LD reference: UKBB
+
+
+## Functions
+
+```{r }
+suppressMessages(library(readxl))
+suppressMessages(library(dplyr))
+suppressMessages(library(ggplot2))
+suppressMessages(library(forcats))
+suppressMessages(library(gridExtra))
+```
+
+
+# Results
+
+```{r warning=F, fig.height=10, fig.width=10}
+
+dat <- read_xlsx("/project/xinhe/xsun/ctwas/2.TIBETN/results/sum.xlsx")
+
+DT::datatable(dat,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Summary table'),options = list(pageLength = 10) )
+
+dat<- dat %>% 
+  distinct(traits, weights, .keep_all = TRUE)
+dat <- dat[,1:7]
+
+dat_sort <- dat %>%
+  mutate(group_pve_gene = as.numeric(group_pve_gene)) %>%  # Convert to numeric if necessary
+  group_by(traits) %>%
+  arrange(desc(group_pve_gene), .by_group = TRUE) %>%  # Sort in descending order within each trait
+  ungroup()
+
+top3_per_trait <- dat_sort %>% 
+  group_by(traits) %>% 
+  top_n(3, attributable_pve_gene) %>% 
+  ungroup()
+
+
+traits <- c("LB","MC","OxHb","Pulse")
+p <- list()
+for (i in 1:length(traits)) {
+  
+  df_trait <- top3_per_trait[top3_per_trait$traits == traits[i],]
+  df_trait$traits <- fct_inorder(df_trait$traits)
+  df_trait$weights <- fct_inorder(df_trait$weights)
+  df_trait$attributable_pve_gene <- as.numeric(df_trait$attributable_pve_gene)
+  
+  p[[i]] <- ggplot(df_trait , aes(x = weights, y = attributable_pve_gene, fill = weights)) +
+    geom_bar(stat = "identity", position = position_dodge()) +
+    facet_wrap(~traits, scales = "free_x", nrow = 1) +  # Create clusters for each trait
+    scale_fill_brewer(palette = "Set1") +  # Use a color palette
+    labs(title = ,
+         x = "Tissues",
+         y = "Attributable PVE Gene") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))+
+    guides(fill = FALSE) +
+    ylim(0, 0.15)
+}
+
+
+P <- grid.arrange(p[[1]], p[[2]], p[[3]], p[[4]], nrow = 2, ncol = 2, top="Bar plot of the percent of gene PVE (attributed proportion) in the top 3 tissues per trait")
+
+```
+
+
+```{r warning=F, fig.height=10, fig.width=10}
+
+dat <- read_xlsx("/project/xinhe/xsun/ctwas/2.TIBETN/results/sum.xlsx")
+
+dat_all <- c()
+p <- list()
+for (i in 1:length(traits)) {
+  
+  dat_trait <- dat[dat$traits == traits[i],]
+  dat_trait_processed <- dat_trait %>%
+    mutate(group_pve_gene = as.numeric(group_pve_gene)) %>%  # Convert to numeric if necessary
+    group_by(traits) %>%
+    arrange(desc(group_pve_gene), .by_group = TRUE) %>%  # Sort in descending order within each trait
+    ungroup()
+  
+  weights_top3 <- dat_trait_processed$weights[!duplicated(dat_trait$weights)][1:3]
+  
+  dat_trait_select <- dat_trait_processed[dat_trait_processed$weights %in% weights_top3,]
+  # index_keep <- c(seq(1,nrow(dat_trait_select),by=5),seq(2,nrow(dat_trait_select),by=5),seq(3,nrow(dat_trait_select),by=5))
+  # index_keep <- sort(index_keep)
+  # dat_trait_select <- dat_trait_select[index_keep,]
+  
+  dat_trait_select$weights <- fct_inorder(dat_trait_select$weights)
+  
+  dat_trait_select <- dat_trait_select %>%
+    mutate(genename = ifelse(duplicated(genename), 
+                             paste0(genename, " "), 
+                             genename))
+  
+  dat_trait_select$genename <- fct_inorder(dat_trait_select$genename)
+
+  
+  
+  plot <- ggplot(dat_trait_select, aes(x = genename, y = susie_pip, fill = weights)) +
+    geom_bar(stat = "identity", position = position_dodge()) +
+    facet_wrap(~weights, scales = "free_x", nrow = 1) +  # Create clusters for each trait
+    scale_fill_brewer(palette = "Set1") +  # Use a color palette
+    labs(title = traits[i],
+         x = "Genes",
+         y = "Susie PIP") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+    guides(fill = FALSE) +
+    ylim(0, 0.45)
+  p[[i]] <-plot 
+  
+
+}
+
+P <- grid.arrange(p[[1]], p[[2]], p[[3]], p[[4]], nrow = 2, ncol = 2, top="Bar plot for the top gene PIP in the top 3 tissues per trait")
+
+```
+
+# Results for negtive control
+
+```{r warning=F, fig.height=10, fig.width=10}
+
+dat <- read_xlsx("/project/xinhe/xsun/ctwas/2.TIBETN/results/sum_ng.xlsx")
+
+DT::datatable(dat,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Summary table'),options = list(pageLength = 10) )
+
+dat<- dat %>% 
+  distinct(traits, weights, .keep_all = TRUE)
+dat <- dat[,1:7]
+
+dat_sort <- dat %>%
+  mutate(group_pve_gene = as.numeric(group_pve_gene)) %>%  # Convert to numeric if necessary
+  group_by(traits) %>%
+  arrange(desc(group_pve_gene), .by_group = TRUE) %>%  # Sort in descending order within each trait
+  ungroup()
+
+top3_per_trait <- dat_sort %>% 
+  group_by(traits) %>% 
+  top_n(3, attributable_pve_gene) %>% 
+  ungroup()
+
+
+traits <- c("LB","MC","OxHb","Pulse")
+p <- list()
+for (i in 1:length(traits)) {
+  
+  df_trait <- top3_per_trait[top3_per_trait$traits == traits[i],]
+  df_trait$traits <- fct_inorder(df_trait$traits)
+  df_trait$weights <- fct_inorder(df_trait$weights)
+  df_trait$attributable_pve_gene <- as.numeric(df_trait$attributable_pve_gene)
+  
+  p[[i]] <- ggplot(df_trait , aes(x = weights, y = attributable_pve_gene, fill = weights)) +
+    geom_bar(stat = "identity", position = position_dodge()) +
+    facet_wrap(~traits, scales = "free_x", nrow = 1) +  # Create clusters for each trait
+    scale_fill_brewer(palette = "Set1") +  # Use a color palette
+    labs(title = ,
+         x = "Tissues",
+         y = "Attributable PVE Gene") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))+
+    guides(fill = FALSE) +
+    ylim(0, 0.15)
+}
+
+
+P <- grid.arrange(p[[1]], p[[2]], p[[3]], p[[4]], nrow = 2, ncol = 2, top="Bar plot of the percent of gene PVE (attributed proportion) in the top 3 tissues per trait")
+
+```
+
+
+```{r warning=F, fig.height=10, fig.width=10}
+
+dat <- read_xlsx("/project/xinhe/xsun/ctwas/2.TIBETN/results/sum_ng.xlsx")
+
+dat_all <- c()
+p <- list()
+for (i in 1:length(traits)) {
+  
+  dat_trait <- dat[dat$traits == traits[i],]
+  dat_trait_processed <- dat_trait %>%
+    mutate(group_pve_gene = as.numeric(group_pve_gene)) %>%  # Convert to numeric if necessary
+    group_by(traits) %>%
+    arrange(desc(group_pve_gene), .by_group = TRUE) %>%  # Sort in descending order within each trait
+    ungroup()
+  
+  weights_top3 <- dat_trait_processed$weights[!duplicated(dat_trait$weights)][1:3]
+  
+  dat_trait_select <- dat_trait_processed[dat_trait_processed$weights %in% weights_top3,]
+  # index_keep <- c(seq(1,nrow(dat_trait_select),by=5),seq(2,nrow(dat_trait_select),by=5),seq(3,nrow(dat_trait_select),by=5))
+  # index_keep <- sort(index_keep)
+  # dat_trait_select <- dat_trait_select[index_keep,]
+  
+  dat_trait_select$weights <- fct_inorder(dat_trait_select$weights)
+  
+  dat_trait_select <- dat_trait_select %>%
+    mutate(genename = ifelse(duplicated(genename), 
+                             paste0(genename, " "), 
+                             genename))
+  
+  dat_trait_select$genename <- fct_inorder(dat_trait_select$genename)
+
+  
+  
+  plot <- ggplot(dat_trait_select, aes(x = genename, y = susie_pip, fill = weights)) +
+    geom_bar(stat = "identity", position = position_dodge()) +
+    facet_wrap(~weights, scales = "free_x", nrow = 1) +  # Create clusters for each trait
+    scale_fill_brewer(palette = "Set1") +  # Use a color palette
+    labs(title = traits[i],
+         x = "Genes",
+         y = "Susie PIP") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+    guides(fill = FALSE) +
+    ylim(0, 0.45)
+  p[[i]] <-plot 
+  
+
+}
+
+P <- grid.arrange(p[[1]], p[[2]], p[[3]], p[[4]], nrow = 2, ncol = 2, top="Bar plot for the top gene PIP in the top 3 tissues per trait")
+
+```
+

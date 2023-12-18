@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="XSun" />
+
+<meta name="date" content="2023-12-14" />
+
+<title>Single tissue analysis (LD merge =T)</title>
+
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="site_libs/datatables-binding-0.22/datatables.js"></script>
+<link href="site_libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="site_libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="site_libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
+<link href="site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">ctwas_Tibetan</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/xsun1229/ctwas_Tibetan">
+    <span class="fab fa-github"></span>
+     
+    Source code
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Single tissue analysis (LD merge =T)</h1>
+<h4 class="author">XSun</h4>
+<h4 class="date">2023-12-14</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2023-12-14
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong> <code>ctwas_Tibetan/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.0). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown is untracked by Git. To know which version of the R
+Markdown file created these results, you’ll want to first commit it to
+the Git repo. If you’re still working on the analysis, you can ignore
+this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20231213code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20231213)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20231213code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20231213)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229ctwasTibetantree55e4f746eeab0f1a5fe8da433e1f5ec067a73e1btargetblank55e4f74a">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/xsun1229/ctwas_Tibetan/tree/55e4f746eeab0f1a5fe8da433e1f5ec067a73e1b" target="_blank">55e4f74</a>
+</a>
+</p>
+</div>
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229ctwasTibetantree55e4f746eeab0f1a5fe8da433e1f5ec067a73e1btargetblank55e4f74a"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version
+<a href="https://github.com/xsun1229/ctwas_Tibetan/tree/55e4f746eeab0f1a5fe8da433e1f5ec067a73e1b" target="_blank">55e4f74</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Untracked files:
+    Untracked:  .Rhistory
+    Untracked:  ctwas_Tibetan/analysis/multi_tissue.Rmd
+    Untracked:  ctwas_Tibetan/analysis/neg_control.Rmd
+    Untracked:  ctwas_Tibetan/analysis/single_tissue.Rmd
+    Untracked:  ctwas_Tibetan/analysis/uncorrelated_tissue.Rmd
+    Untracked:  factor_analysis/
+    Untracked:  factor_analysis_DGN/
+    Untracked:  factor_analysis_new/
+    Untracked:  heart_atlas/
+    Untracked:  heart_project/
+    Untracked:  module_analysis/
+    Untracked:  multigroup_ctwas_analysis/
+    Untracked:  mutation_rate/
+    Untracked:  pathway_analysis/
+    Untracked:  proteome_alzheimer/
+
+Unstaged changes:
+    Modified:   ctwas_Tibetan/analysis/index.Rmd
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+There are no past versions. Publish this analysis with
+<code>wflow_publish()</code> to start tracking its development.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<div id="data" class="section level1">
+<h1>Data</h1>
+<div id="used-in-ctwas-analysis" class="section level2">
+<h2>Used in cTWAS analysis:</h2>
+<ul>
+<li><p>Traits (4): LB, MC, OxHb, Pulse</p></li>
+<li><p>Weights:Expression models from 9 tissues: Artery_Coronary,
+Artery_Tibial, Heart_Atrial_Appendage, Heart_Left_Ventricle,
+Kidney_Cortex, Liver, Lung, Pancreas, Whole_Blood. PredictDB,
+MASHR-based models.</p></li>
+<li><p>Weights for negtive control:Expression models from 6 tissues:
+Skin_Sun_Exposed_Lower_leg Nerve_Tibial Esophagus_Mucosa
+Breast_Mammary_Tissue Testis Brain_Cerebellum</p></li>
+<li><p>LD reference: UKBB</p></li>
+</ul>
+</div>
+<div id="functions" class="section level2">
+<h2>Functions</h2>
+<pre class="r"><code>suppressMessages(library(readxl))
+suppressMessages(library(dplyr))
+suppressMessages(library(ggplot2))
+suppressMessages(library(forcats))
+suppressMessages(library(gridExtra))</code></pre>
+</div>
+</div>
+<div id="results" class="section level1">
+<h1>Results</h1>
+<pre class="r"><code>dat &lt;- read_xlsx(&quot;/project/xinhe/xsun/ctwas/2.TIBETN/results/sum.xlsx&quot;)
+
+DT::datatable(dat,caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;Summary table&#39;),options = list(pageLength = 10) )</code></pre>
+<div id="htmlwidget-f56a676a398ed156339f" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f56a676a398ed156339f">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Summary table<\/caption>","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99","100","101","102","103","104","105","106","107","108","109","110","111","112","113","114","115","116","117","118","119","120","121","122","123","124","125","126","127","128","129","130","131","132","133","134","135","136","137","138","139","140","141","142","143","144","145","146","147","148","149","150","151","152","153","154","155","156","157","158","159","160","161","162","163","164","165","166","167","168","169","170","171","172","173","174","175","176","177","178","179","180"],["LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse"],["Artery_Coronary","Artery_Coronary","Artery_Coronary","Artery_Coronary","Artery_Coronary","Artery_Tibial","Artery_Tibial","Artery_Tibial","Artery_Tibial","Artery_Tibial","Heart_Atrial_Appendage","Heart_Atrial_Appendage","Heart_Atrial_Appendage","Heart_Atrial_Appendage","Heart_Atrial_Appendage","Heart_Left_Ventricle","Heart_Left_Ventricle","Heart_Left_Ventricle","Heart_Left_Ventricle","Heart_Left_Ventricle","Kidney_Cortex","Kidney_Cortex","Kidney_Cortex","Kidney_Cortex","Kidney_Cortex","Liver","Liver","Liver","Liver","Liver","Lung","Lung","Lung","Lung","Lung","Pancreas","Pancreas","Pancreas","Pancreas","Pancreas","Whole_Blood","Whole_Blood","Whole_Blood","Whole_Blood","Whole_Blood","Artery_Coronary","Artery_Coronary","Artery_Coronary","Artery_Coronary","Artery_Coronary","Artery_Tibial","Artery_Tibial","Artery_Tibial","Artery_Tibial","Artery_Tibial","Heart_Atrial_Appendage","Heart_Atrial_Appendage","Heart_Atrial_Appendage","Heart_Atrial_Appendage","Heart_Atrial_Appendage","Heart_Left_Ventricle","Heart_Left_Ventricle","Heart_Left_Ventricle","Heart_Left_Ventricle","Heart_Left_Ventricle","Kidney_Cortex","Kidney_Cortex","Kidney_Cortex","Kidney_Cortex","Kidney_Cortex","Liver","Liver","Liver","Liver","Liver","Lung","Lung","Lung","Lung","Lung","Pancreas","Pancreas","Pancreas","Pancreas","Pancreas","Whole_Blood","Whole_Blood","Whole_Blood","Whole_Blood","Whole_Blood","Artery_Coronary","Artery_Coronary","Artery_Coronary","Artery_Coronary","Artery_Coronary","Artery_Tibial","Artery_Tibial","Artery_Tibial","Artery_Tibial","Artery_Tibial","Heart_Atrial_Appendage","Heart_Atrial_Appendage","Heart_Atrial_Appendage","Heart_Atrial_Appendage","Heart_Atrial_Appendage","Heart_Left_Ventricle","Heart_Left_Ventricle","Heart_Left_Ventricle","Heart_Left_Ventricle","Heart_Left_Ventricle","Kidney_Cortex","Kidney_Cortex","Kidney_Cortex","Kidney_Cortex","Kidney_Cortex","Liver","Liver","Liver","Liver","Liver","Lung","Lung","Lung","Lung","Lung","Pancreas","Pancreas","Pancreas","Pancreas","Pancreas","Whole_Blood","Whole_Blood","Whole_Blood","Whole_Blood","Whole_Blood","Artery_Coronary","Artery_Coronary","Artery_Coronary","Artery_Coronary","Artery_Coronary","Artery_Tibial","Artery_Tibial","Artery_Tibial","Artery_Tibial","Artery_Tibial","Heart_Atrial_Appendage","Heart_Atrial_Appendage","Heart_Atrial_Appendage","Heart_Atrial_Appendage","Heart_Atrial_Appendage","Heart_Left_Ventricle","Heart_Left_Ventricle","Heart_Left_Ventricle","Heart_Left_Ventricle","Heart_Left_Ventricle","Kidney_Cortex","Kidney_Cortex","Kidney_Cortex","Kidney_Cortex","Kidney_Cortex","Liver","Liver","Liver","Liver","Liver","Lung","Lung","Lung","Lung","Lung","Pancreas","Pancreas","Pancreas","Pancreas","Pancreas","Whole_Blood","Whole_Blood","Whole_Blood","Whole_Blood","Whole_Blood"],["0.7142","0.7142","0.7142","0.7142","0.7142","0.7258","0.7258","0.7258","0.7258","0.7258","0.7136","0.7136","0.7136","0.7136","0.7136","0.7320","0.7320","0.7320","0.7320","0.7320","0.7293","0.7293","0.7293","0.7293","0.7293","0.7182","0.7182","0.7182","0.7182","0.7182","0.7162","0.7162","0.7162","0.7162","0.7162","0.7095","0.7095","0.7095","0.7095","0.7095","0.7190","0.7190","0.7190","0.7190","0.7190","1.0613","1.0613","1.0613","1.0613","1.0613","1.0661","1.0661","1.0661","1.0661","1.0661","1.0503","1.0503","1.0503","1.0503","1.0503","1.0529","1.0529","1.0529","1.0529","1.0529","1.0667","1.0667","1.0667","1.0667","1.0667","1.0286","1.0286","1.0286","1.0286","1.0286","1.0604","1.0604","1.0604","1.0604","1.0604","1.0661","1.0661","1.0661","1.0661","1.0661","1.0696","1.0696","1.0696","1.0696","1.0696","0.7110","0.7110","0.7110","0.7110","0.7110","0.7044","0.7044","0.7044","0.7044","0.7044","0.7168","0.7168","0.7168","0.7168","0.7168","0.6815","0.6815","0.6815","0.6815","0.6815","0.7219","0.7219","0.7219","0.7219","0.7219","0.7476","0.7476","0.7476","0.7476","0.7476","0.7192","0.7192","0.7192","0.7192","0.7192","0.7370","0.7370","0.7370","0.7370","0.7370","0.7183","0.7183","0.7183","0.7183","0.7183","0.6682","0.6682","0.6682","0.6682","0.6682","0.6619","0.6619","0.6619","0.6619","0.6619","0.6634","0.6634","0.6634","0.6634","0.6634","0.6532","0.6532","0.6532","0.6532","0.6532","0.6532","0.6532","0.6532","0.6532","0.6532","0.6753","0.6753","0.6753","0.6753","0.6753","0.6752","0.6752","0.6752","0.6752","0.6752","0.6715","0.6715","0.6715","0.6715","0.6715","0.6840","0.6840","0.6840","0.6840","0.6840"],["0.009306","0.009306","0.009306","0.009306","0.009306","0.005015","0.005015","0.005015","0.005015","0.005015","0.00908","0.00908","0.00908","0.00908","0.00908","0.01077","0.01077","0.01077","0.01077","0.01077","0.004263","0.004263","0.004263","0.004263","0.004263","0.003531","0.003531","0.003531","0.003531","0.003531","0.04104","0.04104","0.04104","0.04104","0.04104","0.003714","0.003714","0.003714","0.003714","0.003714","0.01109","0.01109","0.01109","0.01109","0.01109","0.01122","0.01122","0.01122","0.01122","0.01122","0.01347","0.01347","0.01347","0.01347","0.01347","0.01007","0.01007","0.01007","0.01007","0.01007","0.009438","0.009438","0.009438","0.009438","0.009438","0.005445","0.005445","0.005445","0.005445","0.005445","0.01786","0.01786","0.01786","0.01786","0.01786","0.008592","0.008592","0.008592","0.008592","0.008592","0.008671","0.008671","0.008671","0.008671","0.008671","0.006602","0.006602","0.006602","0.006602","0.006602","0.01352","0.01352","0.01352","0.01352","0.01352","0.0131","0.0131","0.0131","0.0131","0.0131","0.02367","0.02367","0.02367","0.02367","0.02367","0.06331","0.06331","0.06331","0.06331","0.06331","0.03975","0.03975","0.03975","0.03975","0.03975","0.02319","0.02319","0.02319","0.02319","0.02319","0.01041","0.01041","0.01041","0.01041","0.01041","0.008557","0.008557","0.008557","0.008557","0.008557","0.009143","0.009143","0.009143","0.009143","0.009143","0.01417","0.01417","0.01417","0.01417","0.01417","0.01739","0.01739","0.01739","0.01739","0.01739","0.04921","0.04921","0.04921","0.04921","0.04921","0.01657","0.01657","0.01657","0.01657","0.01657","0.04024","0.04024","0.04024","0.04024","0.04024","0.0096","0.0096","0.0096","0.0096","0.0096","0.007499","0.007499","0.007499","0.007499","0.007499","0.008548","0.008548","0.008548","0.008548","0.008548","0.01486","0.01486","0.01486","0.01486","0.01486"],["0.7236","0.7236","0.7236","0.7236","0.7236","0.7308","0.7308","0.7308","0.7308","0.7308","0.7226","0.7226","0.7226","0.7226","0.7226","0.7427","0.7427","0.7427","0.7427","0.7427","0.7335","0.7335","0.7335","0.7335","0.7335","0.7217","0.7217","0.7217","0.7217","0.7217","0.7573","0.7573","0.7573","0.7573","0.7573","0.7132","0.7132","0.7132","0.7132","0.7132","0.7301","0.7301","0.7301","0.7301","0.7301","1.0725","1.0725","1.0725","1.0725","1.0725","1.0796","1.0796","1.0796","1.0796","1.0796","1.0604","1.0604","1.0604","1.0604","1.0604","1.0624","1.0624","1.0624","1.0624","1.0624","1.0722","1.0722","1.0722","1.0722","1.0722","1.0465","1.0465","1.0465","1.0465","1.0465","1.0690","1.0690","1.0690","1.0690","1.0690","1.0748","1.0748","1.0748","1.0748","1.0748","1.0762","1.0762","1.0762","1.0762","1.0762","0.7246","0.7246","0.7246","0.7246","0.7246","0.7175","0.7175","0.7175","0.7175","0.7175","0.7405","0.7405","0.7405","0.7405","0.7405","0.7449","0.7449","0.7449","0.7449","0.7449","0.7616","0.7616","0.7616","0.7616","0.7616","0.7708","0.7708","0.7708","0.7708","0.7708","0.7296","0.7296","0.7296","0.7296","0.7296","0.7456","0.7456","0.7456","0.7456","0.7456","0.7275","0.7275","0.7275","0.7275","0.7275","0.6824","0.6824","0.6824","0.6824","0.6824","0.6793","0.6793","0.6793","0.6793","0.6793","0.7127","0.7127","0.7127","0.7127","0.7127","0.6697","0.6697","0.6697","0.6697","0.6697","0.6935","0.6935","0.6935","0.6935","0.6935","0.6849","0.6849","0.6849","0.6849","0.6849","0.6827","0.6827","0.6827","0.6827","0.6827","0.6800","0.6800","0.6800","0.6800","0.6800","0.6988","0.6988","0.6988","0.6988","0.6988"],["0.9871","0.9871","0.9871","0.9871","0.9871","0.9931","0.9931","0.9931","0.9931","0.9931","0.9874","0.9874","0.9874","0.9874","0.9874","0.9855","0.9855","0.9855","0.9855","0.9855","0.9942","0.9942","0.9942","0.9942","0.9942","0.9951","0.9951","0.9951","0.9951","0.9951","0.9458","0.9458","0.9458","0.9458","0.9458","0.9948","0.9948","0.9948","0.9948","0.9948","0.9848","0.9848","0.9848","0.9848","0.9848","0.9895","0.9895","0.9895","0.9895","0.9895","0.9875","0.9875","0.9875","0.9875","0.9875","0.9905","0.9905","0.9905","0.9905","0.9905","0.9911","0.9911","0.9911","0.9911","0.9911","0.9949","0.9949","0.9949","0.9949","0.9949","0.9829","0.9829","0.9829","0.9829","0.9829","0.9920","0.9920","0.9920","0.9920","0.9920","0.9919","0.9919","0.9919","0.9919","0.9919","0.9939","0.9939","0.9939","0.9939","0.9939","0.9813","0.9813","0.9813","0.9813","0.9813","0.9817","0.9817","0.9817","0.9817","0.9817","0.9680","0.9680","0.9680","0.9680","0.9680","0.9150","0.9150","0.9150","0.9150","0.9150","0.9478","0.9478","0.9478","0.9478","0.9478","0.9699","0.9699","0.9699","0.9699","0.9699","0.9857","0.9857","0.9857","0.9857","0.9857","0.9885","0.9885","0.9885","0.9885","0.9885","0.9874","0.9874","0.9874","0.9874","0.9874","0.9792","0.9792","0.9792","0.9792","0.9792","0.9744","0.9744","0.9744","0.9744","0.9744","0.9310","0.9310","0.9310","0.9310","0.9310","0.9753","0.9753","0.9753","0.9753","0.9753","0.9420","0.9420","0.9420","0.9420","0.9420","0.9860","0.9860","0.9860","0.9860","0.9860","0.9890","0.9890","0.9890","0.9890","0.9890","0.9874","0.9874","0.9874","0.9874","0.9874","0.9787","0.9787","0.9787","0.9787","0.9787"],["0.01286","0.01286","0.01286","0.01286","0.01286","0.006863","0.006863","0.006863","0.006863","0.006863","0.01256","0.01256","0.01256","0.01256","0.01256","0.0145","0.0145","0.0145","0.0145","0.0145","0.005811","0.005811","0.005811","0.005811","0.005811","0.004892","0.004892","0.004892","0.004892","0.004892","0.05419","0.05419","0.05419","0.05419","0.05419","0.005208","0.005208","0.005208","0.005208","0.005208","0.01519","0.01519","0.01519","0.01519","0.01519","0.01046","0.01046","0.01046","0.01046","0.01046","0.01248","0.01248","0.01248","0.01248","0.01248","0.0095","0.0095","0.0095","0.0095","0.0095","0.008884","0.008884","0.008884","0.008884","0.008884","0.005078","0.005078","0.005078","0.005078","0.005078","0.01707","0.01707","0.01707","0.01707","0.01707","0.008038","0.008038","0.008038","0.008038","0.008038","0.008068","0.008068","0.008068","0.008068","0.008068","0.006135","0.006135","0.006135","0.006135","0.006135","0.01867","0.01867","0.01867","0.01867","0.01867","0.01826","0.01826","0.01826","0.01826","0.01826","0.03197","0.03197","0.03197","0.03197","0.03197","0.0850","0.0850","0.0850","0.0850","0.0850","0.05219","0.05219","0.05219","0.05219","0.05219","0.03009","0.03009","0.03009","0.03009","0.03009","0.01427","0.01427","0.01427","0.01427","0.01427","0.01148","0.01148","0.01148","0.01148","0.01148","0.01257","0.01257","0.01257","0.01257","0.01257","0.02076","0.02076","0.02076","0.02076","0.02076","0.0256","0.0256","0.0256","0.0256","0.0256","0.06905","0.06905","0.06905","0.06905","0.06905","0.02475","0.02475","0.02475","0.02475","0.02475","0.05803","0.05803","0.05803","0.05803","0.05803","0.01402","0.01402","0.01402","0.01402","0.01402","0.01098","0.01098","0.01098","0.01098","0.01098","0.01257","0.01257","0.01257","0.01257","0.01257","0.02127","0.02127","0.02127","0.02127","0.02127"],["CCKBR","SH3BP5L","C1orf52","RP11-367F23.1","PRKAB1","ZGRF1","C1orf52","RP11-367F23.1","TSC1","FLOT2","ALDH3B1","SH3BP5L","SCCPDH","C14orf2","IPO8","SCCPDH","ALDH3B1","SH3BP5L","PRKAB1","RP11-768F21.1","FLOT2","IPO8","DCAKD","METRN","TSC1","AQP3","SLC1A7","TRAM2-AS1","IPO8","C14orf2","ALDH3B1","SORCS2","RP11-329B9.5","DHRS13","C1orf52","ARHGAP42","ZGRF1","PRKAB1","PRTFDC1","DHRS13","ALDH3B1","FBLN5","PRKAB1","TRDN","FLOT2","CTB-16J4.1","AC002064.5","ENOX1","GNE","ADAMTS16","CFAP69","CTB-16J4.1","AC002064.5","TWIST1","RP4-585I14.3","AC002064.5","GNE","MOK","GBGT1","FYB","SPARC","LINC01600","FYB","TMEM63C","BTN3A2","AC002064.5","GNE","LINC00645","BTN3A2","RP4-794H19.1","GNE","CAPN11","GTF2H4","EPSTI1","CCND3","CTB-16J4.1","AC002064.5","POSTN","EIF3A","EPSTI1","AC004540.5","CYP4V2","CFAP69","C22orf39","PIP5K1B","HLA-DPB1","HLA-DPA1","NME8","EPSTI1","GNE","SLC31A1","KIF16B","PLA2G6","LINC01730","PRKAA1","IBTK","RGL4","TIAL1","TMEM74","PHLPP2","LMX1B","ALDH1L1","RP11-348J24.2","RP11-348J24.1","ZFYVE28","PAQR5","RP11-348J24.1","ZNF57","SLC35G1","TCOF1","PAQR5","STAM2","FERMT2","SLC38A9","NT5DC1","PAQR5","AC008592.8","U2AF1","SLC35G1","MMP7","PAQR5","DCSTAMP","U2AF1","COL26A1","DRAM1","RPL37","PSMF1","VIPR1","LINC02097","ETS2","PYROXD2","LINC01554","AC008592.8","HYLS1","NR1D1","GK5","LRRC8B","HIF3A","RP11-116D17.3","NOD1","ENTPD4","KDM5B","LRRC8B","CBX5","SCIMP","SELENOT","LOXL2","GK5","LRRC8B","CBX5","GK5","LOXL2","BCKDHB","MARC2","C17orf62","EFNA5","LOXL2","SERP1","TTC21B","RAI1","P2RY11","VSIG2","TBX2","TTC21B","RAI1","CLDN23","PLEKHG7","AC009495.2","ESD","BRIP1","SERP1","RAI1","PLEKHG7","AC009495.2","ESD","TRAPPC5","PLXNA4","LOXL2","CBX5","SNX24"],[11,1,1,9,12,4,1,9,9,17,11,1,1,14,12,1,11,1,12,12,17,12,17,16,9,9,1,6,12,14,11,4,3,17,1,11,4,12,10,17,11,14,12,6,17,7,7,13,9,5,7,7,7,7,20,7,9,14,9,5,5,6,5,14,6,7,9,14,6,1,9,6,6,13,6,7,7,13,10,13,7,4,7,22,9,6,6,7,13,9,9,20,22,20,5,6,22,10,8,16,9,3,5,5,4,15,5,19,10,5,15,2,14,5,6,15,5,21,10,11,15,8,21,7,12,5,20,3,17,21,10,5,5,11,17,3,1,19,12,7,8,1,1,12,17,3,8,3,1,12,3,8,6,1,17,5,8,3,2,17,19,11,17,2,17,8,12,2,13,17,3,17,12,2,13,19,7,8,12,5],[6319476,248827033,85259743,90966078,119667902,112631355,85259743,90966078,132920795,28897781,68010856,248826839,246723418,103928103,30695741,246723418,68011539,248827033,119667902,119667902,28897781,30695741,45060402,707459,132944194,33439831,53099149,52578269,30695741,103928437,68011539,7218180,184728281,28917455,85259743,100810480,112631355,119667902,24855801,28897781,68011539,91881001,119667902,123637348,28897781,90320989,90312570,43798977,36276860,5140519,90247051,90321187,90312570,19094496,13364682,90312570,36276860,102236710,133155959,39274376,151657739,2625849,39274362,77227472,26364292,90312570,36276860,27612218,26365367,58905845,36276860,44541716,30907826,42992237,42053437,90320989,90312570,37598099,119005659,42992237,26421026,186199057,90241463,19454219,68742689,33020811,33020811,37813506,42992237,36276860,113209149,16581461,38145259,3807832,40798520,82247064,23679302,119601669,108787887,71804965,126565356,126016332,92296991,92329276,2395131,69299268,92329276,2897135,93893644,150356800,69299268,152176276,52952836,55773348,116099964,69299268,95849392,43031887,93893644,102530930,69299268,104341570,43031887,101362454,101902056,40793056,1106481,42490447,72071669,38806138,98387340,95851444,95849392,125883330,40092101,142226081,89544829,46296611,115304840,30478517,23457868,202808933,89547585,54281329,5116115,150601897,23425787,142226081,89522381,54281329,142226081,23425787,80106428,220747806,82450543,107648949,23425787,150601897,165954060,17681832,10112186,124750251,61399054,165954060,17681832,8682679,92721279,165796128,46797565,61820094,150602322,17681832,92721279,165796128,46797565,7693453,132650329,23421661,54280451,122823254],[0.0800333942434632,0.0762561165066773,0.0719001591733698,0.0717586625727382,0.0699911822908719,0.0419593366822389,0.0370182263572276,0.0365860850384379,0.0349298191227622,0.0340914004843719,0.123144818814828,0.0739335283900368,0.064042095375738,0.0554958509151621,0.0554734319677884,0.131628287454423,0.131254047837522,0.0824779159738251,0.0750023139750305,0.0750023139750305,0.0450898251207811,0.0438385336127278,0.0419720115995251,0.0416635863804852,0.0404151198775203,0.0336073941409757,0.0314187219569038,0.031312790363089,0.031131690800843,0.0308447606969022,0.298611651462349,0.218620176859852,0.195267074482446,0.171385299390004,0.165287149028877,0.0399197190025726,0.0374906680175124,0.0331813070664214,0.0328614140659356,0.0310674429596625,0.136355908734615,0.0843976920382359,0.0817709930919431,0.0753517824203517,0.0692977827598695,0.13053562833828,0.130531459870286,0.103852727000923,0.0892205074929733,0.0716459968947953,0.130059948782067,0.120420886344916,0.120414028204926,0.11483561527755,0.0818615555757974,0.108708605852292,0.0722464631429716,0.0720347907839021,0.0648848667408034,0.060608493818768,0.120342275844315,0.0621216539643166,0.061598790789547,0.0608422036297015,0.0601641209985289,0.0872353136674025,0.0615652814259565,0.0480126590011731,0.0467210888972859,0.0464689322385209,0.131803915504728,0.110913916765568,0.108482846757471,0.107985322310496,0.0953965578726582,0.0784870930979311,0.0784852425711102,0.0749473465364021,0.055710069427917,0.049739896440316,0.0642145953569753,0.061330025068681,0.0606040794016064,0.0603949184882707,0.0587054982821612,0.0541500826522464,0.0541500826522464,0.0502891475445961,0.046881976447316,0.0467089619756653,0.118031559906019,0.0973082730003665,0.0851565656090882,0.08398874227329,0.0838472214460159,0.114689883560319,0.0848387250799614,0.0810453844163017,0.079629488162001,0.0779079552833948,0.158475663703534,0.153556603758641,0.15119461114581,0.150593656031017,0.146387796815809,0.38309573217526,0.285700105902698,0.226019742709194,0.214701491555936,0.210580268622684,0.356380928922018,0.247743372000166,0.160626038691998,0.159455213703314,0.155330162016544,0.271071798396111,0.167251749512698,0.139581202664466,0.136525736137365,0.123750458090833,0.113558319010739,0.0817108478051788,0.0667587165230104,0.0628124098820615,0.0594145187655385,0.0890100016491344,0.0756646615233592,0.071781217063662,0.0696636211168749,0.0681346013253258,0.0819436648204488,0.0788506802262978,0.0767997119614232,0.0762459274613717,0.0758530005271326,0.121003810666947,0.114679200505675,0.104046504138079,0.077554022759494,0.0775007770781265,0.193358528716044,0.114889935299021,0.109592184410255,0.105224970714568,0.102366965997962,0.403565959176887,0.338761120335834,0.256051806822831,0.209244227518758,0.191332728435167,0.247586198768793,0.200761990983215,0.0787618243573958,0.0769270284714938,0.0738810927319151,0.385388671160773,0.372306974514488,0.346957466373842,0.20502815221735,0.195905176040156,0.0991735777078081,0.0828690725410738,0.0719317689839322,0.071785436064063,0.0703987496181524,0.0473474030613945,0.0464101115083704,0.045564426036612,0.0449100367183748,0.0442041649921173,0.0975951676486904,0.058942362814389,0.058577590856118,0.0570098378581219,0.0558587577292966,0.157675591975007,0.105026877117599,0.10019484596202,0.0965317873081821,0.0894585933849208]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>traits<\/th>\n      <th>weights<\/th>\n      <th>group_pve_SNP<\/th>\n      <th>group_pve_gene<\/th>\n      <th>total_pve<\/th>\n      <th>attributable_pve_SNP<\/th>\n      <th>attributable_pve_gene<\/th>\n      <th>genename<\/th>\n      <th>chrom<\/th>\n      <th>pos<\/th>\n      <th>susie_pip<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[9,10,11]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>dat&lt;- dat %&gt;% 
+  distinct(traits, weights, .keep_all = TRUE)
+dat &lt;- dat[,1:7]
+
+dat_sort &lt;- dat %&gt;%
+  mutate(group_pve_gene = as.numeric(group_pve_gene)) %&gt;%  # Convert to numeric if necessary
+  group_by(traits) %&gt;%
+  arrange(desc(group_pve_gene), .by_group = TRUE) %&gt;%  # Sort in descending order within each trait
+  ungroup()
+
+top3_per_trait &lt;- dat_sort %&gt;% 
+  group_by(traits) %&gt;% 
+  top_n(3, attributable_pve_gene) %&gt;% 
+  ungroup()
+
+
+traits &lt;- c(&quot;LB&quot;,&quot;MC&quot;,&quot;OxHb&quot;,&quot;Pulse&quot;)
+p &lt;- list()
+for (i in 1:length(traits)) {
+  
+  df_trait &lt;- top3_per_trait[top3_per_trait$traits == traits[i],]
+  df_trait$traits &lt;- fct_inorder(df_trait$traits)
+  df_trait$weights &lt;- fct_inorder(df_trait$weights)
+  df_trait$attributable_pve_gene &lt;- as.numeric(df_trait$attributable_pve_gene)
+  
+  p[[i]] &lt;- ggplot(df_trait , aes(x = weights, y = attributable_pve_gene, fill = weights)) +
+    geom_bar(stat = &quot;identity&quot;, position = position_dodge()) +
+    facet_wrap(~traits, scales = &quot;free_x&quot;, nrow = 1) +  # Create clusters for each trait
+    scale_fill_brewer(palette = &quot;Set1&quot;) +  # Use a color palette
+    labs(title = ,
+         x = &quot;Tissues&quot;,
+         y = &quot;Attributable PVE Gene&quot;) +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))+
+    guides(fill = FALSE) +
+    ylim(0, 0.15)
+}
+
+
+P &lt;- grid.arrange(p[[1]], p[[2]], p[[3]], p[[4]], nrow = 2, ncol = 2, top=&quot;Bar plot of the percent of gene PVE (attributed proportion) in the top 3 tissues per trait&quot;)</code></pre>
+<p><img src="figure/single_tissue.Rmd/unnamed-chunk-2-2.png" width="960" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>dat &lt;- read_xlsx(&quot;/project/xinhe/xsun/ctwas/2.TIBETN/results/sum.xlsx&quot;)
+
+dat_all &lt;- c()
+p &lt;- list()
+for (i in 1:length(traits)) {
+  
+  dat_trait &lt;- dat[dat$traits == traits[i],]
+  dat_trait_processed &lt;- dat_trait %&gt;%
+    mutate(group_pve_gene = as.numeric(group_pve_gene)) %&gt;%  # Convert to numeric if necessary
+    group_by(traits) %&gt;%
+    arrange(desc(group_pve_gene), .by_group = TRUE) %&gt;%  # Sort in descending order within each trait
+    ungroup()
+  
+  weights_top3 &lt;- dat_trait_processed$weights[!duplicated(dat_trait$weights)][1:3]
+  
+  dat_trait_select &lt;- dat_trait_processed[dat_trait_processed$weights %in% weights_top3,]
+  # index_keep &lt;- c(seq(1,nrow(dat_trait_select),by=5),seq(2,nrow(dat_trait_select),by=5),seq(3,nrow(dat_trait_select),by=5))
+  # index_keep &lt;- sort(index_keep)
+  # dat_trait_select &lt;- dat_trait_select[index_keep,]
+  
+  dat_trait_select$weights &lt;- fct_inorder(dat_trait_select$weights)
+  
+  dat_trait_select &lt;- dat_trait_select %&gt;%
+    mutate(genename = ifelse(duplicated(genename), 
+                             paste0(genename, &quot; &quot;), 
+                             genename))
+  
+  dat_trait_select$genename &lt;- fct_inorder(dat_trait_select$genename)
+
+  
+  
+  plot &lt;- ggplot(dat_trait_select, aes(x = genename, y = susie_pip, fill = weights)) +
+    geom_bar(stat = &quot;identity&quot;, position = position_dodge()) +
+    facet_wrap(~weights, scales = &quot;free_x&quot;, nrow = 1) +  # Create clusters for each trait
+    scale_fill_brewer(palette = &quot;Set1&quot;) +  # Use a color palette
+    labs(title = traits[i],
+         x = &quot;Genes&quot;,
+         y = &quot;Susie PIP&quot;) +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+    guides(fill = FALSE) +
+    ylim(0, 0.45)
+  p[[i]] &lt;-plot 
+  
+
+}
+
+P &lt;- grid.arrange(p[[1]], p[[2]], p[[3]], p[[4]], nrow = 2, ncol = 2, top=&quot;Bar plot for the top gene PIP in the top 3 tissues per trait&quot;)</code></pre>
+<p><img src="figure/single_tissue.Rmd/unnamed-chunk-3-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="results-for-negtive-control" class="section level1">
+<h1>Results for negtive control</h1>
+<pre class="r"><code>dat &lt;- read_xlsx(&quot;/project/xinhe/xsun/ctwas/2.TIBETN/results/sum_ng.xlsx&quot;)
+
+DT::datatable(dat,caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;Summary table&#39;),options = list(pageLength = 10) )</code></pre>
+<div id="htmlwidget-6a5b628072b4a50f9326" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6a5b628072b4a50f9326">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Summary table<\/caption>","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99","100","101","102","103","104","105","106","107","108","109","110","111","112","113","114","115","116","117","118","119","120"],["LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse"],["Skin_Sun_Exposed_Lower_leg","Skin_Sun_Exposed_Lower_leg","Skin_Sun_Exposed_Lower_leg","Skin_Sun_Exposed_Lower_leg","Skin_Sun_Exposed_Lower_leg","Nerve_Tibial","Nerve_Tibial","Nerve_Tibial","Nerve_Tibial","Nerve_Tibial","Esophagus_Mucosa","Esophagus_Mucosa","Esophagus_Mucosa","Esophagus_Mucosa","Esophagus_Mucosa","Breast_Mammary_Tissue","Breast_Mammary_Tissue","Breast_Mammary_Tissue","Breast_Mammary_Tissue","Breast_Mammary_Tissue","Testis","Testis","Testis","Testis","Testis","Brain_Cerebellum","Brain_Cerebellum","Brain_Cerebellum","Brain_Cerebellum","Brain_Cerebellum","Skin_Sun_Exposed_Lower_leg","Skin_Sun_Exposed_Lower_leg","Skin_Sun_Exposed_Lower_leg","Skin_Sun_Exposed_Lower_leg","Skin_Sun_Exposed_Lower_leg","Nerve_Tibial","Nerve_Tibial","Nerve_Tibial","Nerve_Tibial","Nerve_Tibial","Esophagus_Mucosa","Esophagus_Mucosa","Esophagus_Mucosa","Esophagus_Mucosa","Esophagus_Mucosa","Breast_Mammary_Tissue","Breast_Mammary_Tissue","Breast_Mammary_Tissue","Breast_Mammary_Tissue","Breast_Mammary_Tissue","Testis","Testis","Testis","Testis","Testis","Brain_Cerebellum","Brain_Cerebellum","Brain_Cerebellum","Brain_Cerebellum","Brain_Cerebellum","Skin_Sun_Exposed_Lower_leg","Skin_Sun_Exposed_Lower_leg","Skin_Sun_Exposed_Lower_leg","Skin_Sun_Exposed_Lower_leg","Skin_Sun_Exposed_Lower_leg","Nerve_Tibial","Nerve_Tibial","Nerve_Tibial","Nerve_Tibial","Nerve_Tibial","Esophagus_Mucosa","Esophagus_Mucosa","Esophagus_Mucosa","Esophagus_Mucosa","Esophagus_Mucosa","Breast_Mammary_Tissue","Breast_Mammary_Tissue","Breast_Mammary_Tissue","Breast_Mammary_Tissue","Breast_Mammary_Tissue","Testis","Testis","Testis","Testis","Testis","Brain_Cerebellum","Brain_Cerebellum","Brain_Cerebellum","Brain_Cerebellum","Brain_Cerebellum","Skin_Sun_Exposed_Lower_leg","Skin_Sun_Exposed_Lower_leg","Skin_Sun_Exposed_Lower_leg","Skin_Sun_Exposed_Lower_leg","Skin_Sun_Exposed_Lower_leg","Nerve_Tibial","Nerve_Tibial","Nerve_Tibial","Nerve_Tibial","Nerve_Tibial","Esophagus_Mucosa","Esophagus_Mucosa","Esophagus_Mucosa","Esophagus_Mucosa","Esophagus_Mucosa","Breast_Mammary_Tissue","Breast_Mammary_Tissue","Breast_Mammary_Tissue","Breast_Mammary_Tissue","Breast_Mammary_Tissue","Testis","Testis","Testis","Testis","Testis","Brain_Cerebellum","Brain_Cerebellum","Brain_Cerebellum","Brain_Cerebellum","Brain_Cerebellum"],["0.7061","0.7061","0.7061","0.7061","0.7061","0.7036","0.7036","0.7036","0.7036","0.7036","0.7151","0.7151","0.7151","0.7151","0.7151","0.7132","0.7132","0.7132","0.7132","0.7132","0.7034","0.7034","0.7034","0.7034","0.7034","0.7098","0.7098","0.7098","0.7098","0.7098","1.0287","1.0287","1.0287","1.0287","1.0287","1.0233","1.0233","1.0233","1.0233","1.0233","1.0552","1.0552","1.0552","1.0552","1.0552","1.0494","1.0494","1.0494","1.0494","1.0494","1.0439","1.0439","1.0439","1.0439","1.0439","1.0633","1.0633","1.0633","1.0633","1.0633","0.6997","0.6997","0.6997","0.6997","0.6997","0.7119","0.7119","0.7119","0.7119","0.7119","0.7255","0.7255","0.7255","0.7255","0.7255","0.7503","0.7503","0.7503","0.7503","0.7503","0.7274","0.7274","0.7274","0.7274","0.7274","0.6985","0.6985","0.6985","0.6985","0.6985","0.6651","0.6651","0.6651","0.6651","0.6651","0.6672","0.6672","0.6672","0.6672","0.6672","0.6383","0.6383","0.6383","0.6383","0.6383","0.6687","0.6687","0.6687","0.6687","0.6687","0.6605","0.6605","0.6605","0.6605","0.6605","0.6762","0.6762","0.6762","0.6762","0.6762"],["0.01167","0.01167","0.01167","0.01167","0.01167","0.009139","0.009139","0.009139","0.009139","0.009139","0.006852","0.006852","0.006852","0.006852","0.006852","0.005915","0.005915","0.005915","0.005915","0.005915","0.008594","0.008594","0.008594","0.008594","0.008594","0.006708","0.006708","0.006708","0.006708","0.006708","0.01452","0.01452","0.01452","0.01452","0.01452","0.02261","0.02261","0.02261","0.02261","0.02261","0.01451","0.01451","0.01451","0.01451","0.01451","0.01677","0.01677","0.01677","0.01677","0.01677","0.03522","0.03522","0.03522","0.03522","0.03522","0.01342","0.01342","0.01342","0.01342","0.01342","0.02608","0.02608","0.02608","0.02608","0.02608","0.01246","0.01246","0.01246","0.01246","0.01246","0.0104","0.0104","0.0104","0.0104","0.0104","0.01017","0.01017","0.01017","0.01017","0.01017","0.006311","0.006311","0.006311","0.006311","0.006311","0.008145","0.008145","0.008145","0.008145","0.008145","0.03757","0.03757","0.03757","0.03757","0.03757","0.01942","0.01942","0.01942","0.01942","0.01942","0.09887","0.09887","0.09887","0.09887","0.09887","0.008074","0.008074","0.008074","0.008074","0.008074","0.0144","0.0144","0.0144","0.0144","0.0144","0.01187","0.01187","0.01187","0.01187","0.01187"],["0.7178","0.7178","0.7178","0.7178","0.7178","0.7127","0.7127","0.7127","0.7127","0.7127","0.7220","0.7220","0.7220","0.7220","0.7220","0.7191","0.7191","0.7191","0.7191","0.7191","0.7120","0.7120","0.7120","0.7120","0.7120","0.7165","0.7165","0.7165","0.7165","0.7165","1.0432","1.0432","1.0432","1.0432","1.0432","1.0459","1.0459","1.0459","1.0459","1.0459","1.0697","1.0697","1.0697","1.0697","1.0697","1.0661","1.0661","1.0661","1.0661","1.0661","1.0791","1.0791","1.0791","1.0791","1.0791","1.0768","1.0768","1.0768","1.0768","1.0768","0.7258","0.7258","0.7258","0.7258","0.7258","0.7243","0.7243","0.7243","0.7243","0.7243","0.7359","0.7359","0.7359","0.7359","0.7359","0.7604","0.7604","0.7604","0.7604","0.7604","0.7337","0.7337","0.7337","0.7337","0.7337","0.7067","0.7067","0.7067","0.7067","0.7067","0.7027","0.7027","0.7027","0.7027","0.7027","0.6866","0.6866","0.6866","0.6866","0.6866","0.7372","0.7372","0.7372","0.7372","0.7372","0.6768","0.6768","0.6768","0.6768","0.6768","0.6749","0.6749","0.6749","0.6749","0.6749","0.6881","0.6881","0.6881","0.6881","0.6881"],["0.9837","0.9837","0.9837","0.9837","0.9837","0.9872","0.9872","0.9872","0.9872","0.9872","0.9905","0.9905","0.9905","0.9905","0.9905","0.9918","0.9918","0.9918","0.9918","0.9918","0.9879","0.9879","0.9879","0.9879","0.9879","0.9906","0.9906","0.9906","0.9906","0.9906","0.9861","0.9861","0.9861","0.9861","0.9861","0.9784","0.9784","0.9784","0.9784","0.9784","0.9864","0.9864","0.9864","0.9864","0.9864","0.9843","0.9843","0.9843","0.9843","0.9843","0.9674","0.9674","0.9674","0.9674","0.9674","0.9875","0.9875","0.9875","0.9875","0.9875","0.9641","0.9641","0.9641","0.9641","0.9641","0.9828","0.9828","0.9828","0.9828","0.9828","0.9859","0.9859","0.9859","0.9859","0.9859","0.9866","0.9866","0.9866","0.9866","0.9866","0.9914","0.9914","0.9914","0.9914","0.9914","0.9885","0.9885","0.9885","0.9885","0.9885","0.9465","0.9465","0.9465","0.9465","0.9465","0.9717","0.9717","0.9717","0.9717","0.9717","0.8659","0.8659","0.8659","0.8659","0.8659","0.9881","0.9881","0.9881","0.9881","0.9881","0.9787","0.9787","0.9787","0.9787","0.9787","0.9827","0.9827","0.9827","0.9827","0.9827"],["0.01626","0.01626","0.01626","0.01626","0.01626","0.01282","0.01282","0.01282","0.01282","0.01282","0.009491","0.009491","0.009491","0.009491","0.009491","0.008225","0.008225","0.008225","0.008225","0.008225","0.01207","0.01207","0.01207","0.01207","0.01207","0.009362","0.009362","0.009362","0.009362","0.009362","0.01392","0.01392","0.01392","0.01392","0.01392","0.02162","0.02162","0.02162","0.02162","0.02162","0.01357","0.01357","0.01357","0.01357","0.01357","0.01573","0.01573","0.01573","0.01573","0.01573","0.03264","0.03264","0.03264","0.03264","0.03264","0.01247","0.01247","0.01247","0.01247","0.01247","0.03594","0.03594","0.03594","0.03594","0.03594","0.0172","0.0172","0.0172","0.0172","0.0172","0.01413","0.01413","0.01413","0.01413","0.01413","0.01337","0.01337","0.01337","0.01337","0.01337","0.008601","0.008601","0.008601","0.008601","0.008601","0.01153","0.01153","0.01153","0.01153","0.01153","0.05346","0.05346","0.05346","0.05346","0.05346","0.02829","0.02829","0.02829","0.02829","0.02829","0.1341","0.1341","0.1341","0.1341","0.1341","0.01193","0.01193","0.01193","0.01193","0.01193","0.02134","0.02134","0.02134","0.02134","0.02134","0.01726","0.01726","0.01726","0.01726","0.01726"],["ZNF672","ZGRF1","BAK1","RAB6A","C1orf52","ALDH3B1","IPO8","RP11-329B9.5","RP11-329B9.4","SCCPDH","ZNF672","FOXK2","SH3BP5L","RP11-768F21.1","DHRS13","DHRS13","NUP50-AS1","SH3BP5L","ZNF577","CAPRIN2","FAM196A","PRKCDBP","GM2A","NUP50-AS1","TCOF1","CPSF4L","NCALD","PRKAB1","TRDN","TSC1","AC002064.5","AMN","CAV3","ARHGEF19","KLK5","AC002064.5","CLTB","TCF3","TPO","GNE","POSTN","AMN","PSAP","EVA1A","GARNL3","AC002064.5","CLTB","CD4","ARHGEF19","THNSL2","IGSF10","FZD10","CTB-16J4.1","MOK","AC007463.2","AKR1B1","AC002064.5","ISM1","GTF2H4","GNE","LGR6","TCOF1","LRMP","C15orf59-AS1","LINC02097","NDST1","TCAF2","RP5-1085F17.3","LINC01730","RP11-34F13.2","PUS3","LMAN1","VCPKMT","C15orf59","MAPRE1","GLRX","U2AF1","RABGGTA","SLC35G1","ZDHHC7","GNPTAB","PNPLA6","ETS2","SLC35G1","TFAP2B","PNPLA6","LINC01730","RP11-162A12.4","CCDC102A","PRKAA1","SELENOT","LRRC8B","WIPI1","USP6","KNSTRN","CFH","CCDC167","HIF3A","EFHC1","SCIMP","NDRG4","SELENOT","CYP27C1","ZNF568","LRRC8B","CCDC167","LRRC8B","C17orf82","COX11","RAI1","LOXL2","SELENOT","C1orf106","ZNF568","C17orf82","PTGDR","CBX5","SELENOT","C11orf84","MED12L"],[1,4,6,11,1,11,12,3,3,1,1,17,1,12,17,17,22,1,19,12,10,11,5,22,5,17,8,12,6,9,7,14,3,1,19,7,5,19,2,9,13,14,10,2,9,7,5,12,1,2,3,12,7,14,2,7,7,20,6,9,1,5,12,15,17,5,7,20,20,15,11,18,14,15,20,5,21,14,10,16,12,19,21,10,6,19,20,18,16,5,3,1,17,17,15,1,6,19,6,17,16,3,2,19,1,6,1,17,17,17,8,3,1,19,17,14,12,3,11,3],[248834509,112631355,33549026,73759991,85259743,68006427,30673401,184728281,184728281,246728971,248834509,82570019,248827033,119667902,28897781,28898381,45162508,248827033,51870865,30761734,127173348,6319476,151251284,45162508,150286286,73285213,102026695,119667902,123637348,132924617,90312570,102925912,8745534,16213082,50943274,90312570,176416889,1634596,1462211,36276860,37598099,102925912,71825769,75569824,127229805,90312570,176416889,6792836,16203554,88161470,151418448,130165877,90320989,102236607,7897239,134476949,90312450,13364682,30907826,36276860,202194388,150356800,25143919,73781306,72071669,150407505,143733111,32863545,3807832,67834337,125907161,59377478,50093459,73781306,32816941,95845518,43031887,24290803,93893644,84986455,101888649,7534329,38804769,93893644,50853227,7534329,3807832,76805152,57536650,40819207,150602535,89523775,68411788,5116373,40384712,196690623,37498140,46296611,52404092,5114477,58472293,150602535,127178739,36918659,89522381,37498140,89522381,61414023,54968937,17681832,23425787,150602502,200918529,36918659,61412532,52277556,54280451,150602535,63819841,151109216],[0.089620375302058,0.0817594633279905,0.0747335746968747,0.0730626578835099,0.0700784723002729,0.0711439251457499,0.0626831952526784,0.0619328285268762,0.0619328285268762,0.0596445753659722,0.058028575407584,0.0496537621613227,0.0491583032131601,0.048925805599218,0.0467631301334067,0.0499785404542438,0.0479024718468004,0.0463858760552969,0.0430702084914743,0.042890754747491,0.0660762383891326,0.054122684968579,0.0533626949252729,0.0526799293092219,0.0486900609920655,0.0547614950887562,0.0522083660823826,0.0518867074181265,0.0489151606671893,0.0488659326172471,0.139176996492006,0.116581033240351,0.102114867230829,0.0938233668175334,0.0906248036844332,0.213569496485513,0.117845967131473,0.110952055365482,0.107714665726005,0.10073452402015,0.127291741075282,0.123627785970449,0.119365341576084,0.085100332857318,0.0836907658285335,0.179800036980075,0.106879982762109,0.101710079472906,0.0912300151407069,0.0889143598410214,0.167250613921386,0.165014105052059,0.157277544231456,0.150740501093724,0.149732571037089,0.199611379961519,0.184055058188341,0.0912390656146298,0.0746233471499536,0.0721565639770167,0.159644439928645,0.142214784987746,0.140666445002078,0.133933821334004,0.132530248859117,0.0764675592834264,0.0716933382323303,0.0675275830946561,0.0643855210117366,0.0643530428117984,0.089316841338104,0.0755015637827602,0.0738955930908627,0.0699720425065063,0.0623163970441947,0.085490574286859,0.0716374409904325,0.0706808122817602,0.0656632285997944,0.065282017229459,0.0422839568388814,0.0378617710191773,0.0365576999019018,0.0361843428320431,0.0360889251812462,0.0608413231134609,0.0546668372488058,0.0524885899399065,0.05238853005337,0.0513074046659702,0.305664017381183,0.279763103415232,0.237002240624844,0.19084091295766,0.181561993606173,0.136202596163634,0.109748020937131,0.105195850156387,0.102964706253548,0.0981369452936661,0.435481509806463,0.379606348625371,0.341540703278092,0.305739286824985,0.262942042694952,0.0620013272085029,0.0611521126724457,0.058975769156971,0.0540638285398664,0.0531273613785485,0.128259363790243,0.11938383270434,0.0942536060111272,0.0887718143640542,0.0859718470901169,0.100314748845913,0.0906987241133741,0.0868445545871882,0.0765884416542986,0.0746147317748644]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>traits<\/th>\n      <th>weights<\/th>\n      <th>group_pve_SNP<\/th>\n      <th>group_pve_gene<\/th>\n      <th>total_pve<\/th>\n      <th>attributable_pve_SNP<\/th>\n      <th>attributable_pve_gene<\/th>\n      <th>genename<\/th>\n      <th>chrom<\/th>\n      <th>pos<\/th>\n      <th>susie_pip<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[9,10,11]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>dat&lt;- dat %&gt;% 
+  distinct(traits, weights, .keep_all = TRUE)
+dat &lt;- dat[,1:7]
+
+dat_sort &lt;- dat %&gt;%
+  mutate(group_pve_gene = as.numeric(group_pve_gene)) %&gt;%  # Convert to numeric if necessary
+  group_by(traits) %&gt;%
+  arrange(desc(group_pve_gene), .by_group = TRUE) %&gt;%  # Sort in descending order within each trait
+  ungroup()
+
+top3_per_trait &lt;- dat_sort %&gt;% 
+  group_by(traits) %&gt;% 
+  top_n(3, attributable_pve_gene) %&gt;% 
+  ungroup()
+
+
+traits &lt;- c(&quot;LB&quot;,&quot;MC&quot;,&quot;OxHb&quot;,&quot;Pulse&quot;)
+p &lt;- list()
+for (i in 1:length(traits)) {
+  
+  df_trait &lt;- top3_per_trait[top3_per_trait$traits == traits[i],]
+  df_trait$traits &lt;- fct_inorder(df_trait$traits)
+  df_trait$weights &lt;- fct_inorder(df_trait$weights)
+  df_trait$attributable_pve_gene &lt;- as.numeric(df_trait$attributable_pve_gene)
+  
+  p[[i]] &lt;- ggplot(df_trait , aes(x = weights, y = attributable_pve_gene, fill = weights)) +
+    geom_bar(stat = &quot;identity&quot;, position = position_dodge()) +
+    facet_wrap(~traits, scales = &quot;free_x&quot;, nrow = 1) +  # Create clusters for each trait
+    scale_fill_brewer(palette = &quot;Set1&quot;) +  # Use a color palette
+    labs(title = ,
+         x = &quot;Tissues&quot;,
+         y = &quot;Attributable PVE Gene&quot;) +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))+
+    guides(fill = FALSE) +
+    ylim(0, 0.15)
+}
+
+
+P &lt;- grid.arrange(p[[1]], p[[2]], p[[3]], p[[4]], nrow = 2, ncol = 2, top=&quot;Bar plot of the percent of gene PVE (attributed proportion) in the top 3 tissues per trait&quot;)</code></pre>
+<p><img src="figure/single_tissue.Rmd/unnamed-chunk-4-2.png" width="960" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>dat &lt;- read_xlsx(&quot;/project/xinhe/xsun/ctwas/2.TIBETN/results/sum_ng.xlsx&quot;)
+
+dat_all &lt;- c()
+p &lt;- list()
+for (i in 1:length(traits)) {
+  
+  dat_trait &lt;- dat[dat$traits == traits[i],]
+  dat_trait_processed &lt;- dat_trait %&gt;%
+    mutate(group_pve_gene = as.numeric(group_pve_gene)) %&gt;%  # Convert to numeric if necessary
+    group_by(traits) %&gt;%
+    arrange(desc(group_pve_gene), .by_group = TRUE) %&gt;%  # Sort in descending order within each trait
+    ungroup()
+  
+  weights_top3 &lt;- dat_trait_processed$weights[!duplicated(dat_trait$weights)][1:3]
+  
+  dat_trait_select &lt;- dat_trait_processed[dat_trait_processed$weights %in% weights_top3,]
+  # index_keep &lt;- c(seq(1,nrow(dat_trait_select),by=5),seq(2,nrow(dat_trait_select),by=5),seq(3,nrow(dat_trait_select),by=5))
+  # index_keep &lt;- sort(index_keep)
+  # dat_trait_select &lt;- dat_trait_select[index_keep,]
+  
+  dat_trait_select$weights &lt;- fct_inorder(dat_trait_select$weights)
+  
+  dat_trait_select &lt;- dat_trait_select %&gt;%
+    mutate(genename = ifelse(duplicated(genename), 
+                             paste0(genename, &quot; &quot;), 
+                             genename))
+  
+  dat_trait_select$genename &lt;- fct_inorder(dat_trait_select$genename)
+
+  
+  
+  plot &lt;- ggplot(dat_trait_select, aes(x = genename, y = susie_pip, fill = weights)) +
+    geom_bar(stat = &quot;identity&quot;, position = position_dodge()) +
+    facet_wrap(~weights, scales = &quot;free_x&quot;, nrow = 1) +  # Create clusters for each trait
+    scale_fill_brewer(palette = &quot;Set1&quot;) +  # Use a color palette
+    labs(title = traits[i],
+         x = &quot;Genes&quot;,
+         y = &quot;Susie PIP&quot;) +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+    guides(fill = FALSE) +
+    ylim(0, 0.45)
+  p[[i]] &lt;-plot 
+  
+
+}
+
+P &lt;- grid.arrange(p[[1]], p[[2]], p[[3]], p[[4]], nrow = 2, ncol = 2, top=&quot;Bar plot for the top gene PIP in the top 3 tissues per trait&quot;)</code></pre>
+<p><img src="figure/single_tissue.Rmd/unnamed-chunk-5-1.png" width="960" style="display: block; margin: auto;" /></p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.2.0 (2022-04-22)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: CentOS Linux 7 (Core)
+
+Matrix products: default
+BLAS/LAPACK: /software/openblas-0.3.13-el7-x86_64/lib/libopenblas_haswellp-r0.3.13.so
+
+locale:
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+ [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] gridExtra_2.3 forcats_0.5.1 ggplot2_3.3.5 dplyr_1.1.4   readxl_1.4.0 
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_1.0.8.3       highr_0.9          RColorBrewer_1.1-3 pillar_1.9.0      
+ [5] compiler_4.2.0     bslib_0.3.1        cellranger_1.1.0   later_1.3.0       
+ [9] jquerylib_0.1.4    git2r_0.30.1       workflowr_1.7.0    tools_4.2.0       
+[13] digest_0.6.29      gtable_0.3.0       jsonlite_1.8.0     evaluate_0.15     
+[17] lifecycle_1.0.4    tibble_3.2.1       pkgconfig_2.0.3    rlang_1.1.2       
+[21] cli_3.6.1          rstudioapi_0.13    crosstalk_1.2.0    yaml_2.3.5        
+[25] xfun_0.30          fastmap_1.1.0      withr_2.5.0        stringr_1.5.1     
+[29] knitr_1.39         htmlwidgets_1.5.4  generics_0.1.2     fs_1.5.2          
+[33] vctrs_0.6.5        sass_0.4.1         DT_0.22            grid_4.2.0        
+[37] tidyselect_1.2.0   rprojroot_2.0.3    glue_1.6.2         R6_2.5.1          
+[41] fansi_1.0.3        rmarkdown_2.14     farver_2.1.0       magrittr_2.0.3    
+[45] scales_1.2.0       promises_1.2.0.1   htmltools_0.5.2    colorspace_2.0-3  
+[49] httpuv_1.6.5       labeling_0.4.2     utf8_1.2.2         stringi_1.7.6     
+[53] munsell_0.5.0     </code></pre>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

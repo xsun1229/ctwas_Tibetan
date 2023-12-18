@@ -1,7 +1,7 @@
-name: ctwas_tibetan
+name: ctwas_Tibetan
 output_dir: ../docs
 navbar:
-  title: ctwas_tibetan
+  title: ctwas_Tibetan
   left:
   - text: Home
     href: index.html
@@ -12,7 +12,7 @@ navbar:
   right:
   - icon: fab fa-github
     text: Source code
-    href: https://github.com/xsun1229/ctwas_tibetan
+    href: https://github.com/xsun1229/ctwas_Tibetan
 output:
   workflowr::wflow_html:
     toc: yes
