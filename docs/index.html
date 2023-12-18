@@ -292,7 +292,7 @@ $(document).ready(function () {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-ok text-success"
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -303,8 +303,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
-</a>
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -317,12 +317,12 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 1
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 0
+aria-hidden="true"></span> 1
 </p>
 <p>
-<strong>Knit directory:</strong> <code>ctwas_Tibetan/</code> <span
+<strong>Knit directory:</strong> <code>ctwas_tibetan/</code> <span
 class="glyphicon glyphicon-question-sign" aria-hidden="true"
 title="This is the local directory in which the code in this file was executed.">
 </span>
@@ -342,33 +342,36 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
-<span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
-</a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate"
+<div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git
-repository, you know the exact version of the code that produced these
-results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229ctwasTibetantree7e50506d8f4a6dabe3b5d6f3261bcc011b328e1ftargetblank7e50506a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229ctwastibetantree18fe7730e43dfc7461325892db4bf573f028a96ftargetblank18fe773a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/xsun1229/ctwas_Tibetan/tree/7e50506d8f4a6dabe3b5d6f3261bcc011b328e1f" target="_blank">7e50506</a>
+<a href="https://github.com/xsun1229/ctwas_tibetan/tree/18fe7730e43dfc7461325892db4bf573f028a96f" target="_blank">18fe773</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229ctwasTibetantree7e50506d8f4a6dabe3b5d6f3261bcc011b328e1ftargetblank7e50506a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229ctwastibetantree18fe7730e43dfc7461325892db4bf573f028a96ftargetblank18fe773a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -378,7 +381,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/xsun1229/ctwas_Tibetan/tree/7e50506d8f4a6dabe3b5d6f3261bcc011b328e1f" target="_blank">7e50506</a>.
+<a href="https://github.com/xsun1229/ctwas_tibetan/tree/18fe7730e43dfc7461325892db4bf573f028a96f" target="_blank">18fe773</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -392,21 +395,8 @@ depends on. Below is the status of the Git repository when the results
 were generated:
 </p>
 <pre><code>
-Ignored files:
-    Ignored:    ctwas_Tibetan/.Rhistory
-
-Untracked files:
-    Untracked:  .Rhistory
-    Untracked:  factor_analysis/
-    Untracked:  factor_analysis_DGN/
-    Untracked:  factor_analysis_new/
-    Untracked:  heart_atlas/
-    Untracked:  heart_project/
-    Untracked:  module_analysis/
-    Untracked:  multigroup_ctwas_analysis/
-    Untracked:  mutation_rate/
-    Untracked:  pathway_analysis/
-    Untracked:  proteome_alzheimer/
+Unstaged changes:
+    Modified:   analysis/index.Rmd
 
 </code></pre>
 <p>
@@ -424,11 +414,10 @@ have uncommitted changes.
 
 <p>
 These are the previous versions of the repository in which changes were
-made to the R Markdown (<code>ctwas_Tibetan/analysis/index.Rmd</code>)
-and HTML (<code>ctwas_Tibetan/docs/index.html</code>) files. If you’ve
-configured a remote Git repository (see <code>?wflow_git_remote</code>),
-click on the hyperlinks in the table below to view the files as they
-were in that past version.
+made to the R Markdown (<code>analysis/index.Rmd</code>) and HTML
+(<code>docs/index.html</code>) files. If you’ve configured a remote Git
+repository (see <code>?wflow_git_remote</code>), click on the hyperlinks
+in the table below to view the files as they were in that past version.
 </p>
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
@@ -457,13 +446,13 @@ Message
 Rmd
 </td>
 <td>
-<a href="https://github.com/xsun1229/ctwas_Tibetan/blob/60ba183938bf13d5e3137a47f5b2661fdf51b1b2/ctwas_Tibetan/analysis/index.Rmd" target="_blank">60ba183</a>
+<a href="https://github.com/xsun1229/ctwas_tibetan/blob/18fe7730e43dfc7461325892db4bf573f028a96f/analysis/index.Rmd" target="_blank">18fe773</a>
 </td>
 <td>
 XSun
 </td>
 <td>
-2023-12-14
+2023-12-17
 </td>
 <td>
 update
@@ -474,13 +463,47 @@ update
 html
 </td>
 <td>
-<a href="https://rawcdn.githack.com/xsun1229/ctwas_Tibetan/60ba183938bf13d5e3137a47f5b2661fdf51b1b2/ctwas_Tibetan/docs/index.html" target="_blank">60ba183</a>
+<a href="https://rawcdn.githack.com/xsun1229/ctwas_tibetan/18fe7730e43dfc7461325892db4bf573f028a96f/docs/index.html" target="_blank">18fe773</a>
 </td>
 <td>
 XSun
 </td>
 <td>
-2023-12-14
+2023-12-17
+</td>
+<td>
+update
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/xsun1229/ctwas_tibetan/2f54f303db447e7a26a404a28d773f1fe99bcc0b/docs/index.html" target="_blank">2f54f30</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2023-12-17
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/xsun1229/ctwas_tibetan/17cc0485927aa0b9781eb3238ed9cf02febc10b2/docs/index.html" target="_blank">17cc048</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2023-12-17
 </td>
 <td>
 update
@@ -491,33 +514,16 @@ update
 Rmd
 </td>
 <td>
-<a href="https://github.com/xsun1229/ctwas_Tibetan/blob/55e4f746eeab0f1a5fe8da433e1f5ec067a73e1b/ctwas_Tibetan/analysis/index.Rmd" target="_blank">55e4f74</a>
+<a href="https://github.com/xsun1229/ctwas_tibetan/blob/a82dacfdaf49a3d1dc83c4cab40c2cff7ce45fd7/analysis/index.Rmd" target="_blank">a82dacf</a>
 </td>
 <td>
 XSun
 </td>
 <td>
-2023-12-13
+2023-12-17
 </td>
 <td>
-update
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/xsun1229/ctwas_Tibetan/55e4f746eeab0f1a5fe8da433e1f5ec067a73e1b/ctwas_Tibetan/docs/index.html" target="_blank">55e4f74</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2023-12-13
-</td>
-<td>
-update
+Start workflowr project.
 </td>
 </tr>
 </tbody>
@@ -528,13 +534,13 @@ update
 </div>
 </div>
 <p><a
-href="https://xsun1229.github.io/ctwas_Tibetan/single_tissue.html">Single
+href="https://xsun1229.github.io/ctwas_tibetan/single_tissue.html">Single
 tissue analysis</a></p>
 <p><a
-href="https://xsun1229.github.io/ctwas_Tibetan/uncorrelated_tissue.html">Deciding
+href="https://xsun1229.github.io/ctwas_tibetan/uncorrelated_tissue.html">Deciding
 the uncorrelated tissues for multi-tissue analysis</a></p>
 <p><a
-href="https://xsun1229.github.io/ctwas_Tibetan/multi_tissue.html">Multi-tissue
+href="https://xsun1229.github.io/ctwas_tibetan/multi_tissue.html">Multi-tissue
 analysis</a></p>
 
 
