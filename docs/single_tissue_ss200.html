@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="XSun" />
+
+<meta name="date" content="2023-12-31" />
+
+<title>Single tissue analysis – using all tissues with sample size &gt; 200, brain tissue excluded</title>
+
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="site_libs/datatables-binding-0.22/datatables.js"></script>
+<link href="site_libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="site_libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="site_libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
+<link href="site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">ctwas_Tibetan</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/xsun1229/ctwas_Tibetan">
+    <span class="fab fa-github"></span>
+     
+    Source code
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Single tissue analysis – using all tissues
+with sample size &gt; 200, brain tissue excluded</h1>
+<h4 class="author">XSun</h4>
+<h4 class="date">2023-12-31</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2024-01-01
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong> <code>ctwas_tibetan/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.0). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown is untracked by Git. To know which version of the R
+Markdown file created these results, you’ll want to first commit it to
+the Git repo. If you’re still working on the analysis, you can ignore
+this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20231217code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20231217)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20231217code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20231217)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229ctwastibetantree760a5305b9bbf928867e4e9c5801af4cf0f86a0btargetblank760a530a">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/xsun1229/ctwas_tibetan/tree/760a5305b9bbf928867e4e9c5801af4cf0f86a0b" target="_blank">760a530</a>
+</a>
+</p>
+</div>
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229ctwastibetantree760a5305b9bbf928867e4e9c5801af4cf0f86a0btargetblank760a530a"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version
+<a href="https://github.com/xsun1229/ctwas_tibetan/tree/760a5305b9bbf928867e4e9c5801af4cf0f86a0b" target="_blank">760a530</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Untracked files:
+    Untracked:  analysis/single_tissue_ss200.Rmd
+
+Unstaged changes:
+    Modified:   analysis/index.Rmd
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+There are no past versions. Publish this analysis with
+<code>wflow_publish()</code> to start tracking its development.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<div id="overview" class="section level1">
+<h1>Overview</h1>
+<div id="traits" class="section level2">
+<h2>Traits</h2>
+<p>LB, MC, OxHb, Pulse</p>
+</div>
+<div id="weights" class="section level2">
+<h2>Weights</h2>
+<p>PredictDB, 29 tissues with sample size (RNASeq.and.Genotyped.samples
+below) &gt;= 200, brain tissues were excluded</p>
+<pre class="r"><code>load(&quot;/project/xinhe/xsun/ctwas/2.TIBETN_coding/results_data/summary_table.rdata&quot;)
+
+weights &lt;- read.csv(&quot;/project/xinhe/xsun/ctwas/1.matching_tissue/results_data/gtex_samplesize.csv&quot;)
+DT::datatable(weights,options = list(pageLength = 5))</code></pre>
+<div id="htmlwidget-13e8fe57641ddb9d279b" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-13e8fe57641ddb9d279b">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54"],["Muscle - Skeletal","Whole Blood","Skin - Sun Exposed (Lower leg)","Artery - Tibial","Adipose - Subcutaneous","Thyroid","Nerve - Tibial","Skin - Not Sun Exposed (Suprapubic)","Lung","Esophagus - Mucosa","Cells - Cultured fibroblasts","Adipose - Visceral (Omentum)","Esophagus - Muscularis","Breast - Mammary Tissue","Artery - Aorta","Heart - Left Ventricle","Heart - Atrial Appendage","Colon - Transverse","Esophagus - Gastroesophageal Junction","Stomach","Testis","Colon - Sigmoid","Pancreas","Pituitary","Adrenal Gland","Spleen","Prostate","Artery - Coronary","Brain - Cerebellum","Liver","Brain - Cortex","Brain - Nucleus accumbens (basal ganglia)","Brain - Caudate (basal ganglia)","Brain - Cerebellar Hemisphere","Brain - Frontal Cortex (BA9)","Small Intestine - Terminal Ileum","Brain - Putamen (basal ganglia)","Brain - Hypothalamus","Ovary","Brain - Hippocampus","Brain - Anterior cingulate cortex (BA24)","Cells - EBV-transformed lymphocytes","Minor Salivary Gland","Vagina","Brain - Amygdala","Uterus","Brain - Spinal cord (cervical c-1)","Brain - Substantia nigra","Kidney - Cortex","Bladder","Cervix - Endocervix","Cervix - Ectocervix","Fallopian Tube","Kidney - Medulla"],["UBERON:0011907","UBERON:0013756","UBERON:0004264","UBERON:0007610","UBERON:0002190","UBERON:0002046","UBERON:0001323","UBERON:0036149","UBERON:0008952","UBERON:0006920","UBERON:EFO_0002009","UBERON:0010414","UBERON:0004648","UBERON:0008367","UBERON:0001496","UBERON:0006566","UBERON:0006631","UBERON:0001157","UBERON:0004550","UBERON:0000945","UBERON:0000473","UBERON:0001159","UBERON:0001150","UBERON:0000007","UBERON:0002369","UBERON:0002106","UBERON:0002367","UBERON:0001621","UBERON:0002037","UBERON:0001114","UBERON:0001870","UBERON:0001882","UBERON:0001873","UBERON:0002037","UBERON:0009834","UBERON:0001211","UBERON:0001874","UBERON:0001898","UBERON:0000992","UBERON:0001954","UBERON:0009835","UBERON:EFO_0000572","UBERON:0006330","UBERON:0000996","UBERON:0001876","UBERON:0000995","UBERON:0006469","UBERON:0002038","UBERON:0001225","UBERON:0001255","UBERON:0000458","UBERON:0012249","UBERON:0003889","UBERON:0001293"],[706,670,605,584,581,574,532,517,515,497,483,469,465,396,387,386,372,368,330,324,322,318,305,237,233,227,221,213,209,208,205,202,194,175,175,174,170,170,167,165,147,147,144,141,129,129,126,114,73,21,10,9,8,4],[803,755,701,663,663,653,619,604,578,555,504,541,515,459,432,432,429,406,375,359,361,373,328,283,258,241,245,240,241,226,255,246,246,215,209,187,205,202,180,197,176,174,162,156,152,142,159,139,85,21,10,9,9,4]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Tissue<\/th>\n      <th>UBERON<\/th>\n      <th>X..RNASeq.and.Genotyped.samples<\/th>\n      <th>X..RNASeq.Samples<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"columnDefs":[{"className":"dt-right","targets":[3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>num_top &lt;- 10</code></pre>
+</div>
+<div id="tissue-tissue-correlation-data" class="section level2">
+<h2>Tissue-tissue correlation data</h2>
+<p>From <a href="https://www.nature.com/articles/s41588-018-0268-8">MASH
+paper, PMID30478440</a></p>
+<p>The MASH paper provides a matrix indicating the shared magnitude of
+eQTLs among tissues <a
+href="https://stephenslab.github.io/gtexresults/SharingMag.html">by
+computing the proportion of effects significant in either tissue that
+are within 2-fold magnitude of one another</a>.</p>
+<p><a href="https://github.com/stephenslab/gtexresults">data download
+link (MASH matrix)</a></p>
+<pre class="r"><code>load(&quot;/project/xinhe/xsun/ctwas/1.matching_tissue/data/tissue_cor.rdata&quot;)
+clrs &lt;- colorRampPalette(rev(c(&quot;#D73027&quot;,&quot;#FC8D59&quot;,&quot;#FEE090&quot;,&quot;#FFFFBF&quot;,
+                               &quot;#E0F3F8&quot;,&quot;#91BFDB&quot;,&quot;#4575B4&quot;)))(64)</code></pre>
+<p>We filtered the correlation using 0.8 as cutoff.</p>
+</div>
+<div id="functions-used" class="section level2">
+<h2>Functions used</h2>
+<pre class="r"><code>library(lattice)
+num_top &lt;- 10
+
+get_correlation &lt;- function(tissue1, tissue2, cor_matrix) {
+  # Check if tissues are in the matrix and find their positions
+  pos1 &lt;- match(tissue1, colnames(cor_matrix))
+  pos2 &lt;- match(tissue2, rownames(cor_matrix))
+  
+  return(cor_matrix[pos2, pos1]) 
+}
+
+r2cutoff &lt;- 0.8
+filter_tissues &lt;- function(tissue_list, cor_matrix) {
+  filtered_list &lt;- c(tissue_list[1]) # Start with the first tissue
+  
+  for (i in 2:length(tissue_list)) {
+    high_correlation_found &lt;- FALSE
+    for (j in 1:length(filtered_list)) {
+      if (!is.na(get_correlation(filtered_list[j], tissue_list[i], cor_matrix)) &amp;&amp;
+          get_correlation(filtered_list[j], tissue_list[i], cor_matrix) &gt; r2cutoff) {
+        high_correlation_found &lt;- TRUE
+        break # Break the inner loop as high correlation is found
+      }
+    }
+    
+    if (!high_correlation_found) {
+      filtered_list &lt;- c(filtered_list, tissue_list[i])
+    }
+  }
+  return(filtered_list)
+}
+
+fill_upper_triangle &lt;- function(cor_matrix) {
+    for (i in 1:nrow(cor_matrix)) {
+        for (j in 1:ncol(cor_matrix)) {
+            # Check if the upper triangle element is NA and the lower triangle element is not NA
+            if (is.na(cor_matrix[i, j]) &amp;&amp; !is.na(cor_matrix[j, i])) {
+                # Copy the value from the lower triangle to the upper triangle
+                cor_matrix[i, j] &lt;- cor_matrix[j, i]
+            }
+        }
+    }
+    cor_matrix[lower.tri(cor_matrix)] &lt;- NA
+    return(cor_matrix)
+}
+
+combine_vectors &lt;- function(vec1, vec_cor1, vec2, vec_cor2, pad_with_na = TRUE) {
+  # Check if padding with NAs is required
+  if (pad_with_na) {
+    # Pad the shorter primary vector and its corresponding vector with NAs
+    if (length(vec1) &lt; length(vec2)) {
+      extra_length &lt;- length(vec2) - length(vec1)
+      vec1 &lt;- c(vec1, rep(NA, extra_length))
+      vec_cor1 &lt;- c(vec_cor1, rep(NA, extra_length))
+    } else {
+      extra_length &lt;- length(vec1) - length(vec2)
+      vec2 &lt;- c(vec2, rep(NA, extra_length))
+      vec_cor2 &lt;- c(vec_cor2, rep(NA, extra_length))
+    }
+    # Combine the vectors into a matrix/data frame
+    return(cbind(vec1, vec_cor1, vec2, vec_cor2))
+  } else {
+    # Combine the vectors into a list
+    return(list(vec1=vec1, vec_cor1=vec_cor1, vec2=vec2, vec_cor2=vec_cor2))
+  }
+}</code></pre>
+</div>
+</div>
+<div id="lb" class="section level1">
+<h1>LB</h1>
+<pre class="r"><code>sum_cat &lt;- sum_all[sum_all$traits ==&quot;LB&quot;,]
+
+DT::datatable(sum_cat,caption = htmltools::tags$caption( style = &#39;caption-side: topleft; text-align = left; color:black;  font-size:150% ;&#39;,&#39;summary for ctwas parameters and max gene pip (all tissues analysised)&#39;),options = list(pageLength = 5) )</code></pre>
+<div id="htmlwidget-63cf57b1ee5daf1ce49e" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-63cf57b1ee5daf1ce49e">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: topleft; text-align = left; color:black;  font-size:150% ;\">summary for ctwas parameters and max gene pip (all tissues analysised)<\/caption>","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29"],["LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB","LB"],["Adipose_Subcutaneous","Adipose_Visceral_Omentum","Adrenal_Gland","Artery_Aorta","Artery_Coronary","Artery_Tibial","Breast_Mammary_Tissue","Cells_Cultured_fibroblasts","Colon_Sigmoid","Colon_Transverse","Esophagus_Gastroesophageal_Junction","Esophagus_Mucosa","Esophagus_Muscularis","Heart_Atrial_Appendage","Heart_Left_Ventricle","Liver","Lung","Muscle_Skeletal","Nerve_Tibial","Pancreas","Pituitary","Prostate","Skin_Not_Sun_Exposed_Suprapubic","Skin_Sun_Exposed_Lower_leg","Spleen","Stomach","Testis","Thyroid","Whole_Blood"],["0.741687686059819","0.723771701249331","0.73632784948812","0.707483970465253","0.726222425160518","0.740709839807624","0.710432718054684","0.687414360080527","0.724491225603597","0.697539202608868","0.732506485941529","0.723776562615139","0.71684747362319","0.734717443558299","0.707652701592465","0.715813821107732","0.720706853308145","0.730938550521614","0.69197158028586","0.689435842149426","0.721443788960602","0.719612571713936","0.718406541361899","0.729141153929651","0.720458544241645","0.721694712826141","0.736159631961461","0.63704690060469","0.754215166678048"],["0.0064480927858728","0.00433686555661841","0.0065387699877246","0.015179576596243","0.00750733136839325","0.00483881134851531","0.00480480223059297","0.0475678205124315","0.00410868801989405","0.00716239600161714","0.027581579739097","0.00551978570368846","0.0133140430462511","0.0126947908781401","0.0108137354939016","0.00287341013869564","0.0400096896612897","0.0179326077047857","0.00684686760943712","0.00341339316868247","0.00915602383528859","0.00710032449673184","0.0174598427515084","0.0111161609511847","0.00628261070008915","0.0171442643703422","0.00586080200437022","0.0136772360371072","0.0151146705297682"],["0.748135778845691","0.728108566805949","0.742866619475845","0.722663547061496","0.733729756528911","0.745548651156139","0.715237520285277","0.734982180592958","0.728599913623491","0.704701598610485","0.760088065680626","0.729296348318827","0.730161516669441","0.747412234436439","0.718466437086366","0.718687231246427","0.760716542969435","0.7488711582264","0.698818447895297","0.692849235318109","0.73059981279589","0.726712896210668","0.735866384113407","0.740257314880835","0.726741154941735","0.738838977196483","0.742020433965831","0.650724136641797","0.769329837207816"],["0.991381119619995","0.994043655363591","0.991197921919902","0.978994960160968","0.989768260995835","0.993509730933036","0.993282228498476","0.935280307783713","0.994360844761207","0.989836271102918","0.963712652540599","0.992431354254806","0.98176561932902","0.983015007925697","0.98494886478239","0.996001862821867","0.947405258856192","0.976053814454202","0.990202222580044","0.995073396931563","0.987467798821013","0.990229532826849","0.976273080101975","0.984983382497241","0.991355091620492","0.976795668745853","0.992101562522953","0.978981514182505","0.980353458557353"],["0.00861888038000488","0.00595634463640949","0.00880207808009769","0.0210050398390322","0.0102317390041649","0.00649026906696386","0.00671777150152378","0.0647196922162867","0.00563915523879302","0.0101637288970818","0.0362873474594012","0.00756864574519351","0.0182343806709805","0.0169849920743031","0.0150511352176103","0.00399813717813276","0.0525947411438077","0.0239461855457975","0.00979777741995582","0.00492660306843706","0.0125322011789873","0.00977046717315103","0.0237269198980254","0.0150166175027587","0.00864490837950803","0.0232043312541468","0.00789843747704676","0.0210184858174949","0.019646541442647"],["0.0623172852741915","0.0387311932888292","0.0586250046188899","0.174874482895688","0.0735952545579094","0.0439683431834653","0.0462820112678382","0.353747929926527","0.0493045607744006","0.0670919787026057","0.309932510060795","0.0516083861706832","0.187528500961903","0.187538121783623","0.145738476456605","0.0309365230529233","0.30683240615149","0.210382337778559","0.0606862686831202","0.0401046299390864","0.0750925340733964","0.0790906159875994","0.142686809186434","0.0936966465296476","0.0624894862661665","0.210499870636537","0.0552776206037817","0.129218555656484","0.187679642239882"],["13113","13065","12212","12922","12418","13033","12943","12637","12821","12968","12796","13158","13116","12640","12042","11502","13345","12267","13586","12455","12847","12713","13343","13539","12457","12663","14324","13499","11685"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>traits<\/th>\n      <th>weights<\/th>\n      <th>group_pve_SNP<\/th>\n      <th>group_pve_gene<\/th>\n      <th>total_pve<\/th>\n      <th>attributable_pve_SNP<\/th>\n      <th>attributable_pve_gene<\/th>\n      <th>max_gene_pip<\/th>\n      <th>num_gene_all<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"columnDefs":[{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div id="filtering-based-on-pve-explained-by-genes"
+class="section level2">
+<h2>Filtering based on PVE explained by genes</h2>
+<pre class="r"><code>sum_cat &lt;- sum_cat[order(as.numeric(sum_cat$group_pve_gene),decreasing = T),]
+
+tissue_select &lt;- sum_cat$weights[num_top:1]
+tissue_select &lt;- tissue_select[tissue_select%in%rownames(lat)]
+
+##heatmap
+cor &lt;- lat[tissue_select,tissue_select]
+cor &lt;- fill_upper_triangle(cor)
+print(levelplot(cor,col.regions = clrs,xlab = &quot;&quot;,ylab = &quot;&quot;,
+                colorkey = TRUE,main = &quot;heatmap showing the tissue-tissue correlation&quot;))</code></pre>
+<p><img src="figure/single_tissue_ss200.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>##cor matrix
+cor &lt;- cor[rev(tissue_select),rev(tissue_select)]
+DT::datatable(cor,caption = htmltools::tags$caption( style = &#39;caption-side: topleft; text-align = left; color:black;  font-size:150% ;&#39;,&#39;tissue-tissue correlation matrix &#39;),options = list(pageLength = 10) )</code></pre>
+<div id="htmlwidget-c8678dd73b2728234719" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c8678dd73b2728234719">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: topleft; text-align = left; color:black;  font-size:150% ;\">tissue-tissue correlation matrix <\/caption>","data":[["Lung","Esophagus_Gastroesophageal_Junction","Muscle_Skeletal","Skin_Not_Sun_Exposed_Suprapubic","Stomach","Artery_Aorta","Whole_Blood","Thyroid","Esophagus_Muscularis"],[1,0.742014742014742,0.566956706281834,0.697758419207479,0.813646851994286,0.737860927868498,0.535422049956934,0.707039557635049,0.73525627278576],[null,1,0.582462129293791,0.648325107634149,0.779690755565303,0.8415481309957,0.412340027052336,0.692129872859094,0.999529854254819],[null,null,1,0.531436487638534,0.588717506202136,0.554078679386858,0.409229762164521,0.505292125317528,0.584198011240813],[null,null,null,1,0.717177183677887,0.635796595834655,0.446130825138948,0.6208237024585,0.638625342610162],[null,null,null,null,1,0.732729455418531,0.483795058295005,0.710805543525336,0.770842523158359],[null,null,null,null,null,1,0.417760372565622,0.668323638286621,0.83590540690574],[null,null,null,null,null,null,1,0.400653870491458,0.402729658792651],[null,null,null,null,null,null,null,1,0.679797233076354],[null,null,null,null,null,null,null,null,1]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Lung<\/th>\n      <th>Esophagus_Gastroesophageal_Junction<\/th>\n      <th>Muscle_Skeletal<\/th>\n      <th>Skin_Not_Sun_Exposed_Suprapubic<\/th>\n      <th>Stomach<\/th>\n      <th>Artery_Aorta<\/th>\n      <th>Whole_Blood<\/th>\n      <th>Thyroid<\/th>\n      <th>Esophagus_Muscularis<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6,7,8,9]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>tissue_select_f1 &lt;- sum_cat$weights[1:num_top]
+filtered_tissues &lt;- filter_tissues(tissue_select_f1, cor)
+
+tissue_select_f1_cor &lt;- sum_cat$group_pve_gene[sum_cat$weights %in% tissue_select_f1 ]
+filtered_tissues_cor &lt;- sum_cat$group_pve_gene[sum_cat$weights %in% filtered_tissues ]
+comb &lt;- combine_vectors(tissue_select_f1, tissue_select_f1_cor, filtered_tissues, filtered_tissues_cor, pad_with_na = TRUE)
+colnames(comb) &lt;- c(&quot;without_filtering&quot;,&quot;PVE_gene&quot;,&quot;filtered&quot;,&quot;PVE_gene&quot;)
+
+
+DT::datatable(comb,caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;Comparing the top tissue lists (with/without filtering by tissue correlation) &#39;),options = list(pageLength = 10) )</code></pre>
+<div id="htmlwidget-cb13f050035c9c94f379" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-cb13f050035c9c94f379">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Comparing the top tissue lists (with/without filtering by tissue correlation) <\/caption>","data":[["Cells_Cultured_fibroblasts","Lung","Esophagus_Gastroesophageal_Junction","Muscle_Skeletal","Skin_Not_Sun_Exposed_Suprapubic","Stomach","Artery_Aorta","Whole_Blood","Thyroid","Esophagus_Muscularis"],["0.0475678205124315","0.0400096896612897","0.027581579739097","0.0179326077047857","0.0174598427515084","0.0171442643703422","0.015179576596243","0.0151146705297682","0.0136772360371072","0.0133140430462511"],["Cells_Cultured_fibroblasts","Lung","Esophagus_Gastroesophageal_Junction","Muscle_Skeletal","Skin_Not_Sun_Exposed_Suprapubic","Whole_Blood","Thyroid",null,null,null],["0.0475678205124315","0.0400096896612897","0.027581579739097","0.0179326077047857","0.0174598427515084","0.0151146705297682","0.0136772360371072",null,null,null]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>without_filtering<\/th>\n      <th>PVE_gene<\/th>\n      <th>filtered<\/th>\n      <th>PVE_gene<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="filtering-based-on-max-gene-pips" class="section level2">
+<h2>Filtering based on max gene PIPs</h2>
+<pre class="r"><code>sum_cat &lt;- sum_cat[order(as.numeric(sum_cat$max_gene_pip),decreasing = T),]
+
+tissue_select &lt;- sum_cat$weights[num_top:1]
+tissue_select &lt;- tissue_select[tissue_select%in%rownames(lat)]
+
+##heatmap
+cor &lt;- lat[tissue_select,tissue_select]
+cor &lt;- fill_upper_triangle(cor)
+print(levelplot(cor,col.regions = clrs,xlab = &quot;&quot;,ylab = &quot;&quot;,
+                colorkey = TRUE,main = &quot;heatmap showing the tissue-tissue correlation&quot;))</code></pre>
+<p><img src="figure/single_tissue_ss200.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>##cor matrix
+cor &lt;- cor[rev(tissue_select),rev(tissue_select)]
+DT::datatable(cor,caption = htmltools::tags$caption( style = &#39;caption-side: topleft; text-align = left; color:black;  font-size:150% ;&#39;,&#39;tissue-tissue correlation matrix &#39;),options = list(pageLength = 10) )</code></pre>
+<div id="htmlwidget-f88dfa07687dca44a349" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f88dfa07687dca44a349">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: topleft; text-align = left; color:black;  font-size:150% ;\">tissue-tissue correlation matrix <\/caption>","data":[["Esophagus_Gastroesophageal_Junction","Lung","Stomach","Muscle_Skeletal","Whole_Blood","Heart_Atrial_Appendage","Esophagus_Muscularis","Artery_Aorta","Heart_Left_Ventricle"],[1,0.742014742014742,0.779690755565303,0.582462129293791,0.412340027052336,0.777411919657557,0.999529854254819,0.8415481309957,0.705676855895196],[null,1,0.813646851994286,0.566956706281834,0.535422049956934,0.714455488331893,0.73525627278576,0.737860927868498,0.67005295579812],[null,null,1,0.588717506202136,0.483795058295005,0.73112582781457,0.770842523158359,0.732729455418531,0.704706142288997],[null,null,null,1,0.409229762164521,0.667456288776086,0.584198011240813,0.554078679386858,0.709179528838343],[null,null,null,null,1,0.434422704794668,0.402729658792651,0.417760372565622,0.438426329555362],[null,null,null,null,null,1,0.777506925207756,0.73953283384751,0.966604823747681],[null,null,null,null,null,null,1,0.83590540690574,0.714806629834254],[null,null,null,null,null,null,null,1,0.669221504434468],[null,null,null,null,null,null,null,null,1]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Esophagus_Gastroesophageal_Junction<\/th>\n      <th>Lung<\/th>\n      <th>Stomach<\/th>\n      <th>Muscle_Skeletal<\/th>\n      <th>Whole_Blood<\/th>\n      <th>Heart_Atrial_Appendage<\/th>\n      <th>Esophagus_Muscularis<\/th>\n      <th>Artery_Aorta<\/th>\n      <th>Heart_Left_Ventricle<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6,7,8,9]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>tissue_select_f1 &lt;- sum_cat$weights[1:num_top]
+filtered_tissues &lt;- filter_tissues(tissue_select_f1, cor)
+
+tissue_select_f1_cor &lt;- sum_cat$max_gene_pip[sum_cat$weights %in% tissue_select_f1 ]
+filtered_tissues_cor &lt;- sum_cat$max_gene_pip[sum_cat$weights %in% filtered_tissues ]
+comb &lt;- combine_vectors(tissue_select_f1, tissue_select_f1_cor, filtered_tissues, filtered_tissues_cor, pad_with_na = TRUE)
+colnames(comb) &lt;- c(&quot;without_filtering&quot;,&quot;max gene pip&quot;,&quot;filtered&quot;,&quot;max gene pip&quot;)
+
+
+DT::datatable(comb,caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;Comparing the top tissue lists (with/without filtering by tissue correlation) &#39;),options = list(pageLength = 10) )</code></pre>
+<div id="htmlwidget-0c5a728afd64ec14e0c7" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-0c5a728afd64ec14e0c7">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Comparing the top tissue lists (with/without filtering by tissue correlation) <\/caption>","data":[["Cells_Cultured_fibroblasts","Esophagus_Gastroesophageal_Junction","Lung","Stomach","Muscle_Skeletal","Whole_Blood","Heart_Atrial_Appendage","Esophagus_Muscularis","Artery_Aorta","Heart_Left_Ventricle"],["0.353747929926527","0.309932510060795","0.30683240615149","0.210499870636537","0.210382337778559","0.187679642239882","0.187538121783623","0.187528500961903","0.174874482895688","0.145738476456605"],["Cells_Cultured_fibroblasts","Esophagus_Gastroesophageal_Junction","Lung","Muscle_Skeletal","Whole_Blood","Heart_Atrial_Appendage",null,null,null,null],["0.353747929926527","0.309932510060795","0.30683240615149","0.210382337778559","0.187679642239882","0.187538121783623",null,null,null,null]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>without_filtering<\/th>\n      <th>max gene pip<\/th>\n      <th>filtered<\/th>\n      <th>max gene pip<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div id="mc" class="section level1">
+<h1>MC</h1>
+<pre class="r"><code>sum_cat &lt;- sum_all[sum_all$traits ==&quot;MC&quot;,]
+
+DT::datatable(sum_cat,caption = htmltools::tags$caption( style = &#39;caption-side: topleft; text-align = left; color:black;  font-size:150% ;&#39;,&#39;summary for ctwas parameters and max gene pip (all tissues analysised)&#39;),options = list(pageLength = 5) )</code></pre>
+<div id="htmlwidget-b6ca72bea8853d3a6e44" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-b6ca72bea8853d3a6e44">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: topleft; text-align = left; color:black;  font-size:150% ;\">summary for ctwas parameters and max gene pip (all tissues analysised)<\/caption>","data":[["30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58"],["MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC","MC"],["Adipose_Subcutaneous","Adipose_Visceral_Omentum","Adrenal_Gland","Artery_Aorta","Artery_Coronary","Artery_Tibial","Breast_Mammary_Tissue","Cells_Cultured_fibroblasts","Colon_Sigmoid","Colon_Transverse","Esophagus_Gastroesophageal_Junction","Esophagus_Mucosa","Esophagus_Muscularis","Heart_Atrial_Appendage","Heart_Left_Ventricle","Liver","Lung","Muscle_Skeletal","Nerve_Tibial","Pancreas","Pituitary","Prostate","Skin_Not_Sun_Exposed_Suprapubic","Skin_Sun_Exposed_Lower_leg","Spleen","Stomach","Testis","Thyroid","Whole_Blood"],["0.933768442737703","1.03620254646301","1.00757400585885","1.02645999976892","1.07020424399854","0.876542003116877","1.01478344480824","0.988020512008684","0.980856057169857","1.03284419534062","1.04143655787008","0.974355135936246","1.01255055640749","0.983007665100305","0.999967427164344","1.04221513020289","1.00603320006457","1.03624317169217","1.00668402365578","1.00247959174008","1.03486116308485","0.970035867134972","0.970714172189955","0.961649181042359","1.03467742138132","1.00692990299396","0.986854942642676","0.96209298837486","0.968976624827288"],["0.0110053180220142","0.00695036651238598","0.0127529242955801","0.0179117345185627","0.0105518773870879","0.00915127219744883","0.0191938795293867","0.0212289391454307","0.0417544856772053","0.0162214052482768","0.0269993012459067","0.015389899338658","0.0166375613373797","0.0107010313908174","0.0123658732233201","0.0190786385098723","0.00904976152405997","0.00894561803049869","0.0213596186134845","0.00817318902404319","0.0205995981654218","0.00971356816733476","0.00910692176598846","0.0175035161692127","0.0103638736048043","0.0222690430981021","0.0251170622528887","0.0116929053175531","0.00693963606899422"],["0.944773760759717","1.04315291297539","1.02032693015443","1.04437173428748","1.08075612138562","0.885693275314325","1.03397732433762","1.00924945115411","1.02261054284706","1.0490656005889","1.06843585911599","0.989745035274904","1.02918811774487","0.993708696491122","1.01233330038766","1.06129376871277","1.01508296158863","1.04518878972267","1.02804364226926","1.01065278076412","1.05546076125027","0.979749435302306","0.979821093955943","0.979152697211572","1.04504129498612","1.02919894609206","1.01197200489556","0.973785893692413","0.975916260896282"],["0.988351372064816","0.993337154672213","0.987501139175411","0.982849272983453","0.990236578652398","0.989667673389299","0.98143684674934","0.978965617349453","0.959168731469406","0.984537282283233","0.974730068243642","0.984450642549186","0.983834285442553","0.989231218939108","0.987784780745052","0.982023225734178","0.991084707490414","0.991441146213525","0.979223042937811","0.991912960435469","0.980482838470451","0.99008566086661","0.990705525914716","0.982123813559357","0.990082809498029","0.978362742030917","0.975180081927779","0.987992324192317","0.992889107040167"],["0.0116486279351837","0.00666284532778747","0.0124988608245887","0.0171507270165474","0.00976342134760191","0.0103323266107007","0.01856315325066","0.0210343826505476","0.0408312685305944","0.015462717716767","0.0252699317563579","0.015549357450814","0.0161657145574471","0.0107687810608921","0.0122152192549476","0.0179767742658215","0.00891529250958645","0.00855885378647459","0.0207769570621887","0.00808703956453144","0.0195171615295486","0.00991433913339036","0.00929447408528434","0.0178761864406432","0.0099171905019714","0.0216372579690829","0.0248199180722206","0.0120076758076827","0.00711089295983331"],["0.108242847955377","0.0614812339391667","0.180293318158659","0.164088505976708","0.151611180971656","0.109512287092118","0.130738727434409","0.17250370885112","0.288695757471706","0.156639210308084","0.159361625904438","0.150862563246357","0.141241993448867","0.0821845227711043","0.170800757154255","0.123921187153822","0.102558802498395","0.0695523250612794","0.123795741715678","0.0650199655909197","0.149188443866687","0.0975766219002114","0.102003962469378","0.146765066001452","0.133590032735141","0.186210714023733","0.256705467512192","0.0879732631041051","0.0620154344442144"],["13113","13065","12212","12922","12418","13033","12943","12637","12821","12968","12796","13158","13116","12640","12042","11502","13345","12267","13586","12455","12847","12713","13343","13539","12457","12663","14324","13499","11685"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>traits<\/th>\n      <th>weights<\/th>\n      <th>group_pve_SNP<\/th>\n      <th>group_pve_gene<\/th>\n      <th>total_pve<\/th>\n      <th>attributable_pve_SNP<\/th>\n      <th>attributable_pve_gene<\/th>\n      <th>max_gene_pip<\/th>\n      <th>num_gene_all<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"columnDefs":[{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div id="filtering-based-on-pve-explained-by-genes-1"
+class="section level2">
+<h2>Filtering based on PVE explained by genes</h2>
+<pre class="r"><code>sum_cat &lt;- sum_cat[order(as.numeric(sum_cat$group_pve_gene),decreasing = T),]
+
+tissue_select &lt;- sum_cat$weights[num_top:1]
+tissue_select &lt;- tissue_select[tissue_select%in%rownames(lat)]
+
+##heatmap
+cor &lt;- lat[tissue_select,tissue_select]
+cor &lt;- fill_upper_triangle(cor)
+print(levelplot(cor,col.regions = clrs,xlab = &quot;&quot;,ylab = &quot;&quot;,
+                colorkey = TRUE,main = &quot;heatmap showing the tissue-tissue correlation&quot;))</code></pre>
+<p><img src="figure/single_tissue_ss200.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>##cor matrix
+cor &lt;- cor[rev(tissue_select),rev(tissue_select)]
+DT::datatable(cor,caption = htmltools::tags$caption( style = &#39;caption-side: topleft; text-align = left; color:black;  font-size:150% ;&#39;,&#39;tissue-tissue correlation matrix &#39;),options = list(pageLength = 10) )</code></pre>
+<div id="htmlwidget-e42bd0a3cb6582a7647c" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-e42bd0a3cb6582a7647c">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: topleft; text-align = left; color:black;  font-size:150% ;\">tissue-tissue correlation matrix <\/caption>","data":[["Colon_Sigmoid","Esophagus_Gastroesophageal_Junction","Testis","Stomach","Nerve_Tibial","Pituitary","Breast_Mammary_Tissue","Liver","Artery_Aorta"],[1,0.986524163568773,0.485641080388598,0.806057206954571,0.78669425087108,0.742573126142596,0.806687452962047,0.643539293522034,0.835076786111729],[null,1,0.470588235294118,0.779690755565303,0.778910105127655,0.718395912019551,0.797383535417996,0.622533632286996,0.8415481309957],[null,null,1,0.505315150864383,0.455580145431552,0.511812893268432,0.483950617283951,0.472295184490306,0.46028880866426],[null,null,null,1,0.694847800365709,0.733103448275862,0.822638242614436,0.759715639810427,0.732729455418531],[null,null,null,null,1,0.70030204720886,0.797317436661699,0.574676420934159,0.756567614125754],[null,null,null,null,null,1,0.710546406369288,0.640965427266797,0.677916852928029],[null,null,null,null,null,null,1,0.680370329549212,0.766808964781217],[null,null,null,null,null,null,null,1,0.603853169174647],[null,null,null,null,null,null,null,null,1]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Colon_Sigmoid<\/th>\n      <th>Esophagus_Gastroesophageal_Junction<\/th>\n      <th>Testis<\/th>\n      <th>Stomach<\/th>\n      <th>Nerve_Tibial<\/th>\n      <th>Pituitary<\/th>\n      <th>Breast_Mammary_Tissue<\/th>\n      <th>Liver<\/th>\n      <th>Artery_Aorta<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6,7,8,9]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>tissue_select_f1 &lt;- sum_cat$weights[1:num_top]
+filtered_tissues &lt;- filter_tissues(tissue_select_f1, cor)
+
+tissue_select_f1_cor &lt;- sum_cat$group_pve_gene[sum_cat$weights %in% tissue_select_f1 ]
+filtered_tissues_cor &lt;- sum_cat$group_pve_gene[sum_cat$weights %in% filtered_tissues ]
+comb &lt;- combine_vectors(tissue_select_f1, tissue_select_f1_cor, filtered_tissues, filtered_tissues_cor, pad_with_na = TRUE)
+colnames(comb) &lt;- c(&quot;without_filtering&quot;,&quot;PVE_gene&quot;,&quot;filtered&quot;,&quot;PVE_gene&quot;)
+
+
+DT::datatable(comb,caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;Comparing the top tissue lists (with/without filtering by tissue correlation) &#39;),options = list(pageLength = 10) )</code></pre>
+<div id="htmlwidget-c7a854acffdb7a45279c" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c7a854acffdb7a45279c">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Comparing the top tissue lists (with/without filtering by tissue correlation) <\/caption>","data":[["Colon_Sigmoid","Esophagus_Gastroesophageal_Junction","Testis","Stomach","Nerve_Tibial","Cells_Cultured_fibroblasts","Pituitary","Breast_Mammary_Tissue","Liver","Artery_Aorta"],["0.0417544856772053","0.0269993012459067","0.0251170622528887","0.0222690430981021","0.0213596186134845","0.0212289391454307","0.0205995981654218","0.0191938795293867","0.0190786385098723","0.0179117345185627"],["Colon_Sigmoid","Testis","Nerve_Tibial","Cells_Cultured_fibroblasts","Pituitary","Liver",null,null,null,null],["0.0417544856772053","0.0251170622528887","0.0213596186134845","0.0212289391454307","0.0205995981654218","0.0190786385098723",null,null,null,null]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>without_filtering<\/th>\n      <th>PVE_gene<\/th>\n      <th>filtered<\/th>\n      <th>PVE_gene<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="filtering-based-on-max-gene-pips-1" class="section level2">
+<h2>Filtering based on max gene PIPs</h2>
+<pre class="r"><code>sum_cat &lt;- sum_cat[order(as.numeric(sum_cat$max_gene_pip),decreasing = T),]
+
+tissue_select &lt;- sum_cat$weights[num_top:1]
+tissue_select &lt;- tissue_select[tissue_select%in%rownames(lat)]
+
+##heatmap
+cor &lt;- lat[tissue_select,tissue_select]
+cor &lt;- fill_upper_triangle(cor)
+print(levelplot(cor,col.regions = clrs,xlab = &quot;&quot;,ylab = &quot;&quot;,
+                colorkey = TRUE,main = &quot;heatmap showing the tissue-tissue correlation&quot;))</code></pre>
+<p><img src="figure/single_tissue_ss200.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>##cor matrix
+cor &lt;- cor[rev(tissue_select),rev(tissue_select)]
+DT::datatable(cor,caption = htmltools::tags$caption( style = &#39;caption-side: topleft; text-align = left; color:black;  font-size:150% ;&#39;,&#39;tissue-tissue correlation matrix &#39;),options = list(pageLength = 10) )</code></pre>
+<div id="htmlwidget-9e5cc00bbdf65f3fb644" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-9e5cc00bbdf65f3fb644">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: topleft; text-align = left; color:black;  font-size:150% ;\">tissue-tissue correlation matrix <\/caption>","data":[["Colon_Sigmoid","Testis","Stomach","Adrenal_Gland","Heart_Left_Ventricle","Artery_Aorta","Esophagus_Gastroesophageal_Junction","Colon_Transverse","Artery_Coronary"],[1,0.485641080388598,0.806057206954571,0.764752610077168,0.713682807641048,0.835076786111729,0.986524163568773,0.781122679945677,0.855103806228374],[null,1,0.505315150864383,0.497105811530447,0.473097916898741,0.46028880866426,0.470588235294118,0.486892200587403,0.476200183467536],[null,null,1,0.771717869059947,0.704706142288997,0.732729455418531,0.779690755565303,0.916842105263158,0.771118903410902],[null,null,null,1,0.697476045805095,0.73379995484308,0.751165371809101,0.726767735215831,0.755387114239307],[null,null,null,null,1,0.669221504434468,0.705676855895196,0.673492098820387,0.700317796610169],[null,null,null,null,null,1,0.8415481309957,0.695799978067771,0.973595882747818],[null,null,null,null,null,null,1,0.747551447122263,0.863147710169856],[null,null,null,null,null,null,null,1,0.735394456289979],[null,null,null,null,null,null,null,null,1]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Colon_Sigmoid<\/th>\n      <th>Testis<\/th>\n      <th>Stomach<\/th>\n      <th>Adrenal_Gland<\/th>\n      <th>Heart_Left_Ventricle<\/th>\n      <th>Artery_Aorta<\/th>\n      <th>Esophagus_Gastroesophageal_Junction<\/th>\n      <th>Colon_Transverse<\/th>\n      <th>Artery_Coronary<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6,7,8,9]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>tissue_select_f1 &lt;- sum_cat$weights[1:num_top]
+filtered_tissues &lt;- filter_tissues(tissue_select_f1, cor)
+
+tissue_select_f1_cor &lt;- sum_cat$max_gene_pip[sum_cat$weights %in% tissue_select_f1 ]
+filtered_tissues_cor &lt;- sum_cat$max_gene_pip[sum_cat$weights %in% filtered_tissues ]
+comb &lt;- combine_vectors(tissue_select_f1, tissue_select_f1_cor, filtered_tissues, filtered_tissues_cor, pad_with_na = TRUE)
+colnames(comb) &lt;- c(&quot;without_filtering&quot;,&quot;max gene pip&quot;,&quot;filtered&quot;,&quot;max gene pip&quot;)
+
+
+DT::datatable(comb,caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;Comparing the top tissue lists (with/without filtering by tissue correlation) &#39;),options = list(pageLength = 10) )</code></pre>
+<div id="htmlwidget-11e080672726f09bfcac" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-11e080672726f09bfcac">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Comparing the top tissue lists (with/without filtering by tissue correlation) <\/caption>","data":[["Colon_Sigmoid","Testis","Stomach","Adrenal_Gland","Cells_Cultured_fibroblasts","Heart_Left_Ventricle","Artery_Aorta","Esophagus_Gastroesophageal_Junction","Colon_Transverse","Artery_Coronary"],["0.288695757471706","0.256705467512192","0.186210714023733","0.180293318158659","0.17250370885112","0.170800757154255","0.164088505976708","0.159361625904438","0.156639210308084","0.151611180971656"],["Colon_Sigmoid","Testis","Adrenal_Gland","Cells_Cultured_fibroblasts","Heart_Left_Ventricle","Colon_Transverse",null,null,null,null],["0.288695757471706","0.256705467512192","0.180293318158659","0.17250370885112","0.170800757154255","0.156639210308084",null,null,null,null]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>without_filtering<\/th>\n      <th>max gene pip<\/th>\n      <th>filtered<\/th>\n      <th>max gene pip<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div id="oxhb" class="section level1">
+<h1>OxHb</h1>
+<pre class="r"><code>sum_cat &lt;- sum_all[sum_all$traits ==&quot;OxHb&quot;,]
+
+DT::datatable(sum_cat,caption = htmltools::tags$caption( style = &#39;caption-side: topleft; text-align = left; color:black;  font-size:150% ;&#39;,&#39;summary for ctwas parameters and max gene pip (all tissues analysised)&#39;),options = list(pageLength = 5) )</code></pre>
+<div id="htmlwidget-6ad50235beabd7c6f928" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6ad50235beabd7c6f928">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: topleft; text-align = left; color:black;  font-size:150% ;\">summary for ctwas parameters and max gene pip (all tissues analysised)<\/caption>","data":[["59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87"],["OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb","OxHb"],["Adipose_Subcutaneous","Adipose_Visceral_Omentum","Adrenal_Gland","Artery_Aorta","Artery_Coronary","Artery_Tibial","Breast_Mammary_Tissue","Cells_Cultured_fibroblasts","Colon_Sigmoid","Colon_Transverse","Esophagus_Gastroesophageal_Junction","Esophagus_Mucosa","Esophagus_Muscularis","Heart_Atrial_Appendage","Heart_Left_Ventricle","Liver","Lung","Muscle_Skeletal","Nerve_Tibial","Pancreas","Pituitary","Prostate","Skin_Not_Sun_Exposed_Suprapubic","Skin_Sun_Exposed_Lower_leg","Spleen","Stomach","Testis","Thyroid","Whole_Blood"],["0.702012928011384","0.694271467407713","0.700337397475352","0.721885245262442","0.710644398331787","0.713217268072743","0.75643057741427","0.722573258977482","0.730722204478531","0.706174845134162","0.724354989898263","0.698065159533443","0.704031291835778","0.708350099594167","0.691223207096098","0.750799144131645","0.724612929924502","0.715608187277824","0.709639422728561","0.702411023402766","0.740076472846437","0.756063240859618","0.717318624372162","0.699028979121306","0.726038098970542","0.717675031996474","0.727445704532901","0.702652062206724","0.685994570969464"],["0.00880015673723629","0.00513942910067483","0.0101404090745013","0.0102159813629635","0.0112882084452949","0.0131264474184359","0.00691376477400494","0.0148105314755684","0.00918831709558341","0.00685625134118978","0.0138655238090045","0.0117412316200817","0.0145671668904496","0.00817015081289121","0.0397116439725576","0.0288297687019684","0.0115621724394341","0.00943910329182269","0.00946166580823731","0.00744548568526778","0.00682956118492064","0.0056280005696634","0.0111104975760194","0.0234439107690022","0.00774121004716762","0.0149567393446728","0.00465546150592753","0.011728870719495","0.00822863602419499"],["0.71081308474862","0.699410896508388","0.710477806549854","0.732101226625406","0.721932606777082","0.726343715491179","0.763344342188275","0.73738379045305","0.739910521574115","0.713031096475352","0.738220513707268","0.709806391153525","0.718598458726228","0.716520250407058","0.730934851068656","0.779628912833613","0.736175102363936","0.725047290569647","0.719101088536799","0.709856509088034","0.746906034031357","0.761691241429281","0.728429121948182","0.722472889890309","0.733779309017709","0.732631771341147","0.732101166038828","0.714380932926219","0.694223206993659"],["0.98761959096413","0.992651774334183","0.985727338727519","0.98604567102004","0.984363902753072","0.981928049849568","0.990942796858643","0.979914758545928","0.98758185371383","0.990384358585367","0.981217639510756","0.983458543390965","0.979728363297256","0.988597460004445","0.945670063598011","0.963021165291081","0.984294263141599","0.986981396366013","0.986842370343939","0.98951128067441","0.990856197602182","0.992611178567443","0.984747318247924","0.967550463004139","0.989450220315519","0.979584915738375","0.993640958761046","0.983581769642911","0.988146987969721"],["0.0123804090358698","0.00734822566581674","0.0142726612724809","0.0139543289799604","0.0156360972469283","0.0180719501504316","0.00905720314135727","0.020085241454072","0.0124181462861696","0.0096156414146333","0.0187823604892436","0.016541456609035","0.0202716367027437","0.0114025399955545","0.0543299364019893","0.0369788347089189","0.0157057368584006","0.0130186036339874","0.0131576296560607","0.0104887193255904","0.00914380239781797","0.00738882143255671","0.0152526817520755","0.0324495369958611","0.0105497796844811","0.0204150842616246","0.00635904123895443","0.0164182303570893","0.0118530120302794"],["0.0764557353313893","0.0476768207467297","0.101337343795063","0.0973053775487622","0.111230869797423","0.124805068751988","0.0677384526111814","0.132509689011106","0.0719891763819379","0.0578257673055735","0.120755596725707","0.10950011673446","0.148280700692215","0.0762659582259491","0.34849636859618","0.315276789475759","0.141702858470537","0.0842615666927177","0.0667451455268977","0.0860809703062127","0.0694764716543874","0.0568849102976351","0.0804569222505288","0.159953661789987","0.0766084366053115","0.133427389206231","0.0391814491796029","0.103717679582612","0.079684618529931"],["13113","13065","12212","12922","12418","13033","12943","12637","12821","12968","12796","13158","13116","12640","12042","11502","13345","12267","13586","12455","12847","12713","13343","13539","12457","12663","14324","13499","11685"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>traits<\/th>\n      <th>weights<\/th>\n      <th>group_pve_SNP<\/th>\n      <th>group_pve_gene<\/th>\n      <th>total_pve<\/th>\n      <th>attributable_pve_SNP<\/th>\n      <th>attributable_pve_gene<\/th>\n      <th>max_gene_pip<\/th>\n      <th>num_gene_all<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"columnDefs":[{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div id="filtering-based-on-pve-explained-by-genes-2"
+class="section level2">
+<h2>Filtering based on PVE explained by genes</h2>
+<pre class="r"><code>sum_cat &lt;- sum_cat[order(as.numeric(sum_cat$group_pve_gene),decreasing = T),]
+
+tissue_select &lt;- sum_cat$weights[num_top:1]
+tissue_select &lt;- tissue_select[tissue_select%in%rownames(lat)]
+
+##heatmap
+cor &lt;- lat[tissue_select,tissue_select]
+cor &lt;- fill_upper_triangle(cor)
+print(levelplot(cor,col.regions = clrs,xlab = &quot;&quot;,ylab = &quot;&quot;,
+                colorkey = TRUE,main = &quot;heatmap showing the tissue-tissue correlation&quot;))</code></pre>
+<p><img src="figure/single_tissue_ss200.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>##cor matrix
+cor &lt;- cor[rev(tissue_select),rev(tissue_select)]
+DT::datatable(cor,caption = htmltools::tags$caption( style = &#39;caption-side: topleft; text-align = left; color:black;  font-size:150% ;&#39;,&#39;tissue-tissue correlation matrix &#39;),options = list(pageLength = 10) )</code></pre>
+<div id="htmlwidget-fcaf31d414075ad41601" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-fcaf31d414075ad41601">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: topleft; text-align = left; color:black;  font-size:150% ;\">tissue-tissue correlation matrix <\/caption>","data":[["Heart_Left_Ventricle","Liver","Skin_Sun_Exposed_Lower_leg","Stomach","Esophagus_Muscularis","Esophagus_Gastroesophageal_Junction","Artery_Tibial","Esophagus_Mucosa","Thyroid"],[1,0.650205264428882,0.584648416532474,0.704706142288997,0.714806629834254,0.705676855895196,0.663650239860445,0.596540846296095,0.610165841051045],[null,1,0.611813376235348,0.759715639810427,0.614310051107325,0.622533632286996,0.59404600811908,0.64335081029552,0.625348189415042],[null,null,1,0.700226610553577,0.633364948888186,0.640818467995803,0.632536492489951,0.735241899689303,0.606540194948119],[null,null,null,1,0.770842523158359,0.779690755565303,0.70986920332937,0.717988139688118,0.710805543525336],[null,null,null,null,1,0.999529854254819,0.826115848931222,0.640756079430817,0.679797233076354],[null,null,null,null,null,1,0.828191898122736,0.644800674963088,0.692129872859094],[null,null,null,null,null,null,1,0.597399852024099,0.644605525790524],[null,null,null,null,null,null,null,1,0.603067160232681],[null,null,null,null,null,null,null,null,1]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Heart_Left_Ventricle<\/th>\n      <th>Liver<\/th>\n      <th>Skin_Sun_Exposed_Lower_leg<\/th>\n      <th>Stomach<\/th>\n      <th>Esophagus_Muscularis<\/th>\n      <th>Esophagus_Gastroesophageal_Junction<\/th>\n      <th>Artery_Tibial<\/th>\n      <th>Esophagus_Mucosa<\/th>\n      <th>Thyroid<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6,7,8,9]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>tissue_select_f1 &lt;- sum_cat$weights[1:num_top]
+filtered_tissues &lt;- filter_tissues(tissue_select_f1, cor)
+
+tissue_select_f1_cor &lt;- sum_cat$group_pve_gene[sum_cat$weights %in% tissue_select_f1 ]
+filtered_tissues_cor &lt;- sum_cat$group_pve_gene[sum_cat$weights %in% filtered_tissues ]
+comb &lt;- combine_vectors(tissue_select_f1, tissue_select_f1_cor, filtered_tissues, filtered_tissues_cor, pad_with_na = TRUE)
+colnames(comb) &lt;- c(&quot;without_filtering&quot;,&quot;PVE_gene&quot;,&quot;filtered&quot;,&quot;PVE_gene&quot;)
+
+
+DT::datatable(comb,caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;Comparing the top tissue lists (with/without filtering by tissue correlation) &#39;),options = list(pageLength = 10) )</code></pre>
+<div id="htmlwidget-6b2865071728871160b6" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6b2865071728871160b6">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Comparing the top tissue lists (with/without filtering by tissue correlation) <\/caption>","data":[["Heart_Left_Ventricle","Liver","Skin_Sun_Exposed_Lower_leg","Stomach","Cells_Cultured_fibroblasts","Esophagus_Muscularis","Esophagus_Gastroesophageal_Junction","Artery_Tibial","Esophagus_Mucosa","Thyroid"],["0.0397116439725576","0.0288297687019684","0.0234439107690022","0.0149567393446728","0.0148105314755684","0.0145671668904496","0.0138655238090045","0.0131264474184359","0.0117412316200817","0.011728870719495"],["Heart_Left_Ventricle","Liver","Skin_Sun_Exposed_Lower_leg","Stomach","Cells_Cultured_fibroblasts","Esophagus_Muscularis","Esophagus_Mucosa","Thyroid",null,null],["0.0397116439725576","0.0288297687019684","0.0234439107690022","0.0149567393446728","0.0148105314755684","0.0145671668904496","0.0117412316200817","0.011728870719495",null,null]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>without_filtering<\/th>\n      <th>PVE_gene<\/th>\n      <th>filtered<\/th>\n      <th>PVE_gene<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="filtering-based-on-max-gene-pips-2" class="section level2">
+<h2>Filtering based on max gene PIPs</h2>
+<pre class="r"><code>sum_cat &lt;- sum_cat[order(as.numeric(sum_cat$max_gene_pip),decreasing = T),]
+
+tissue_select &lt;- sum_cat$weights[num_top:1]
+tissue_select &lt;- tissue_select[tissue_select%in%rownames(lat)]
+
+##heatmap
+cor &lt;- lat[tissue_select,tissue_select]
+cor &lt;- fill_upper_triangle(cor)
+print(levelplot(cor,col.regions = clrs,xlab = &quot;&quot;,ylab = &quot;&quot;,
+                colorkey = TRUE,main = &quot;heatmap showing the tissue-tissue correlation&quot;))</code></pre>
+<p><img src="figure/single_tissue_ss200.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>##cor matrix
+cor &lt;- cor[rev(tissue_select),rev(tissue_select)]
+DT::datatable(cor,caption = htmltools::tags$caption( style = &#39;caption-side: topleft; text-align = left; color:black;  font-size:150% ;&#39;,&#39;tissue-tissue correlation matrix &#39;),options = list(pageLength = 10) )</code></pre>
+<div id="htmlwidget-570f14ef0ca57d5ca9e5" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-570f14ef0ca57d5ca9e5">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: topleft; text-align = left; color:black;  font-size:150% ;\">tissue-tissue correlation matrix <\/caption>","data":[["Heart_Left_Ventricle","Liver","Skin_Sun_Exposed_Lower_leg","Esophagus_Muscularis","Lung","Stomach","Artery_Tibial","Esophagus_Gastroesophageal_Junction","Artery_Coronary"],[1,0.650205264428882,0.584648416532474,0.714806629834254,0.67005295579812,0.704706142288997,0.663650239860445,0.705676855895196,0.700317796610169],[null,1,0.611813376235348,0.614310051107325,0.705531328896029,0.759715639810427,0.59404600811908,0.622533632286996,0.63493610569634],[null,null,1,0.633364948888186,0.68538371722747,0.700226610553577,0.632536492489951,0.640818467995803,0.645745447062455],[null,null,null,1,0.73525627278576,0.770842523158359,0.826115848931222,0.999529854254819,0.850722138391895],[null,null,null,null,1,0.813646851994286,0.709436379163108,0.742014742014742,0.780621958959171],[null,null,null,null,null,1,0.70986920332937,0.779690755565303,0.771118903410902],[null,null,null,null,null,null,1,0.828191898122736,0.941351888667992],[null,null,null,null,null,null,null,1,0.863147710169856],[null,null,null,null,null,null,null,null,1]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Heart_Left_Ventricle<\/th>\n      <th>Liver<\/th>\n      <th>Skin_Sun_Exposed_Lower_leg<\/th>\n      <th>Esophagus_Muscularis<\/th>\n      <th>Lung<\/th>\n      <th>Stomach<\/th>\n      <th>Artery_Tibial<\/th>\n      <th>Esophagus_Gastroesophageal_Junction<\/th>\n      <th>Artery_Coronary<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6,7,8,9]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>tissue_select_f1 &lt;- sum_cat$weights[1:num_top]
+filtered_tissues &lt;- filter_tissues(tissue_select_f1, cor)
+
+tissue_select_f1_cor &lt;- sum_cat$max_gene_pip[sum_cat$weights %in% tissue_select_f1 ]
+filtered_tissues_cor &lt;- sum_cat$max_gene_pip[sum_cat$weights %in% filtered_tissues ]
+comb &lt;- combine_vectors(tissue_select_f1, tissue_select_f1_cor, filtered_tissues, filtered_tissues_cor, pad_with_na = TRUE)
+colnames(comb) &lt;- c(&quot;without_filtering&quot;,&quot;max gene pip&quot;,&quot;filtered&quot;,&quot;max gene pip&quot;)
+
+
+DT::datatable(comb,caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;Comparing the top tissue lists (with/without filtering by tissue correlation) &#39;),options = list(pageLength = 10) )</code></pre>
+<div id="htmlwidget-6da8b9c7ae1773f11952" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6da8b9c7ae1773f11952">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Comparing the top tissue lists (with/without filtering by tissue correlation) <\/caption>","data":[["Heart_Left_Ventricle","Liver","Skin_Sun_Exposed_Lower_leg","Esophagus_Muscularis","Lung","Stomach","Cells_Cultured_fibroblasts","Artery_Tibial","Esophagus_Gastroesophageal_Junction","Artery_Coronary"],["0.34849636859618","0.315276789475759","0.159953661789987","0.148280700692215","0.141702858470537","0.133427389206231","0.132509689011106","0.124805068751988","0.120755596725707","0.111230869797423"],["Heart_Left_Ventricle","Liver","Skin_Sun_Exposed_Lower_leg","Esophagus_Muscularis","Lung","Cells_Cultured_fibroblasts",null,null,null,null],["0.34849636859618","0.315276789475759","0.159953661789987","0.148280700692215","0.141702858470537","0.132509689011106",null,null,null,null]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>without_filtering<\/th>\n      <th>max gene pip<\/th>\n      <th>filtered<\/th>\n      <th>max gene pip<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div id="pulse" class="section level1">
+<h1>Pulse</h1>
+<pre class="r"><code>sum_cat &lt;- sum_all[sum_all$traits ==&quot;Pulse&quot;,]
+
+DT::datatable(sum_cat,caption = htmltools::tags$caption( style = &#39;caption-side: topleft; text-align = left; color:black;  font-size:150% ;&#39;,&#39;summary for ctwas parameters and max gene pip (all tissues analysised)&#39;),options = list(pageLength = 5) )</code></pre>
+<div id="htmlwidget-ed056227b4076a11e20e" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ed056227b4076a11e20e">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: topleft; text-align = left; color:black;  font-size:150% ;\">summary for ctwas parameters and max gene pip (all tissues analysised)<\/caption>","data":[["88","89","90","91","92","93","94","95","96","97","98","99","100","101","102","103","104","105","106","107","108","109","110","111","112","113","114","115","116"],["Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse","Pulse"],["Adipose_Subcutaneous","Adipose_Visceral_Omentum","Adrenal_Gland","Artery_Aorta","Artery_Coronary","Artery_Tibial","Breast_Mammary_Tissue","Cells_Cultured_fibroblasts","Colon_Sigmoid","Colon_Transverse","Esophagus_Gastroesophageal_Junction","Esophagus_Mucosa","Esophagus_Muscularis","Heart_Atrial_Appendage","Heart_Left_Ventricle","Liver","Lung","Muscle_Skeletal","Nerve_Tibial","Pancreas","Pituitary","Prostate","Skin_Not_Sun_Exposed_Suprapubic","Skin_Sun_Exposed_Lower_leg","Spleen","Stomach","Testis","Thyroid","Whole_Blood"],["0.65779520368862","0.624720214002981","0.684532215695293","0.673636583256001","0.672456945834265","0.574130957394846","0.686838211722416","0.63388834718572","0.635891675098385","0.664570405547708","0.637385300500052","0.601283929647632","0.606701048257822","0.65128521070304","0.637983785139148","0.690107772131275","0.695084538068825","0.670535855328906","0.657781644561365","0.660234434849892","0.663229842496414","0.652197116857963","0.641866205091687","0.646465569615722","0.681309004685996","0.646193923490976","0.625183306964791","0.663616009734309","0.640857638967556"],["0.0183455364714321","0.0370185414179775","0.00866706459939135","0.00633139790491099","0.0126698984004069","0.0103738659264598","0.0059717296958231","0.0149956471443213","0.0158530772864085","0.0191775873404216","0.0403925001037562","0.087654442916342","0.040266935680235","0.0494537009488911","0.0183619467374038","0.00796278948063893","0.00557387055714981","0.00985942362791122","0.0162203808879124","0.00890099046710619","0.0185835001182708","0.00939009679455576","0.0350556513564918","0.0376561132786878","0.0055949296359351","0.0212821139193155","0.00877983995094052","0.00773669756534019","0.0121282223160942"],["0.676140740160052","0.661738755420959","0.693199280294684","0.679967981160912","0.685126844234672","0.584504823321306","0.692809941418239","0.648883994330041","0.651744752384794","0.683747992888129","0.677777800603809","0.688938372563974","0.646967983938057","0.700738911651931","0.656345731876552","0.698070561611913","0.700658408625975","0.680395278956817","0.674002025449277","0.669135425316998","0.681813342614685","0.661587213652519","0.676921856448179","0.68412168289441","0.686903934321931","0.667476037410292","0.633963146915731","0.671352707299649","0.65298586128365"],["0.972867281348718","0.94405867706142","0.987497008658597","0.990688682290449","0.981507222338427","0.982251872845954","0.99138042147086","0.976890095494181","0.975675941803289","0.97195225793729","0.94040451005068","0.872768818798517","0.937760543520048","0.929426352487964","0.972023971748997","0.988593145279967","0.992044810297673","0.985509270959334","0.975934225305777","0.986697774276576","0.972744006377163","0.985806713611174","0.948213148943913","0.944956994902762","0.99185485865435","0.968115538646321","0.986150866980746","0.98847595685365","0.981426516200133"],["0.0271327186512818","0.0559413229385795","0.0125029913414032","0.00931131770955063","0.018492777661573","0.0177481271540462","0.00861957852913958","0.0231099045058185","0.0243240581967106","0.0280477420627096","0.0595954899493195","0.127231181201483","0.062239456479952","0.0705736475120359","0.0279760282510033","0.011406854720033","0.00795518970232648","0.0144907290406654","0.0240657746942232","0.0133022257234242","0.0272559936228367","0.0141932863888262","0.0517868510560871","0.0550430050972376","0.00814514134564984","0.0318844613536793","0.0138491330192535","0.0115240431463502","0.0185734837998672"],["0.178357642058609","0.31555020129052","0.120758763567261","0.0543512202569686","0.120869471670244","0.137700999463644","0.052713561560202","0.106523328194004","0.230501216088257","0.297544028400936","0.304822743671008","0.432277217618115","0.315929040405389","0.411485029765551","0.281906799718888","0.0917652913452148","0.0408765503102856","0.140255829651227","0.129958225481565","0.109830361245453","0.21294731249462","0.143747799715828","0.323021551163274","0.316166536667782","0.0625574879744493","0.217799930479443","0.0989472386716003","0.0847963416051021","0.170887724906113"],["13113","13065","12212","12922","12418","13033","12943","12637","12821","12968","12796","13158","13116","12640","12042","11502","13345","12267","13586","12455","12847","12713","13343","13539","12457","12663","14324","13499","11685"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>traits<\/th>\n      <th>weights<\/th>\n      <th>group_pve_SNP<\/th>\n      <th>group_pve_gene<\/th>\n      <th>total_pve<\/th>\n      <th>attributable_pve_SNP<\/th>\n      <th>attributable_pve_gene<\/th>\n      <th>max_gene_pip<\/th>\n      <th>num_gene_all<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"columnDefs":[{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div id="filtering-based-on-pve-explained-by-genes-3"
+class="section level2">
+<h2>Filtering based on PVE explained by genes</h2>
+<pre class="r"><code>sum_cat &lt;- sum_cat[order(as.numeric(sum_cat$group_pve_gene),decreasing = T),]
+
+tissue_select &lt;- sum_cat$weights[num_top:1]
+tissue_select &lt;- tissue_select[tissue_select%in%rownames(lat)]
+
+##heatmap
+cor &lt;- lat[tissue_select,tissue_select]
+cor &lt;- fill_upper_triangle(cor)
+print(levelplot(cor,col.regions = clrs,xlab = &quot;&quot;,ylab = &quot;&quot;,
+                colorkey = TRUE,main = &quot;heatmap showing the tissue-tissue correlation&quot;))</code></pre>
+<p><img src="figure/single_tissue_ss200.Rmd/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>##cor matrix
+cor &lt;- cor[rev(tissue_select),rev(tissue_select)]
+DT::datatable(cor,caption = htmltools::tags$caption( style = &#39;caption-side: topleft; text-align = left; color:black;  font-size:150% ;&#39;,&#39;tissue-tissue correlation matrix &#39;),options = list(pageLength = 10) )</code></pre>
+<div id="htmlwidget-4fb4b3633e3de706f2a4" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-4fb4b3633e3de706f2a4">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: topleft; text-align = left; color:black;  font-size:150% ;\">tissue-tissue correlation matrix <\/caption>","data":[["Esophagus_Mucosa","Heart_Atrial_Appendage","Esophagus_Gastroesophageal_Junction","Esophagus_Muscularis","Skin_Sun_Exposed_Lower_leg","Adipose_Visceral_Omentum","Skin_Not_Sun_Exposed_Suprapubic","Stomach","Colon_Transverse","Pituitary"],[1,0.618144596487447,0.644800674963088,0.640756079430817,0.735241899689303,0.668669618384988,0.753666666666667,0.717988139688118,0.721241903060085,0.61114237478897],[null,1,0.777411919657557,0.777506925207756,0.614679876424843,0.772781579233192,0.618038547545522,0.73112582781457,0.698006644518272,0.694223452092702],[null,null,1,0.999529854254819,0.640818467995803,0.803913136959794,0.648325107634149,0.779690755565303,0.747551447122263,0.718395912019551],[null,null,null,1,0.633364948888186,0.795488884092381,0.638625342610162,0.770842523158359,0.740518962075848,0.701444083734468],[null,null,null,null,1,0.680821917808219,0.998675018067935,0.700226610553577,0.682929491377429,0.618159618159618],[null,null,null,null,null,1,0.693442968585284,0.805268313921846,0.768364669873196,0.684666886181539],[null,null,null,null,null,null,1,0.717177183677887,0.7014876394662,0.634950593982458],[null,null,null,null,null,null,null,1,0.916842105263158,0.733103448275862],[null,null,null,null,null,null,null,null,1,0.684125144843569],[null,null,null,null,null,null,null,null,null,1]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Esophagus_Mucosa<\/th>\n      <th>Heart_Atrial_Appendage<\/th>\n      <th>Esophagus_Gastroesophageal_Junction<\/th>\n      <th>Esophagus_Muscularis<\/th>\n      <th>Skin_Sun_Exposed_Lower_leg<\/th>\n      <th>Adipose_Visceral_Omentum<\/th>\n      <th>Skin_Not_Sun_Exposed_Suprapubic<\/th>\n      <th>Stomach<\/th>\n      <th>Colon_Transverse<\/th>\n      <th>Pituitary<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6,7,8,9,10]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>tissue_select_f1 &lt;- sum_cat$weights[1:num_top]
+filtered_tissues &lt;- filter_tissues(tissue_select_f1, cor)
+
+tissue_select_f1_cor &lt;- sum_cat$group_pve_gene[sum_cat$weights %in% tissue_select_f1 ]
+filtered_tissues_cor &lt;- sum_cat$group_pve_gene[sum_cat$weights %in% filtered_tissues ]
+comb &lt;- combine_vectors(tissue_select_f1, tissue_select_f1_cor, filtered_tissues, filtered_tissues_cor, pad_with_na = TRUE)
+colnames(comb) &lt;- c(&quot;without_filtering&quot;,&quot;PVE_gene&quot;,&quot;filtered&quot;,&quot;PVE_gene&quot;)
+
+
+DT::datatable(comb,caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;Comparing the top tissue lists (with/without filtering by tissue correlation) &#39;),options = list(pageLength = 10) )</code></pre>
+<div id="htmlwidget-3d80c645cfc1347be5c1" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3d80c645cfc1347be5c1">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Comparing the top tissue lists (with/without filtering by tissue correlation) <\/caption>","data":[["Esophagus_Mucosa","Heart_Atrial_Appendage","Esophagus_Gastroesophageal_Junction","Esophagus_Muscularis","Skin_Sun_Exposed_Lower_leg","Adipose_Visceral_Omentum","Skin_Not_Sun_Exposed_Suprapubic","Stomach","Colon_Transverse","Pituitary"],["0.087654442916342","0.0494537009488911","0.0403925001037562","0.040266935680235","0.0376561132786878","0.0370185414179775","0.0350556513564918","0.0212821139193155","0.0191775873404216","0.0185835001182708"],["Esophagus_Mucosa","Heart_Atrial_Appendage","Esophagus_Gastroesophageal_Junction","Skin_Sun_Exposed_Lower_leg","Stomach","Pituitary",null,null,null,null],["0.087654442916342","0.0494537009488911","0.0403925001037562","0.0376561132786878","0.0212821139193155","0.0185835001182708",null,null,null,null]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>without_filtering<\/th>\n      <th>PVE_gene<\/th>\n      <th>filtered<\/th>\n      <th>PVE_gene<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="filtering-based-on-max-gene-pips-3" class="section level2">
+<h2>Filtering based on max gene PIPs</h2>
+<pre class="r"><code>sum_cat &lt;- sum_cat[order(as.numeric(sum_cat$max_gene_pip),decreasing = T),]
+
+tissue_select &lt;- sum_cat$weights[num_top:1]
+tissue_select &lt;- tissue_select[tissue_select%in%rownames(lat)]
+
+##heatmap
+cor &lt;- lat[tissue_select,tissue_select]
+cor &lt;- fill_upper_triangle(cor)
+print(levelplot(cor,col.regions = clrs,xlab = &quot;&quot;,ylab = &quot;&quot;,
+                colorkey = TRUE,main = &quot;heatmap showing the tissue-tissue correlation&quot;))</code></pre>
+<p><img src="figure/single_tissue_ss200.Rmd/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>##cor matrix
+cor &lt;- cor[rev(tissue_select),rev(tissue_select)]
+DT::datatable(cor,caption = htmltools::tags$caption( style = &#39;caption-side: topleft; text-align = left; color:black;  font-size:150% ;&#39;,&#39;tissue-tissue correlation matrix &#39;),options = list(pageLength = 10) )</code></pre>
+<div id="htmlwidget-31a890b4c0944008ca4f" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-31a890b4c0944008ca4f">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: topleft; text-align = left; color:black;  font-size:150% ;\">tissue-tissue correlation matrix <\/caption>","data":[["Esophagus_Mucosa","Heart_Atrial_Appendage","Skin_Not_Sun_Exposed_Suprapubic","Skin_Sun_Exposed_Lower_leg","Esophagus_Muscularis","Adipose_Visceral_Omentum","Esophagus_Gastroesophageal_Junction","Colon_Transverse","Heart_Left_Ventricle","Colon_Sigmoid"],[1,0.618144596487447,0.753666666666667,0.735241899689303,0.640756079430817,0.668669618384988,0.644800674963088,0.721241903060085,0.596540846296095,0.648383310212357],[null,1,0.618038547545522,0.614679876424843,0.777506925207756,0.772781579233192,0.777411919657557,0.698006644518272,0.966604823747681,0.784805890227577],[null,null,1,0.998675018067935,0.638625342610162,0.693442968585284,0.648325107634149,0.7014876394662,0.594638069705094,0.657891943530411],[null,null,null,1,0.633364948888186,0.680821917808219,0.640818467995803,0.682929491377429,0.584648416532474,0.64891811624947],[null,null,null,null,1,0.795488884092381,0.999529854254819,0.740518962075848,0.714806629834254,0.978006551240056],[null,null,null,null,null,1,0.803913136959794,0.768364669873196,0.716972972972973,0.810108695652174],[null,null,null,null,null,null,1,0.747551447122263,0.705676855895196,0.986524163568773],[null,null,null,null,null,null,null,1,0.673492098820387,0.781122679945677],[null,null,null,null,null,null,null,null,1,0.713682807641048],[null,null,null,null,null,null,null,null,null,1]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Esophagus_Mucosa<\/th>\n      <th>Heart_Atrial_Appendage<\/th>\n      <th>Skin_Not_Sun_Exposed_Suprapubic<\/th>\n      <th>Skin_Sun_Exposed_Lower_leg<\/th>\n      <th>Esophagus_Muscularis<\/th>\n      <th>Adipose_Visceral_Omentum<\/th>\n      <th>Esophagus_Gastroesophageal_Junction<\/th>\n      <th>Colon_Transverse<\/th>\n      <th>Heart_Left_Ventricle<\/th>\n      <th>Colon_Sigmoid<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6,7,8,9,10]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>tissue_select_f1 &lt;- sum_cat$weights[1:num_top]
+filtered_tissues &lt;- filter_tissues(tissue_select_f1, cor)
+
+tissue_select_f1_cor &lt;- sum_cat$max_gene_pip[sum_cat$weights %in% tissue_select_f1 ]
+filtered_tissues_cor &lt;- sum_cat$max_gene_pip[sum_cat$weights %in% filtered_tissues ]
+comb &lt;- combine_vectors(tissue_select_f1, tissue_select_f1_cor, filtered_tissues, filtered_tissues_cor, pad_with_na = TRUE)
+colnames(comb) &lt;- c(&quot;without_filtering&quot;,&quot;max gene pip&quot;,&quot;filtered&quot;,&quot;max gene pip&quot;)
+
+
+DT::datatable(comb,caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;Comparing the top tissue lists (with/without filtering by tissue correlation) &#39;),options = list(pageLength = 10) )</code></pre>
+<div id="htmlwidget-139b8c316fe85bc06733" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-139b8c316fe85bc06733">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Comparing the top tissue lists (with/without filtering by tissue correlation) <\/caption>","data":[["Esophagus_Mucosa","Heart_Atrial_Appendage","Skin_Not_Sun_Exposed_Suprapubic","Skin_Sun_Exposed_Lower_leg","Esophagus_Muscularis","Adipose_Visceral_Omentum","Esophagus_Gastroesophageal_Junction","Colon_Transverse","Heart_Left_Ventricle","Colon_Sigmoid"],["0.432277217618115","0.411485029765551","0.323021551163274","0.316166536667782","0.315929040405389","0.31555020129052","0.304822743671008","0.297544028400936","0.281906799718888","0.230501216088257"],["Esophagus_Mucosa","Heart_Atrial_Appendage","Skin_Not_Sun_Exposed_Suprapubic","Esophagus_Muscularis","Adipose_Visceral_Omentum","Colon_Transverse",null,null,null,null],["0.432277217618115","0.411485029765551","0.323021551163274","0.315929040405389","0.31555020129052","0.297544028400936",null,null,null,null]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>without_filtering<\/th>\n      <th>max gene pip<\/th>\n      <th>filtered<\/th>\n      <th>max gene pip<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.2.0 (2022-04-22)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: CentOS Linux 7 (Core)
+
+Matrix products: default
+BLAS/LAPACK: /software/openblas-0.3.13-el7-x86_64/lib/libopenblas_haswellp-r0.3.13.so
+
+locale:
+[1] C
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] lattice_0.20-45
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_1.0.8.3      highr_0.9         pillar_1.9.0      compiler_4.2.0   
+ [5] bslib_0.3.1       later_1.3.0       jquerylib_0.1.4   git2r_0.30.1     
+ [9] workflowr_1.7.0   tools_4.2.0       digest_0.6.29     jsonlite_1.8.0   
+[13] evaluate_0.15     lifecycle_1.0.4   tibble_3.2.1      pkgconfig_2.0.3  
+[17] rlang_1.1.2       cli_3.6.1         rstudioapi_0.13   crosstalk_1.2.0  
+[21] yaml_2.3.5        xfun_0.30         fastmap_1.1.0     stringr_1.5.1    
+[25] knitr_1.39        fs_1.5.2          vctrs_0.6.5       sass_0.4.1       
+[29] htmlwidgets_1.5.4 grid_4.2.0        rprojroot_2.0.3   DT_0.22          
+[33] glue_1.6.2        R6_2.5.1          fansi_1.0.3       rmarkdown_2.14   
+[37] magrittr_2.0.3    promises_1.2.0.1  htmltools_0.5.2   httpuv_1.6.5     
+[41] utf8_1.2.2        stringi_1.7.6    </code></pre>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

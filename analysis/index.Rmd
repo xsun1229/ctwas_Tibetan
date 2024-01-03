@@ -8,6 +8,13 @@ editor_options:
   chunk_output_type: console
 ---
 
+[Single tissue analysis -- using all tissues with sample size > 200, brain tissue excluded](https://xsun1229.github.io/ctwas_tibetan/single_tissue_ss200.html)
+
+[Multi tissue analysis -- using uncorrelated tissues reported by single tissue analysis](https://xsun1229.github.io/ctwas_tibetan/multi_tissue_ss200.html)
+
+
+
+# Earlier analyses
 
 [Single tissue analysis](https://xsun1229.github.io/ctwas_tibetan/single_tissue.html)
 
