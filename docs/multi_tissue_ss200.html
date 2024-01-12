@@ -35,6 +35,7 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
@@ -244,6 +245,9 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
 
 
@@ -368,6 +372,14 @@ div.tocify {
 
 <div id="header">
 
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
 
 
 <h1 class="title toc-ignore">Multi tissue analysis – using uncorrelated
@@ -402,7 +414,7 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2024-01-03
+<strong>Last updated:</strong> 2024-01-12
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -440,10 +452,10 @@ changes </a>
 <div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R
-Markdown file created these results, you’ll want to first commit it to
-the Git repo. If you’re still working on the analysis, you can ignore
-this warning. When you’re finished, you can run
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
 <code>wflow_publish</code> to commit the R Markdown file and build the
 HTML.</p>
 </div>
@@ -536,15 +548,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229ctwastibetantree760a5305b9bbf928867e4e9c5801af4cf0f86a0btargetblank760a530a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229ctwastibetantreef42b034459874d2920e37bda4955ab534a1e233btargetblankf42b034a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/xsun1229/ctwas_tibetan/tree/760a5305b9bbf928867e4e9c5801af4cf0f86a0b" target="_blank">760a530</a>
+<a href="https://github.com/xsun1229/ctwas_tibetan/tree/f42b034459874d2920e37bda4955ab534a1e233b" target="_blank">f42b034</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229ctwastibetantree760a5305b9bbf928867e4e9c5801af4cf0f86a0btargetblank760a530a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229ctwastibetantreef42b034459874d2920e37bda4955ab534a1e233btargetblankf42b034a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -554,7 +566,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/xsun1229/ctwas_tibetan/tree/760a5305b9bbf928867e4e9c5801af4cf0f86a0b" target="_blank">760a530</a>.
+<a href="https://github.com/xsun1229/ctwas_tibetan/tree/f42b034459874d2920e37bda4955ab534a1e233b" target="_blank">f42b034</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -571,12 +583,8 @@ were generated:
 Ignored files:
     Ignored:    analysis/figure/
 
-Untracked files:
-    Untracked:  analysis/multi_tissue_ss200.Rmd
-    Untracked:  analysis/single_tissue_ss200.Rmd
-
 Unstaged changes:
-    Modified:   analysis/index.Rmd
+    Modified:   analysis/multi_tissue_ss200.Rmd
 
 </code></pre>
 <p>
@@ -591,10 +599,74 @@ have uncommitted changes.
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
+
 <p>
-There are no past versions. Publish this analysis with
-<code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were
+made to the R Markdown (<code>analysis/multi_tissue_ss200.Rmd</code>)
+and HTML (<code>docs/multi_tissue_ss200.html</code>) files. If you’ve
+configured a remote Git repository (see <code>?wflow_git_remote</code>),
+click on the hyperlinks in the table below to view the files as they
+were in that past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/xsun1229/ctwas_tibetan/blob/f42b034459874d2920e37bda4955ab534a1e233b/analysis/multi_tissue_ss200.Rmd" target="_blank">f42b034</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2024-01-03
+</td>
+<td>
+update
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/xsun1229/ctwas_tibetan/f42b034459874d2920e37bda4955ab534a1e233b/docs/multi_tissue_ss200.html" target="_blank">f42b034</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2024-01-03
+</td>
+<td>
+update
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
@@ -625,6 +697,8 @@ suppressMessages(library(dplyr))
 suppressMessages(library(tidyr))
 
 thin &lt;- 0.1
+
+load(&quot;/project2/xinhe/shared_data/multigroup_ctwas/weights/gene_mapping_pred_nolnc.rdata&quot;)
 
 process_data &lt;- function(weight, outputdir, outname, z_snp, z_gene, display_datatable = TRUE) {
   # Splitting and constructing weight file paths
@@ -705,10 +779,10 @@ process_gene_data &lt;- function(ctwas_res, weight = NULL) {
   df_to_display &lt;- head(df_gene, n_rows)
   
   # Return a datatable
- # return(DT::datatable(df_to_display,caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;Genes with combined pip &gt; 0.8, 0 means pip=0; NA means no such gene in this tissue&#39;),options = list(pageLength = 10) ))
+ # return(DT::datatable(df_to_display,caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;Genes with combined pip &gt; 0.8, 0 means pip=0; NA means no pip reported by ctwas or no such gene in this tissue&#39;),options = list(pageLength = 10) ))
     datatable_display &lt;- DT::datatable(df_to_display, 
                                      caption = htmltools::tags$caption(style = &#39;caption-side: left; text-align: left; color:black; font-size:150%;&#39;, 
-                                     &#39;Genes with combined pip &gt; 0.8, 0 means pip=0; NA means no such gene in this tissue&#39;), 
+                                     &#39;Genes with combined pip &gt; 0.8, 0 means pip=0; NA means no pip reported by ctwas or no such gene in this tissue&#39;), 
                                      options = list(pageLength = 10))
   return(df_to_display)
 }
@@ -756,7 +830,7 @@ attributable_pip &lt;- function(df, combined_pip_col) {
       new_order &lt;- unlist(lapply(relevant_cols, function(col) {
         c(col, paste0(col, &quot;_Attributable_PIP (%)&quot;))
       }))
-      select(., all_of(c(&quot;genename&quot;, combined_pip_col, new_order)))
+      dplyr::select(., all_of(c(&quot;genename&quot;, combined_pip_col, new_order)))
     }
 
   df
@@ -768,7 +842,7 @@ plot_stacked_histogram &lt;- function(df, genename_col, combined_pip_col, attrib
   df[[genename_col]] &lt;- factor(df[[genename_col]], levels = df[[genename_col]])
   
   long_df_attributable &lt;- df %&gt;%
-    select(all_of(c(genename_col, combined_pip_col, attributable_cols))) %&gt;%
+    dplyr::select(all_of(c(genename_col, combined_pip_col, attributable_cols))) %&gt;%
     pivot_longer(
       cols = all_of(attributable_cols),
       names_to = &quot;Tissue&quot;,
@@ -792,6 +866,52 @@ plot_stacked_histogram &lt;- function(df, genename_col, combined_pip_col, attrib
     theme(axis.text.x = element_text(angle = 45, hjust = 1))
   
   return(p)
+}
+
+add_eqtl &lt;- function(df_gene) {
+  # Merge with gene_ensbl_symbl if needed
+  # df_gene &lt;- merge(df_gene, gene_ensbl_symbl, by=&quot;genename&quot;)
+  df_gene &lt;- merge(df_gene, gene_ensbl_symbl, by=&quot;genename&quot;)
+  df_gene_extended &lt;- df_gene
+  candi_col &lt;- seq(3, ncol(df_gene) - 1, by = 2)
+  
+  for (j in candi_col[1:5]) {
+    tissue &lt;- names(df_gene)[j]
+    weight &lt;- paste0(&quot;/project2/xinhe/shared_data/multigroup_ctwas/weights/predictdb_nolnc/mashr_&quot;, tissue, &quot;.db&quot;)
+    
+    sqlite &lt;- DBI::dbDriver(&quot;SQLite&quot;)
+    db &lt;- DBI::dbConnect(sqlite, weight)
+    query &lt;- function(...) DBI::dbGetQuery(db, ...)
+    weight_info &lt;- query(&quot;SELECT * FROM weights&quot;)
+    DBI::dbDisconnect(db)
+    
+    weight_info &lt;- weight_info[weight_info$gene %in% df_gene$gene,]
+    norsid &lt;- grep(pattern = &quot;rs&quot;,x=weight_info$rsid,invert = T)
+    weight_info$rsid[norsid] &lt;- &quot;norsid&quot;
+    
+    rearranged_df &lt;- weight_info %&gt;%
+      dplyr::group_by(gene) %&gt;%
+      dplyr::summarize(
+        combined_info = paste(rsid, varID, round(weight, digits = 4), sep = &quot;.&quot;, collapse = &quot;, &quot;)
+      )
+    
+    merged_df &lt;- dplyr::left_join(df_gene_extended, rearranged_df, by = &quot;gene&quot;)
+    new_col_name &lt;- paste0(&quot;eqtl_pos_weight_for_&quot;, tissue)
+    
+    # Rename the column
+    merged_df &lt;- merged_df %&gt;%
+      dplyr::rename(!!new_col_name := combined_info)
+    
+    # Move the new column next to its corresponding tissue column
+    tissue_position &lt;- which(names(merged_df) == tissue)
+    merged_df &lt;- merged_df %&gt;%
+      dplyr::select(names(merged_df)[1:tissue_position], new_col_name, everything())
+    
+    # Update df_gene_extended for the next iteration
+    df_gene_extended &lt;- merged_df
+  }
+  
+  return(df_gene_extended)
 }</code></pre>
 </div>
 </div>
@@ -812,6 +932,43 @@ ctwas_parameters &lt;- ctwas:::ctwas_summarize_parameters(outputdir = outputdir,
 
 ctwas_parameters$convergence_plot</code></pre>
 <p><img src="figure/multi_tissue_ss200.Rmd/unnamed-chunk-2-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-2-1">
+Past versions of unnamed-chunk-2-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/ctwas_tibetan/blob/f42b034459874d2920e37bda4955ab534a1e233b/docs/figure/multi_tissue_ss200.Rmd/unnamed-chunk-2-1.png" target="_blank">f42b034</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2024-01-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>ctwas_res &lt;- process_data(weight = weight,outputdir = outputdir,outname = outname,z_snp = z_snp,z_gene = z_gene)
 
 para &lt;- process_ctwas_results(ctwas_parameters = ctwas_parameters,ctwas_res = ctwas_res)
@@ -819,16 +976,52 @@ DT::datatable(para,caption = htmltools::tags$caption( style = &#39;caption-side:
 <div id="htmlwidget-13e8fe57641ddb9d279b" style="width:100%;height:auto;" class="datatables html-widget"></div>
 <script type="application/json" data-for="htmlwidget-13e8fe57641ddb9d279b">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Parameters<\/caption>","data":[["1","2","3","4","5","6"],["Cells_Cultured_fibroblasts_nolnc","Esophagus_Gastroesophageal_Junction_nolnc","Lung_nolnc","Muscle_Skeletal_nolnc","SNP","Skin_Not_Sun_Exposed_Suprapubic_nolnc"],[0.0754389742207744,0.0709046345101727,0.0801338222407388,0.0621652205328847,null,0.0755921475924076],["5124","4592","5011","4772","2694570","5117"],["0.00240679103033508","0.00225777305704194","0.00301837897198924","0.00200902962838371","0.000352444471766897","0.00349905132681794"],["0.470899272090706","0.470899272090706","0.470899272090706","0.470899272090706","0.678384033297197","0.470899272090706"],["6.82885170043725","6.40603907254703","8.56412630579027","5.70027277860797",null,"9.92795066206111"],["0.00601171519998375","0.00505397463807413","0.00737308196799894","0.00467345073875842","0.666927559789955","0.00872803788675085"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>type<\/th>\n      <th>max_susie_pip<\/th>\n      <th>group_size<\/th>\n      <th>group_prior<\/th>\n      <th>group_prior_var<\/th>\n      <th>enrichment<\/th>\n      <th>group_pve<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":2},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <pre class="r"><code>df_gene &lt;- process_gene_data(ctwas_res = ctwas_res)
-
 df_gene &lt;- attributable_pip(df_gene, &quot;combined_pip&quot;)
-
-DT::datatable(df_gene,caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;Genes with combined pip &gt; 0.8, 0 means pip=0; NA means no such gene in this tissue&#39;),options = list(pageLength = 10) )</code></pre>
+df_gene_full &lt;- add_eqtl(df_gene)
+DT::datatable(df_gene_full,caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;Genes with combined pip &gt; 0.8, 0 means pip=0; NA means no pip reported by ctwas or no such gene in this tissue&#39;),options = list(pageLength = 10) )</code></pre>
 <div id="htmlwidget-63cf57b1ee5daf1ce49e" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-63cf57b1ee5daf1ce49e">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Genes with combined pip &gt; 0.8, 0 means pip=0; NA means no such gene in this tissue<\/caption>","data":[["330","8996","990","944","8070","4164","9222","5784","3206","9080","7418","453","4728","6891","2370","2013","4402","3786","6105","8954"],["ALDH3B1","TRDN","C14orf2","BTRC","SORCS2","IPO8","UBE2D4","NSFL1C","FLOT2","TSC1","SCCPDH","ANXA5","LPIN1","RAB6A","DHRS13","CPSF1","KIAA1841","HELB","PCM1","TPH1"],[0.281409517864674,0.200691750182709,0.173839133690348,0.164903253996368,0.157704827449765,0.153231992684732,0.150802553457485,0.148431455099542,0.144627099546792,0.140226117974227,0.139528475444108,0.137107432327881,0.13539102747876,0.13257062340393,0.129432119707381,0.124456363375122,0.123407090261131,0.121332434486704,0.120728385752617,0.119166474370848],[0.0801338222407388,0.0458460293352635,0.0397208237548213,0.0421014809453177,0.0654878944068558,0.0458299200731599,0.0362304307957513,0.0344234324011725,0.0365597562879028,0.0348765348533404,0.0513427631987045,0.0294811744213122,0.0365220785981353,0.0146848007889961,0.0476481546314326,0.0267842458156835,0.0338323183660484,0.0334716024233065,0.0362329319201441,0.0318088677203793],[28.4758748917917,22.8440029515541,22.8491841345541,25.5310189004791,41.5256117811081,29.9088455812573,24.0250778021246,23.1914673194352,25.2786347803887,24.8716397181805,36.797336912974,21.5022438395683,26.9752577244197,11.0769644223916,36.8132382743596,21.5209934545118,27.4152143887832,27.5866898780263,30.0119410147573,26.6927992023911],[null,0.0529890487146389,0.0459280598917178,0.0516233218132603,0.0755921475924076,0.0529704867854033,0.0357117400480222,0.0417428738901565,0.0422817883926856,0.0395928913577027,0.0360799471084993,0.0385900603549164,0.0422383181111308,0.0441009955625926,0.0459138673344217,0.0334885824818291,0.0145056977048783,0.0387181372780143,0.0332026353344649,0.0367987776886629],[null,26.4032022573912,26.4198623846845,31.3052171877684,47.9326782919734,34.5688167707822,23.6811242444183,28.122660296069,29.2350386097633,28.2350334799825,25.8584830040318,28.145855917301,31.1972801282989,33.2660392100754,35.4733179354733,26.9078909054185,11.7543470753455,31.9107890992306,27.5019293329242,30.8801429957091],[0.0754389742207744,0.0366953008364443,0.0317763284231851,0.039549944352796,0.0166247854505017,0.0237361294399127,0.0246753815875331,0.0260425908545772,0.038336074588357,0.021699403367218,0.0103865892762642,0.0286953550375743,0.029209546591235,0.0378012818554161,null,0.0219801168999618,0.0270522670355789,0.0267626975356934,0.0191295257903773,0.0254300357364481],[26.8075418319902,18.2844092011939,18.2791571429404,23.9837258479249,10.5417099269186,15.490322238874,16.3627080721082,17.5451967624466,26.5068404942698,15.4745803996416,7.44406419062814,20.9291024931104,21.5742114785394,28.5140711304037,null,17.6609024270714,21.9211610761877,22.0573317010516,15.845093654756,21.3399245641097],[0.0709046345101727,0.0344550557550692,0.0298326491620544,0.0316285068849936,null,null,0.0286546754108631,0.024446076056829,0.027449480277847,0.0311299634918013,null,0.0160048439384706,0.0274210841782586,0.0185244112305489,0.0358700977415269,0.0228586284812055,0.025394503963815,null,0.0215266458690265,0.0161264708105403],[25.1962460432023,17.1681475315759,17.1610664001547,19.1800380638276,null,null,19.0014523984447,16.4696061494747,18.9794861155783,22.1998326285571,null,11.6732139656706,20.253250668742,13.9732398889812,27.7134437901671,18.3667816263501,20.5778322056535,null,17.8306416795272,13.5327246154438],[0.0549320868929886,0.0307063155412929,0.0265812724585697,null,null,0.0306954563862557,0.025530325615315,0.0217764818968071,null,0.0129273249041643,0.0417191758606397,0.0243359985756078,null,0.0174591339663759,null,0.0193447896964424,0.0226223031908107,0.0223799972496899,0.0106366468386043,0.00900232241481724],[19.5203372330159,15.3002380582849,15.2907299376662,null,null,20.0320154090865,16.9296374829042,14.6710694725745,null,9.21891377363831,29.900115892366,17.7495837843497,null,13.1696853481481,null,15.5434315866482,18.33144525403,18.4451893216915,8.81039431803529,7.55440862234615]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>genename<\/th>\n      <th>combined_pip<\/th>\n      <th>Lung_nolnc<\/th>\n      <th>Lung_nolnc_Attributable_PIP (%)<\/th>\n      <th>Skin_Not_Sun_Exposed_Suprapubic_nolnc<\/th>\n      <th>Skin_Not_Sun_Exposed_Suprapubic_nolnc_Attributable_PIP (%)<\/th>\n      <th>Cells_Cultured_fibroblasts_nolnc<\/th>\n      <th>Cells_Cultured_fibroblasts_nolnc_Attributable_PIP (%)<\/th>\n      <th>Esophagus_Gastroesophageal_Junction_nolnc<\/th>\n      <th>Esophagus_Gastroesophageal_Junction_nolnc_Attributable_PIP (%)<\/th>\n      <th>Muscle_Skeletal_nolnc<\/th>\n      <th>Muscle_Skeletal_nolnc_Attributable_PIP (%)<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[2,3,4,5,6,7,8,9,10,11,12]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-63cf57b1ee5daf1ce49e">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Genes with combined pip &gt; 0.8, 0 means pip=0; NA means no pip reported by ctwas or no such gene in this tissue<\/caption>","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20"],["ALDH3B1","ANXA5","BTRC","C14orf2","CPSF1","DHRS13","FLOT2","HELB","IPO8","KIAA1841","LPIN1","NSFL1C","PCM1","RAB6A","SCCPDH","SORCS2","TPH1","TRDN","TSC1","UBE2D4"],[0.281409517864674,0.137107432327881,0.164903253996368,0.173839133690348,0.124456363375122,0.129432119707381,0.144627099546792,0.121332434486704,0.153231992684732,0.123407090261131,0.13539102747876,0.148431455099542,0.120728385752617,0.13257062340393,0.139528475444108,0.157704827449765,0.119166474370848,0.200691750182709,0.140226117974227,0.150802553457485],[0.0801338222407388,0.0294811744213122,0.0421014809453177,0.0397208237548213,0.0267842458156835,0.0476481546314326,0.0365597562879028,0.0334716024233065,0.0458299200731599,0.0338323183660484,0.0365220785981353,0.0344234324011725,0.0362329319201441,0.0146848007889961,0.0513427631987045,0.0654878944068558,0.0318088677203793,0.0458460293352635,0.0348765348533404,0.0362304307957513],["norsid.chr11_68011366_C_A_b38.0.13, rs72926415.chr11_68011539_G_A_b38.-0.0863","rs72676899.chr4_121693265_T_C_b38.0.0645, rs62319820.chr4_121697217_G_A_b38.0.0912, rs9995019.chr4_121701445_A_C_b38.-0.2025","rs61873996.chr10_101354716_G_A_b38.-0.0248, rs11190957.chr10_101356322_C_T_b38.0.2109","rs113496080.chr14_103928437_T_C_b38.-0.5019, norsid.chr14_103928513_C_T_b38.-0.0187","rs113782267.chr8_144385464_G_A_b38.0.2544, norsid.chr8_144397883_C_T_b38.1.047, rs2291135.chr8_144399893_C_T_b38.1.0312","rs8066347.chr17_28917455_G_A_b38.-0.1185","rs12949907.chr17_28897781_T_C_b38.0.0612","rs3741605.chr12_66302475_T_C_b38.0.42","rs12809335.chr12_30695741_C_T_b38.-0.2474","rs111807871.chr2_61065721_A_G_b38.0.055, rs370607303.chr2_61065981_A_G_b38.-0.0468","rs74422146.chr2_11677579_G_A_b38.0.0257, rs112262372.chr2_11678835_G_A_b38.0.0927, rs3795974.chr2_11784824_T_C_b38.0.5088","rs4546067.chr20_1457585_C_T_b38.-0.2729, rs6135061.chr20_1482244_G_T_b38.-0.275","rs12718385.chr8_17923748_T_C_b38.-0.3207, rs10096484.chr8_17924341_A_T_b38.-0.1628, rs62498185.chr8_17976579_C_T_b38.-0.2662","rs6592533.chr11_73761089_A_C_b38.-0.1217, rs72976886.chr11_73762415_A_G_b38.0.0113","rs12735300.chr1_246723566_T_C_b38.-0.2659, rs10754532.chr1_246724751_A_G_b38.-0.0828","rs4234797.chr4_7218180_G_A_b38.-0.1942","rs7940947.chr11_17949250_C_T_b38.-0.268, rs6486406.chr11_18084324_C_T_b38.-0.2001","rs3813325.chr6_123637348_T_G_b38.0.0544","rs12551192.chr9_132944194_G_A_b38.-0.1077","rs2528382.chr7_43926148_A_G_b38.-0.1237, rs2595706.chr7_43926562_C_A_b38.-0.1594"],[28.4758748917917,21.5022438395683,25.5310189004791,22.8491841345541,21.5209934545118,36.8132382743596,25.2786347803887,27.5866898780263,29.9088455812573,27.4152143887832,26.9752577244197,23.1914673194352,30.0119410147573,11.0769644223916,36.797336912974,41.5256117811081,26.6927992023911,22.8440029515541,24.8716397181805,24.0250778021246],[null,0.0385900603549164,0.0516233218132603,0.0459280598917178,0.0334885824818291,0.0459138673344217,0.0422817883926856,0.0387181372780143,0.0529704867854033,0.0145056977048783,0.0422383181111308,0.0417428738901565,0.0332026353344649,0.0441009955625926,0.0360799471084993,0.0755921475924076,0.0367987776886629,0.0529890487146389,0.0395928913577027,0.0357117400480222],["rs12797408.chr11_67918575_A_G_b38.0.0293, rs3763941.chr11_68008892_C_T_b38.-0.0242","rs13145977.chr4_121695011_T_C_b38.-0.2179, rs9996136.chr4_121719273_G_A_b38.0.1355","rs10883617.chr10_101353278_T_C_b38.-0.04, rs11190957.chr10_101356322_C_T_b38.0.1708, rs143946272.chr10_101356893_G_A_b38.-0.1597","rs74086500.chr14_103900107_G_A_b38.-0.2117, rs8095.chr14_103912515_G_A_b38.0.1087, rs113496080.chr14_103928437_T_C_b38.-0.5441","rs113782267.chr8_144385464_G_A_b38.0.2817, rs2977835.chr8_144397708_C_T_b38.1.0071, rs2291135.chr8_144399893_C_T_b38.0.9951","rs12949907.chr17_28897781_T_C_b38.-0.1917, rs4795474.chr17_28901180_G_A_b38.-0.1199","rs12949907.chr17_28897781_T_C_b38.0.1026","rs56133667.chr12_66281382_G_T_b38.-0.4256, rs3741605.chr12_66302475_T_C_b38.0.6345","rs2118780.chr12_30662223_A_T_b38.-0.3927, rs73077893.chr12_30693773_C_T_b38.0.3444, rs12809335.chr12_30695741_C_T_b38.-0.3608","rs111807871.chr2_61065721_A_G_b38.-0.0644, rs112552455.chr2_61066064_C_T_b38.0.0207","rs3795974.chr2_11784824_T_C_b38.0.2549","rs4352285.chr20_1453723_G_A_b38.-0.1103, rs984498.chr20_1475496_C_T_b38.-0.1104","rs7814692.chr8_17922648_G_A_b38.-0.2983, norsid.chr8_17922876_G_T_b38.0.1224, rs62500083.chr8_17926746_A_G_b38.-0.2651","rs3211165.chr11_73760733_A_G_b38.-0.0953","rs114672290.chr1_246720005_T_A_b38.-0.1067, rs12735300.chr1_246723566_T_C_b38.-0.6058, rs12027222.chr1_246723822_A_G_b38.0.0733","rs4234797.chr4_7218180_G_A_b38.-0.2098, rs73204587.chr4_7222064_A_G_b38.0.2896","rs7940947.chr11_17949250_C_T_b38.-0.2731, rs6486406.chr11_18084324_C_T_b38.-0.2412","rs3813325.chr6_123637348_T_G_b38.0.0494","rs2231409.chr9_132887754_G_A_b38.-0.0261, rs73552867.chr9_132924617_A_G_b38.-0.1127","rs2528382.chr7_43926148_A_G_b38.-0.1857, rs2528380.chr7_43961772_G_A_b38.-0.2207"],[null,28.145855917301,31.3052171877684,26.4198623846845,26.9078909054185,35.4733179354733,29.2350386097633,31.9107890992306,34.5688167707822,11.7543470753455,31.1972801282989,28.122660296069,27.5019293329242,33.2660392100754,25.8584830040318,47.9326782919734,30.8801429957091,26.4032022573912,28.2350334799825,23.6811242444183],[0.0754389742207744,0.0286953550375743,0.039549944352796,0.0317763284231851,0.0219801168999618,null,0.038336074588357,0.0267626975356934,0.0237361294399127,0.0270522670355789,0.029209546591235,0.0260425908545772,0.0191295257903773,0.0378012818554161,0.0103865892762642,0.0166247854505017,0.0254300357364481,0.0366953008364443,0.021699403367218,0.0246753815875331],["rs117602660.chr11_68008813_C_T_b38.0.0164, rs3764821.chr11_68010856_A_G_b38.-0.0388","rs7655436.chr4_121699410_T_C_b38.-0.1713, rs10024899.chr4_121705035_T_C_b38.-0.1806","rs11190957.chr10_101356322_C_T_b38.0.1375, rs61873997.chr10_101358890_G_A_b38.-0.131","rs143830516.chr14_103078233_A_G_b38.-0.3782, rs8095.chr14_103912515_G_A_b38.-0.0966, rs113496080.chr14_103928437_T_C_b38.-0.4999","rs113782267.chr8_144385464_G_A_b38.0.1516, rs2291135.chr8_144399893_C_T_b38.0.596, rs13266019.chr8_144405593_T_G_b38.-0.6007",null,"rs8066584.chr17_28894025_C_T_b38.0.0887, rs12949907.chr17_28897781_T_C_b38.0.1813","rs7308068.chr12_66302926_C_T_b38.0.7119","rs2278558.chr12_30630809_C_T_b38.-0.3353, rs73077893.chr12_30693773_C_T_b38.0.2496","rs111807871.chr2_61065721_A_G_b38.0.1075, rs370607303.chr2_61065981_A_G_b38.-0.0379","rs74422146.chr2_11677579_G_A_b38.0.0601, rs10168372.chr2_11692037_C_T_b38.-0.0434, rs10169802.chr2_11753087_T_C_b38.0.0302, rs3795974.chr2_11784824_T_C_b38.0.2195","rs4546067.chr20_1457585_C_T_b38.-0.1054","rs74612948.chr8_17922448_G_A_b38.0.0408, rs2073570.chr8_17925118_C_G_b38.-0.2439, rs145472358.chr8_17941761_GGT_G_b38.-0.2112","rs72976884.chr11_73759991_C_T_b38.0.0971, rs1043234.chr11_73760716_C_A_b38.-0.1919, rs11235937.chr11_73875484_C_T_b38.-0.1748","rs114672290.chr1_246720005_T_A_b38.-0.1409, rs3924455.chr1_246722724_C_T_b38.0.2131, rs12027222.chr1_246723822_A_G_b38.0.1137, rs12754750.chr1_246724292_G_A_b38.-0.33","rs7697353.chr4_7195666_A_G_b38.0.3347, rs11722329.chr4_7215161_C_T_b38.-0.1006","rs7940947.chr11_17949250_C_T_b38.-0.3092, rs140972247.chr11_18018527_G_A_b38.-0.2821, rs6486406.chr11_18084324_C_T_b38.-0.2922","rs3813325.chr6_123637348_T_G_b38.0.0411","rs12551192.chr9_132944194_G_A_b38.-0.0226, rs11243939.chr9_132945400_C_T_b38.0.0352","rs2528382.chr7_43926148_A_G_b38.-0.1872"],[26.8075418319902,20.9291024931104,23.9837258479249,18.2791571429404,17.6609024270714,null,26.5068404942698,22.0573317010516,15.490322238874,21.9211610761877,21.5742114785394,17.5451967624466,15.845093654756,28.5140711304037,7.44406419062814,10.5417099269186,21.3399245641097,18.2844092011939,15.4745803996416,16.3627080721082],[0.0709046345101727,0.0160048439384706,0.0316285068849936,0.0298326491620544,0.0228586284812055,0.0358700977415269,0.027449480277847,null,null,0.025394503963815,0.0274210841782586,0.024446076056829,0.0215266458690265,0.0185244112305489,null,null,0.0161264708105403,0.0344550557550692,0.0311299634918013,0.0286546754108631],["rs117602660.chr11_68008813_C_T_b38.0.0694, rs3763941.chr11_68008892_C_T_b38.0.0253, rs3764821.chr11_68010856_A_G_b38.-0.1478","rs1050606.chr4_121696891_A_C_b38.-0.272, rs3113814.chr4_121705915_G_A_b38.-0.2889","rs11190957.chr10_101356322_C_T_b38.0.2562","rs146841335.chr14_103656732_C_T_b38.-0.2428, rs113496080.chr14_103928437_T_C_b38.-0.7756","rs113782267.chr8_144385464_G_A_b38.0.2076, rs7015683.chr8_144386519_G_T_b38.1.1502, rs13258200.chr8_144405804_A_C_b38.-1.0782","rs12947849.chr17_28898381_G_A_b38.-0.1303","rs12949907.chr17_28897781_T_C_b38.0.0447","rs141956990.chr12_66310496_A_C_b38.0.0759","rs2118780.chr12_30662223_A_T_b38.-0.2315","rs111807871.chr2_61065721_A_G_b38.0.0704, rs370607303.chr2_61065981_A_G_b38.-0.0548","rs3795974.chr2_11784824_T_C_b38.0.322","rs4546067.chr20_1457585_C_T_b38.-0.2817","rs7814692.chr8_17922648_G_A_b38.-0.2464, norsid.chr8_17922876_G_T_b38.0.1104","rs3211165.chr11_73760733_A_G_b38.-0.1458, rs6592533.chr11_73761089_A_C_b38.-0.1059","rs147940128.chr1_246664716_A_G_b38.-0.3135, rs74748459.chr1_246710390_G_A_b38.-0.4429","rs117507959.chr4_7192428_G_C_b38.0.0878","rs7940947.chr11_17949250_C_T_b38.-0.307, rs72875724.chr11_18068098_G_T_b38.-0.2914","rs3813325.chr6_123637348_T_G_b38.0.0496","rs73552867.chr9_132924617_A_G_b38.-0.3433, rs12551192.chr9_132944194_G_A_b38.-0.1781","rs2595706.chr7_43926562_C_A_b38.-0.2119"],[25.1962460432023,11.6732139656706,19.1800380638276,17.1610664001547,18.3667816263501,27.7134437901671,18.9794861155783,null,null,20.5778322056535,20.253250668742,16.4696061494747,17.8306416795272,13.9732398889812,null,null,13.5327246154438,17.1681475315759,22.1998326285571,19.0014523984447],[0.0549320868929886,0.0243359985756078,null,0.0265812724585697,0.0193447896964424,null,null,0.0223799972496899,0.0306954563862557,0.0226223031908107,null,0.0217764818968071,0.0106366468386043,0.0174591339663759,0.0417191758606397,null,0.00900232241481724,0.0307063155412929,0.0129273249041643,0.025530325615315],["rs308338.chr11_68008772_G_A_b38.-0.0342, rs3764821.chr11_68010856_A_G_b38.-0.2058, norsid.chr11_68011366_C_A_b38.0.2668","rs13145977.chr4_121695011_T_C_b38.-0.6268, rs115830355.chr4_121698009_G_A_b38.0.0059, rs9997310.chr4_121707525_A_G_b38.0.3667",null,"rs8095.chr14_103912515_G_A_b38.-0.1016, rs113496080.chr14_103928437_T_C_b38.-0.1297, rs567753005.chr14_104116663_C_T_b38.-0.2902","rs113782267.chr8_144385464_G_A_b38.0.1604, rs2977835.chr8_144397708_C_T_b38.0.7973, rs2291135.chr8_144399893_C_T_b38.0.7617",null,null,"rs3741605.chr12_66302475_T_C_b38.0.6918","rs12809335.chr12_30695741_C_T_b38.-0.2156","rs111807871.chr2_61065721_A_G_b38.0.1641, rs370607303.chr2_61065981_A_G_b38.-0.0802","rs74422146.chr2_11677579_G_A_b38.-0.0516, rs112262372.chr2_11678835_G_A_b38.0.0636, rs10168372.chr2_11692037_C_T_b38.-0.0747","rs4546067.chr20_1457585_C_T_b38.-0.175, rs6033871.chr20_1477614_C_T_b38.0.034","norsid.chr8_17922527_T_G_b38.0.0333, rs11779988.chr8_17926905_T_C_b38.-0.2702","rs7924705.chr11_73793991_G_A_b38.0.1276","rs114672290.chr1_246720005_T_A_b38.-0.2196, rs12023715.chr1_246723418_T_C_b38.0.2392, rs78176336.chr1_246726162_G_A_b38.-0.477, norsid.chr1_246767262_G_C_b38.0.2289","rs73796482.chr4_7192122_A_G_b38.-0.0464, rs117507959.chr4_7192428_G_C_b38.0.0727","rs7940947.chr11_17949250_C_T_b38.-0.3714, rs66520188.chr11_18068334_C_T_b38.0.2872, rs6486406.chr11_18084324_C_T_b38.-0.1238","rs3813325.chr6_123637348_T_G_b38.0.034","rs11243938.chr9_132945399_G_T_b38.0.0639","rs2595706.chr7_43926562_C_A_b38.-0.0565"],[19.5203372330159,17.7495837843497,null,15.2907299376662,15.5434315866482,null,null,18.4451893216915,20.0320154090865,18.33144525403,null,14.6710694725745,8.81039431803529,13.1696853481481,29.900115892366,null,7.55440862234615,15.3002380582849,9.21891377363831,16.9296374829042],["ENSG00000006534.15","ENSG00000164111.14","ENSG00000166167.17","ENSG00000156411.9","ENSG00000071894.16","ENSG00000167536.13","ENSG00000132589.15","ENSG00000127311.9","ENSG00000133704.9","ENSG00000162929.13","ENSG00000134324.11","ENSG00000088833.17","ENSG00000078674.17","ENSG00000175582.19","ENSG00000143653.9","ENSG00000184985.16","ENSG00000129167.9","ENSG00000186439.12","ENSG00000165699.13","ENSG00000078967.12"],["protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>genename<\/th>\n      <th>combined_pip<\/th>\n      <th>Lung_nolnc<\/th>\n      <th>eqtl_pos_weight_for_Lung_nolnc<\/th>\n      <th>Lung_nolnc_Attributable_PIP (%)<\/th>\n      <th>Skin_Not_Sun_Exposed_Suprapubic_nolnc<\/th>\n      <th>eqtl_pos_weight_for_Skin_Not_Sun_Exposed_Suprapubic_nolnc<\/th>\n      <th>Skin_Not_Sun_Exposed_Suprapubic_nolnc_Attributable_PIP (%)<\/th>\n      <th>Cells_Cultured_fibroblasts_nolnc<\/th>\n      <th>eqtl_pos_weight_for_Cells_Cultured_fibroblasts_nolnc<\/th>\n      <th>Cells_Cultured_fibroblasts_nolnc_Attributable_PIP (%)<\/th>\n      <th>Esophagus_Gastroesophageal_Junction_nolnc<\/th>\n      <th>eqtl_pos_weight_for_Esophagus_Gastroesophageal_Junction_nolnc<\/th>\n      <th>Esophagus_Gastroesophageal_Junction_nolnc_Attributable_PIP (%)<\/th>\n      <th>Muscle_Skeletal_nolnc<\/th>\n      <th>eqtl_pos_weight_for_Muscle_Skeletal_nolnc<\/th>\n      <th>Muscle_Skeletal_nolnc_Attributable_PIP (%)<\/th>\n      <th>gene<\/th>\n      <th>gene_type<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[2,3,5,6,8,9,11,12,14,15,17]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <pre class="r"><code>attributable_columns &lt;- colnames(df_gene)[seq(4,12,by=2)]
 
 plot_stacked_histogram(df_gene, &quot;genename&quot;, &quot;combined_pip&quot;, attributable_columns)</code></pre>
 <p><img src="figure/multi_tissue_ss200.Rmd/unnamed-chunk-2-4.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-2-4">
+Past versions of unnamed-chunk-2-4.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-2-4" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/ctwas_tibetan/blob/f42b034459874d2920e37bda4955ab534a1e233b/docs/figure/multi_tissue_ss200.Rmd/unnamed-chunk-2-4.png" target="_blank">f42b034</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2024-01-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>table_show &lt;- ctwas_res[ctwas_res$genename %in% df_gene$genename,]
 table_show &lt;- rbind(table_show,ctwas_res[ctwas_res$type!=&quot;SNP&quot; &amp; ctwas_res$susie_pip &gt; 0.8,])
 table_show &lt;- table_show[!duplicated(table_show$id),]
@@ -853,6 +1046,43 @@ ctwas_parameters &lt;- ctwas:::ctwas_summarize_parameters(outputdir = outputdir,
 
 ctwas_parameters$convergence_plot</code></pre>
 <p><img src="figure/multi_tissue_ss200.Rmd/unnamed-chunk-3-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-1">
+Past versions of unnamed-chunk-3-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/ctwas_tibetan/blob/f42b034459874d2920e37bda4955ab534a1e233b/docs/figure/multi_tissue_ss200.Rmd/unnamed-chunk-3-1.png" target="_blank">f42b034</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2024-01-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>ctwas_res &lt;- process_data(weight = weight,outputdir = outputdir,outname = outname,z_snp = z_snp,z_gene = z_gene)
 
 para &lt;- process_ctwas_results(ctwas_parameters = ctwas_parameters,ctwas_res = ctwas_res)
@@ -860,16 +1090,52 @@ DT::datatable(para,caption = htmltools::tags$caption( style = &#39;caption-side:
 <div id="htmlwidget-cb13f050035c9c94f379" style="width:100%;height:auto;" class="datatables html-widget"></div>
 <script type="application/json" data-for="htmlwidget-cb13f050035c9c94f379">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Parameters<\/caption>","data":[["1","2","3","4","5","6"],["Cells_Cultured_fibroblasts_nolnc","Colon_Sigmoid_nolnc","Nerve_Tibial_nolnc","Pituitary_nolnc","SNP","Testis_nolnc"],[0.150277350237479,0.192113227280273,0.110790003847379,0.140299222338659,null,0.141902389305319],["5124","4498","5475","4412","2694570","5409"],["0.00474587241507993","0.00749278729841771","0.00448158905486804","0.00571531508364113","0.000364701293178517","0.00540737353370113"],["0.848396526466438","0.848396526466438","0.848396526466438","0.848396526466438","0.914041681930642","0.848396526466438"],["13.0130397227763","20.5449978888616","12.2883826810955","15.6712224237811",null,"14.8268559361929"],["0.0213573288689051","0.0295995160656805","0.0215495353156525","0.0221461091986687","0.929855893246168","0.0256876933313893"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>type<\/th>\n      <th>max_susie_pip<\/th>\n      <th>group_size<\/th>\n      <th>group_prior<\/th>\n      <th>group_prior_var<\/th>\n      <th>enrichment<\/th>\n      <th>group_pve<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":2},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <pre class="r"><code>df_gene &lt;- process_gene_data(ctwas_res = ctwas_res)
-
 df_gene &lt;- attributable_pip(df_gene, &quot;combined_pip&quot;)
-
-DT::datatable(df_gene,caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;Genes with combined pip &gt; 0.8, 0 means pip=0; NA means no such gene in this tissue&#39;),options = list(pageLength = 10) )</code></pre>
+df_gene_full &lt;- add_eqtl(df_gene)
+DT::datatable(df_gene_full,caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;Genes with combined pip &gt; 0.8, 0 means pip=0; NA means no pip reported by ctwas or no such gene in this tissue&#39;),options = list(pageLength = 10) )</code></pre>
 <div id="htmlwidget-f88dfa07687dca44a349" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-f88dfa07687dca44a349">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Genes with combined pip &gt; 0.8, 0 means pip=0; NA means no such gene in this tissue<\/caption>","data":[["2989","560","6745","2170","4508","3486","6277","8729","10371","2942","9269","5941","6540","4855","3408","3720","9565","4788","5428","1277"],["FAAP24","ARHGEF19","PP2D1","CTB-16J4.1","KCTD3","GBGT1","PAWR","TANGO6","ZNF783","EVA1A","TPO","NPTX2","PIK3R4","LLPH","FZD10","GPNMB","UBLCP1","LEMD3","MRE11","CAP1"],[0.37138566981246,0.358006497975304,0.353834189590886,0.345611463401651,0.337201224311775,0.331918533889806,0.323835089841994,0.322141992673124,0.29916797840305,0.278666377854226,0.273896122748613,0.270248446965727,0.2675284923255,0.262472880989743,0.25906193480044,0.257366843719788,0.256489649014358,0.255732277270474,0.25047398285549,0.250332386015021],[0.108045548547367,0.105573050332423,0.162887603926096,0.192113227280273,0.0899665243768716,0.166242218200171,0.107095834087914,0.0819716889459934,0.0345293627812102,0.142309767466529,0.151664700863089,0.0825197599935658,0.0788839676116423,0.0922473352017674,null,0.063789270706499,0.0685767702162635,0.124943053779635,0.0523119179772005,0.12734931631231],[29.0925464630682,29.4891436131714,46.0350098203997,55.5864742996123,26.680367059904,50.0852471996523,33.0711023750293,25.4458253845749,11.5417976768526,51.0681513006113,55.3730733173941,30.5347767656296,29.4861930129165,35.145472878538,null,24.7853491088971,26.7366618808171,48.8569746115738,20.8851703401793,50.8720898400531],[0.0680610731923865,0.0557544509179035,0.0412199757146916,null,0.0577697598868783,null,0.0689567782442825,0.0525698316034872,0.0364641823400331,0.0319123450305715,null,0.0529258733024994,0.0505651403776182,0.0451680443797491,null,0.0675223645680813,0.0438875924181538,0.0589944247692957,0.0400835467081269,0.0300045511285436],[18.3262518520856,15.5735862989139,11.6495174653279,null,17.1321323060988,null,21.2937944056427,16.3188385243614,12.1885311839448,11.4518103246978,null,19.5841544685034,18.9008430235147,17.2086518841214,null,26.2358443660277,17.1108629867933,23.0688223633579,16.0030779449269,11.9858846896235],[0.0428517952544537,0.077131142346182,0.0619391904640241,0.141902389305319,0.0656052651067431,0.108145430695443,null,0.0748675745007554,0.0917031671997922,0.104444265357125,null,0.0213079187428495,0.0574475751225698,0.0433146717219263,0.130683075712016,0.0621942927936563,0.0498804406870561,null,0.0499992979130689,0.020777168973915],[11.5383545294283,21.5446207771074,17.5051457112271,41.0583572398487,19.4558205536302,32.5819198548721,null,23.2405511245233,30.6527348579554,37.4800383746909,null,7.88456658385599,21.4734418092088,16.5025322077441,50.4447231171509,24.1656197413569,19.4473503623781,null,19.9618728233007,8.29983259643772],[0.0878837303410913,0.066831267285681,0.0494702922035893,null,0.0692350172882674,0.057530884994192,0.0825627263107785,0.0630310968144898,0.0599710070519192,null,0.0383138146820049,0.0634560624833591,0.0606378363672051,0.0457354249426294,0.128378859088424,null,0.0526599570119547,0.0401782565932853,0.0697275488633165,0.0433956633522498],[23.6637375872554,18.6676129242468,13.9812074861359,null,20.532255607783,17.3328329454756,25.4952995832115,19.566246639086,20.045931176205,null,13.988447261508,23.4806390918526,22.6659358186894,17.4248191928128,49.5552768828491,null,20.5310261892896,15.7110619833064,27.8382401510921,17.3352174055681],[0.0645435224771612,0.0527165870931143,0.0383171272824847,0.0115958468160593,0.0546246576530144,null,0.0652197511990192,0.0497018008083985,0.0765002590300958,null,0.0839176072035187,0.0500388324434534,0.0199939728464645,0.0360074047436708,null,0.0638609156515515,0.0414848886809298,0.0316165421282582,0.0383516713937774,0.0288056862480024],[17.3791095681624,14.7250363865605,10.8291195169094,3.35516846053894,16.199424472584,null,20.1398036361165,15.4285383274545,25.5710051050423,null,30.6384794210979,18.5158630901584,7.47358633567074,13.7185238367837,null,24.8131867837183,16.1740985807219,12.3631410417618,15.3116387405011,11.5069754683175]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>genename<\/th>\n      <th>combined_pip<\/th>\n      <th>Colon_Sigmoid_nolnc<\/th>\n      <th>Colon_Sigmoid_nolnc_Attributable_PIP (%)<\/th>\n      <th>Cells_Cultured_fibroblasts_nolnc<\/th>\n      <th>Cells_Cultured_fibroblasts_nolnc_Attributable_PIP (%)<\/th>\n      <th>Testis_nolnc<\/th>\n      <th>Testis_nolnc_Attributable_PIP (%)<\/th>\n      <th>Pituitary_nolnc<\/th>\n      <th>Pituitary_nolnc_Attributable_PIP (%)<\/th>\n      <th>Nerve_Tibial_nolnc<\/th>\n      <th>Nerve_Tibial_nolnc_Attributable_PIP (%)<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[2,3,4,5,6,7,8,9,10,11,12]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-f88dfa07687dca44a349">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Genes with combined pip &gt; 0.8, 0 means pip=0; NA means no pip reported by ctwas or no such gene in this tissue<\/caption>","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20"],["ARHGEF19","CAP1","CTB-16J4.1","EVA1A","FAAP24","FZD10","GBGT1","GPNMB","KCTD3","LEMD3","LLPH","MRE11","NPTX2","PAWR","PIK3R4","PP2D1","TANGO6","TPO","UBLCP1","ZNF783"],[0.358006497975304,0.250332386015021,0.345611463401651,0.278666377854226,0.37138566981246,0.25906193480044,0.331918533889806,0.257366843719788,0.337201224311775,0.255732277270474,0.262472880989743,0.25047398285549,0.270248446965727,0.323835089841994,0.2675284923255,0.353834189590886,0.322141992673124,0.273896122748613,0.256489649014358,0.29916797840305],[0.105573050332423,0.12734931631231,0.192113227280273,0.142309767466529,0.108045548547367,null,0.166242218200171,0.063789270706499,0.0899665243768716,0.124943053779635,0.0922473352017674,0.0523119179772005,0.0825197599935658,0.107095834087914,0.0788839676116423,0.162887603926096,0.0819716889459934,0.151664700863089,0.0685767702162635,0.0345293627812102],["rs221045.chr1_16203554_C_T_b38.-0.7493, rs75922480.chr1_16213054_C_CATCCCT_b38.0.6954","rs3806201.chr1_40040252_A_C_b38.0.0285, rs3131687.chr1_40040567_G_A_b38.0.0031","rs42610.chr7_90320697_A_G_b38.0.4737, rs42613.chr7_90320989_C_T_b38.0.3168","rs17677380.chr2_75569824_C_T_b38.0.0985","rs751731.chr19_32972152_G_A_b38.0.3672, rs34723366.chr19_32972341_G_T_b38.-0.4306","rs11060748.chr12_130154642_A_G_b38.0.2288","rs2073927.chr9_133155959_A_G_b38.-0.2032, rs10901238.chr9_133163544_T_C_b38.-0.2326, rs535015446.chr9_133163943_G_A_b38.-0.1466","rs10227559.chr7_23232525_G_A_b38.-0.2608","rs2275768.chr1_215567710_T_G_b38.0.0017","rs61736594.chr12_65169932_C_T_b38.-0.1134, rs61923514.chr12_65178141_C_T_b38.0.2833","rs10878383.chr12_66130421_C_T_b38.0.1001, rs11176051.chr12_66131133_T_G_b38.-0.0728","rs639311.chr11_94472581_C_T_b38.0.8056, rs1805363.chr11_94493786_C_T_b38.-0.3953","rs75820577.chr7_98617412_C_A_b38.0.0508","rs872455.chr12_79690683_T_C_b38.0.0282","rs2293179.chr3_130746630_A_C_b38.0.1495","rs2686325.chr3_20012243_G_A_b38.0.1578, rs35057657.chr3_20019531_A_G_b38.0.1047","rs111926229.chr16_68843188_C_T_b38.0.0563","rs72774216.chr2_1374163_A_G_b38.-0.0976, rs6706775.chr2_1455689_C_T_b38.0.3103","rs71593333.chr5_159263022_G_A_b38.-0.0935, rs4321737.chr5_159267588_G_A_b38.0.1638","rs56119208.chr7_149258568_G_C_b38.-0.3602, norsid.chr7_149262181_C_A_b38.0.4126, rs4727033.chr7_149262655_T_C_b38.-0.079, rs762602673.chr7_149265355_TA_T_b38.-0.1215"],[29.4891436131714,50.8720898400531,55.5864742996123,51.0681513006113,29.0925464630682,null,50.0852471996523,24.7853491088971,26.680367059904,48.8569746115738,35.145472878538,20.8851703401793,30.5347767656296,33.0711023750293,29.4861930129165,46.0350098203997,25.4458253845749,55.3730733173941,26.7366618808171,11.5417976768526],[0.0557544509179035,0.0300045511285436,null,0.0319123450305715,0.0680610731923865,null,null,0.0675223645680813,0.0577697598868783,0.0589944247692957,0.0451680443797491,0.0400835467081269,0.0529258733024994,0.0689567782442825,0.0505651403776182,0.0412199757146916,0.0525698316034872,null,0.0438875924181538,0.0364641823400331],["rs221048.chr1_16204221_T_C_b38.-0.1091, rs221063.chr1_16210794_T_G_b38.-0.8546","rs3806203.chr1_40039999_T_C_b38.-0.0394, rs3131687.chr1_40040567_G_A_b38.0.0306","rs42610.chr7_90320697_A_G_b38.0.1921","rs2588495.chr2_75540583_A_G_b38.0.0926, rs17677380.chr2_75569824_C_T_b38.0.111, rs1000585.chr2_75596036_G_A_b38.-0.2197","rs11556219.chr19_32972322_C_T_b38.-0.443, rs11084686.chr19_32972339_A_G_b38.0.4298",null,"rs3888561.chr9_133150073_G_C_b38.-0.0732, rs34510150.chr9_133163727_G_C_b38.0.1213, rs535015446.chr9_133163943_G_A_b38.-0.1761, rs9411363.chr9_133164011_C_G_b38.-0.1355, rs10124218.chr9_133164146_C_T_b38.-0.1799","rs858272.chr7_23237166_A_G_b38.-0.0538","rs2275768.chr1_215567710_T_G_b38.-0.0038","rs10878236.chr12_65166372_G_A_b38.-0.0551, rs2336385.chr12_65180330_A_C_b38.0.2353","rs11176051.chr12_66131133_T_G_b38.-0.1195","rs680695.chr11_94478988_A_G_b38.0.3184, rs2000703.chr11_94488915_C_A_b38.0.1406, rs524350.chr11_94493416_A_G_b38.0.1932, rs1805363.chr11_94493786_C_T_b38.-0.256","rs75820577.chr7_98617412_C_A_b38.0.1234","rs872455.chr12_79690683_T_C_b38.-0.0344","rs2293179.chr3_130746630_A_C_b38.0.1987, rs187384196.chr3_130746892_A_G_b38.0.0696","rs2686326.chr3_20012089_C_T_b38.0.3281","rs111926229.chr16_68843188_C_T_b38.0.0866",null,"rs71593333.chr5_159263022_G_A_b38.-0.0852, rs4321737.chr5_159267588_G_A_b38.0.0909","rs34264850.chr7_149243002_G_A_b38.-0.2948, rs56119208.chr7_149258568_G_C_b38.-0.5775, rs7783627.chr7_149262075_A_C_b38.-0.3645, norsid.chr7_149262181_C_A_b38.0.2236, rs4727033.chr7_149262655_T_C_b38.-0.2247"],[15.5735862989139,11.9858846896235,null,11.4518103246978,18.3262518520856,null,null,26.2358443660277,17.1321323060988,23.0688223633579,17.2086518841214,16.0030779449269,19.5841544685034,21.2937944056427,18.9008430235147,11.6495174653279,16.3188385243614,null,17.1108629867933,12.1885311839448],[0.077131142346182,0.020777168973915,0.141902389305319,0.104444265357125,0.0428517952544537,0.130683075712016,0.108145430695443,0.0621942927936563,0.0656052651067431,null,0.0433146717219263,0.0499992979130689,0.0213079187428495,null,0.0574475751225698,0.0619391904640241,0.0748675745007554,null,0.0498804406870561,0.0917031671997922],["rs221045.chr1_16203554_C_T_b38.-0.5051","rs3131687.chr1_40040567_G_A_b38.0.1013, rs79893425.chr1_40042033_T_TTTAA_b38.-0.2288","rs42613.chr7_90320989_C_T_b38.0.2788","rs17677380.chr2_75569824_C_T_b38.0.1889","rs11084686.chr19_32972339_A_G_b38.0.2461, rs10423939.chr19_32954162_T_C_b38.-0.2889, rs7245980.chr19_32973142_A_G_b38.-0.2576, rs111413644.chr19_33003790_A_C_b38.-0.2111","rs11060753.chr12_130165877_T_C_b38.-0.0749","rs2073927.chr9_133155959_A_G_b38.-0.0807, rs9411461.chr9_133165340_C_G_b38.0.0546","rs1728313.chr7_23231412_A_C_b38.-0.2444","rs2275768.chr1_215567710_T_G_b38.-9e-04","rs10878238.chr12_65168237_G_C_b38.-0.0941","rs10878383.chr12_66130421_C_T_b38.0.3105, rs1177578.chr12_66130675_G_C_b38.0.3481","rs659349.chr11_94484490_T_C_b38.0.5537, rs11825497.chr11_94493391_C_G_b38.0.1273, norsid.chr11_94493959_C_A_b38.0.5399","rs62474363.chr7_98620863_T_C_b38.-0.1248, rs705315.chr7_98629424_G_A_b38.-0.152",null,"rs2293179.chr3_130746630_A_C_b38.0.1038, rs187384196.chr3_130746892_A_G_b38.0.0253","rs2948109.chr3_19997391_G_A_b38.-0.219, rs2686326.chr3_20012089_C_T_b38.-0.0288, rs2686325.chr3_20012243_G_A_b38.-0.1737, rs62241337.chr3_20012320_T_C_b38.-0.0983","rs111926229.chr16_68843188_C_T_b38.0.1207, rs147303698.chr16_68926631_G_A_b38.0.3203","rs9753098.chr2_1373971_G_C_b38.-0.1088, rs76704244.chr2_1397924_G_A_b38.0.8417","rs71593333.chr5_159263022_G_A_b38.-0.0498, rs4321737.chr5_159267588_G_A_b38.0.1183","rs4725801.chr7_149250607_A_G_b38.-0.3916, rs7783627.chr7_149262075_A_C_b38.-0.5914, norsid.chr7_149262181_C_A_b38.-0.0034, rs762602673.chr7_149265355_TA_T_b38.-0.3421"],[21.5446207771074,8.29983259643772,41.0583572398487,37.4800383746909,11.5383545294283,50.4447231171509,32.5819198548721,24.1656197413569,19.4558205536302,null,16.5025322077441,19.9618728233007,7.88456658385599,null,21.4734418092088,17.5051457112271,23.2405511245233,null,19.4473503623781,30.6527348579554],[0.066831267285681,0.0433956633522498,null,null,0.0878837303410913,0.128378859088424,0.057530884994192,null,0.0692350172882674,0.0401782565932853,0.0457354249426294,0.0697275488633165,0.0634560624833591,0.0825627263107785,0.0606378363672051,0.0494702922035893,0.0630310968144898,0.0383138146820049,0.0526599570119547,0.0599710070519192],["rs221063.chr1_16210794_T_G_b38.-0.419, rs75922480.chr1_16213054_C_CATCCCT_b38.0.3793","rs3806202.chr1_40040200_C_T_b38.-0.103, rs3131687.chr1_40040567_G_A_b38.0.0533","rs42610.chr7_90320697_A_G_b38.0.6019, rs42614.chr7_90321049_C_G_b38.0.4474","rs78604973.chr2_75568585_T_C_b38.-0.1581","rs11084686.chr19_32972339_A_G_b38.0.22, rs34723366.chr19_32972341_G_T_b38.-0.3361","rs1046890.chr12_130165225_C_T_b38.-0.0446","rs10901238.chr9_133163544_T_C_b38.-0.141, rs34510150.chr9_133163727_G_C_b38.0.0669, rs9411363.chr9_133164011_C_G_b38.-0.1373",null,"rs2275768.chr1_215567710_T_G_b38.-0.0171","rs73113653.chr12_65168428_G_A_b38.0.1901, rs61736594.chr12_65169932_C_T_b38.-0.0807","rs10878383.chr12_66130421_C_T_b38.0.2439, rs1177578.chr12_66130675_G_C_b38.0.2972","rs11020799.chr11_94485545_C_T_b38.0.5342, rs1805363.chr11_94493786_C_T_b38.-0.1539, norsid.chr11_94493959_C_A_b38.0.5273","rs75820577.chr7_98617412_C_A_b38.0.0294","rs872455.chr12_79690683_T_C_b38.0.0458","rs2293179.chr3_130746630_A_C_b38.0.2924","rs2686326.chr3_20012089_C_T_b38.0.1877","rs111926229.chr16_68843188_C_T_b38.0.1353","rs3755552.chr2_1498891_T_C_b38.-0.3102","rs71593333.chr5_159263022_G_A_b38.-0.1322, rs4321737.chr5_159267588_G_A_b38.0.2653","rs10241873.chr7_149243782_C_A_b38.-0.2727, rs56119208.chr7_149258568_G_C_b38.-0.4894, rs7783627.chr7_149262075_A_C_b38.-0.4397, norsid.chr7_149262181_C_A_b38.0.4139, rs13243058.chr7_149301302_A_G_b38.-0.013"],[18.6676129242468,17.3352174055681,null,null,23.6637375872554,49.5552768828491,17.3328329454756,null,20.532255607783,15.7110619833064,17.4248191928128,27.8382401510921,23.4806390918526,25.4952995832115,22.6659358186894,13.9812074861359,19.566246639086,13.988447261508,20.5310261892896,20.045931176205],[0.0527165870931143,0.0288056862480024,0.0115958468160593,null,0.0645435224771612,null,null,0.0638609156515515,0.0546246576530144,0.0316165421282582,0.0360074047436708,0.0383516713937774,0.0500388324434534,0.0652197511990192,0.0199939728464645,0.0383171272824847,0.0497018008083985,0.0839176072035187,0.0414848886809298,0.0765002590300958],["rs221063.chr1_16210794_T_G_b38.-0.7776, rs75922480.chr1_16213054_C_CATCCCT_b38.0.7191","rs61779685.chr1_40022452_T_C_b38.-0.2293, rs3131687.chr1_40040567_G_A_b38.0.102","rs12704519.chr7_90301333_A_T_b38.0.3828, rs42608.chr7_90320283_A_G_b38.0.4765","rs11538749.chr2_75560846_G_C_b38.0.2258, rs13406207.chr2_75618391_C_T_b38.-0.1553","rs11556219.chr19_32972322_C_T_b38.-0.5656, rs11084686.chr19_32972339_A_G_b38.0.543, rs35310199.chr19_32977504_C_A_b38.-0.2135","rs7972478.chr12_130130000_G_T_b38.0.295","rs535015446.chr9_133163943_G_A_b38.-0.2979","rs858272.chr7_23237166_A_G_b38.-0.168","rs2275768.chr1_215567710_T_G_b38.0.0035","rs73113653.chr12_65168428_G_A_b38.0.323, rs61736594.chr12_65169932_C_T_b38.-0.1488","rs10878383.chr12_66130421_C_T_b38.0.1498, rs1177578.chr12_66130675_G_C_b38.0.1423","rs535801.chr11_94478882_C_T_b38.0.8428, rs524350.chr11_94493416_A_G_b38.0.5935","rs17161415.chr7_98568219_G_A_b38.-0.2328, rs79406743.chr7_98594880_G_A_b38.0.0917, rs75820577.chr7_98617412_C_A_b38.0.0572, rs5886078.chr7_98627045_C_CA_b38.-0.0973","rs2463169.chr12_79685268_G_A_b38.0.125, rs872455.chr12_79690683_T_C_b38.0.0471, rs12827748.chr12_79694798_T_C_b38.-0.1144","rs72998250.chr3_130739029_C_T_b38.0.5005, rs187384196.chr3_130746892_A_G_b38.0.6288","rs6797890.chr3_19971502_A_G_b38.0.3147","rs111926229.chr16_68843188_C_T_b38.0.1621","rs72774216.chr2_1374163_A_G_b38.-0.1702, rs55884821.chr2_1395869_C_A_b38.0.153, rs34932469.chr2_1462211_C_T_b38.-0.3784, norsid.chr2_1496155_A_C_b38.-0.3856","rs4321737.chr5_159267588_G_A_b38.0.2092","rs4725801.chr7_149250607_A_G_b38.-0.1986, rs7783627.chr7_149262075_A_C_b38.-0.331, norsid.chr7_149262181_C_A_b38.0.0875, rs762602673.chr7_149265355_TA_T_b38.-0.2346"],[14.7250363865605,11.5069754683175,3.35516846053894,null,17.3791095681624,null,null,24.8131867837183,16.199424472584,12.3631410417618,13.7185238367837,15.3116387405011,18.5158630901584,20.1398036361165,7.47358633567074,10.8291195169094,15.4285383274545,30.6384794210979,16.1740985807219,25.5710051050423],["ENSG00000142632.16","ENSG00000131236.16","ENSG00000283267.1","ENSG00000115363.13","ENSG00000131944.9","ENSG00000111432.4","ENSG00000148288.11","ENSG00000136235.15","ENSG00000136636.12","ENSG00000174106.2","ENSG00000139233.6","ENSG00000020922.12","ENSG00000106236.3","ENSG00000177425.10","ENSG00000196455.7","ENSG00000183977.13","ENSG00000103047.7","ENSG00000115705.20","ENSG00000164332.7","ENSG00000204946.9"],["protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>genename<\/th>\n      <th>combined_pip<\/th>\n      <th>Colon_Sigmoid_nolnc<\/th>\n      <th>eqtl_pos_weight_for_Colon_Sigmoid_nolnc<\/th>\n      <th>Colon_Sigmoid_nolnc_Attributable_PIP (%)<\/th>\n      <th>Cells_Cultured_fibroblasts_nolnc<\/th>\n      <th>eqtl_pos_weight_for_Cells_Cultured_fibroblasts_nolnc<\/th>\n      <th>Cells_Cultured_fibroblasts_nolnc_Attributable_PIP (%)<\/th>\n      <th>Testis_nolnc<\/th>\n      <th>eqtl_pos_weight_for_Testis_nolnc<\/th>\n      <th>Testis_nolnc_Attributable_PIP (%)<\/th>\n      <th>Pituitary_nolnc<\/th>\n      <th>eqtl_pos_weight_for_Pituitary_nolnc<\/th>\n      <th>Pituitary_nolnc_Attributable_PIP (%)<\/th>\n      <th>Nerve_Tibial_nolnc<\/th>\n      <th>eqtl_pos_weight_for_Nerve_Tibial_nolnc<\/th>\n      <th>Nerve_Tibial_nolnc_Attributable_PIP (%)<\/th>\n      <th>gene<\/th>\n      <th>gene_type<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[2,3,5,6,8,9,11,12,14,15,17]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <pre class="r"><code>attributable_columns &lt;- colnames(df_gene)[seq(4,12,by=2)]
 
 plot_stacked_histogram(df_gene, &quot;genename&quot;, &quot;combined_pip&quot;, attributable_columns)</code></pre>
 <p><img src="figure/multi_tissue_ss200.Rmd/unnamed-chunk-3-4.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-4">
+Past versions of unnamed-chunk-3-4.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-4" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/ctwas_tibetan/blob/f42b034459874d2920e37bda4955ab534a1e233b/docs/figure/multi_tissue_ss200.Rmd/unnamed-chunk-3-4.png" target="_blank">f42b034</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2024-01-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>table_show &lt;- ctwas_res[ctwas_res$genename %in% df_gene$genename,]
 table_show &lt;- rbind(table_show,ctwas_res[ctwas_res$type!=&quot;SNP&quot; &amp; ctwas_res$susie_pip &gt; 0.8,])
 table_show &lt;- table_show[!duplicated(table_show$id),]
@@ -894,6 +1160,43 @@ ctwas_parameters &lt;- ctwas:::ctwas_summarize_parameters(outputdir = outputdir,
 
 ctwas_parameters$convergence_plot</code></pre>
 <p><img src="figure/multi_tissue_ss200.Rmd/unnamed-chunk-4-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-1">
+Past versions of unnamed-chunk-4-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-4-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/ctwas_tibetan/blob/f42b034459874d2920e37bda4955ab534a1e233b/docs/figure/multi_tissue_ss200.Rmd/unnamed-chunk-4-1.png" target="_blank">f42b034</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2024-01-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>ctwas_res &lt;- process_data(weight = weight,outputdir = outputdir,outname = outname,z_snp = z_snp,z_gene = z_gene)
 
 para &lt;- process_ctwas_results(ctwas_parameters = ctwas_parameters,ctwas_res = ctwas_res)
@@ -901,16 +1204,52 @@ DT::datatable(para,caption = htmltools::tags$caption( style = &#39;caption-side:
 <div id="htmlwidget-b6ca72bea8853d3a6e44" style="width:100%;height:auto;" class="datatables html-widget"></div>
 <script type="application/json" data-for="htmlwidget-b6ca72bea8853d3a6e44">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Parameters<\/caption>","data":[["1","2","3","4","5","6"],["Cells_Cultured_fibroblasts_nolnc","Heart_Left_Ventricle_nolnc","Liver_nolnc","SNP","Skin_Sun_Exposed_Lower_leg_nolnc","Stomach_nolnc"],[0.12860452889739,0.20469926541845,0.171539704036597,null,0.113735262161089,0.0898165368178854],["5120","4373","3863","2694310","5356","4386"],["0.0031513344024143","0.00488832016315012","0.00403281664892861","0.0003431545508936","0.00357440473596789","0.00318426776470644"],["0.868371610661062","0.868371610661062","0.868371610661062","0.722328070961416","0.868371610661062","0.868371610661062"],["9.18342593507208","14.2452435802485","11.7521875738697",null,"10.4163116201137","9.27939832479089"],["0.0145041720222271","0.0192162044277045","0.0140043087140166","0.691344786430214","0.0172096796246642","0.0125547103657516"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>type<\/th>\n      <th>max_susie_pip<\/th>\n      <th>group_size<\/th>\n      <th>group_prior<\/th>\n      <th>group_prior_var<\/th>\n      <th>enrichment<\/th>\n      <th>group_pve<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":2},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <pre class="r"><code>df_gene &lt;- process_gene_data(ctwas_res = ctwas_res)
-
 df_gene &lt;- attributable_pip(df_gene, &quot;combined_pip&quot;)
-
-DT::datatable(df_gene,caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;Genes with combined pip &gt; 0.8, 0 means pip=0; NA means no such gene in this tissue&#39;),options = list(pageLength = 10) )</code></pre>
+df_gene_full &lt;- add_eqtl(df_gene)
+DT::datatable(df_gene_full,caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;Genes with combined pip &gt; 0.8, 0 means pip=0; NA means no pip reported by ctwas or no such gene in this tissue&#39;),options = list(pageLength = 10) )</code></pre>
 <div id="htmlwidget-e42bd0a3cb6582a7647c" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-e42bd0a3cb6582a7647c">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Genes with combined pip &gt; 0.8, 0 means pip=0; NA means no such gene in this tissue<\/caption>","data":[["5765","7536","9323","1264","3233","4433","4949","998","3059","777","8196","8517","6812","522","5523","5332","581","6197","8571","5127"],["PAQR5","SLC35G1","ZDHHC21","CCDC102A","GCH1","LGR6","MMP7","C19orf54","FLOT1","BBS2","TCOF1","TMEM74","RHOQ","ARHGEF19","NSD3","NDUFS5","ARSI","POLI","TNK1","MTMR6"],[0.410395360875666,0.35071734413109,0.284941438509389,0.241981123583463,0.239732743752771,0.231510527277346,0.227512376479279,0.221723069665833,0.209677123100648,0.207969719637761,0.206115939569186,0.202920516130774,0.200430149345777,0.200257471600164,0.197353444356316,0.196769983886327,0.194318152040717,0.189595061022539,0.189403749862152,0.182269718398236],[0.20469926541845,0.118481706967421,0.102664283815521,0.0790574220535425,0.0786369471472823,0.0413326224096639,null,0.0739071526131243,0.0533147003719015,0.0717353861334326,0.118385428689394,0.0869062858741737,0.0589764538763193,0.0550037144368281,0.0510098264530936,0.0496473209510789,0.0619560981842345,0.0490129752432571,0.0526231471362705,0.0474282837473443],[49.8785524723477,33.7826768336656,36.0299591216313,32.6709046072655,32.8019218052158,17.8534526683307,null,33.3330910150723,25.4270468725907,34.4931878825342,57.4363287656635,42.8277473028731,29.4249413418211,27.4664980024561,25.8469400518782,25.2311455083311,31.8838448871479,25.8513987542274,27.7835825185983,26.0209343406783],[0.171539704036597,0.0986018398530045,0.0533220436540943,null,null,null,0.0821763143685202,0.0146882479913247,0.0751982875055234,0.0596839938546654,null,0.0392214243446482,0.048861214184626,0.0455565740319726,0.0422363197167375,0.041104074993573,0.0513410618773991,0.040577010516054,0.0509488778092209,0.0392605406569061],[41.7986459862948,28.1143323827604,18.7133341970327,null,null,null,36.1194918888311,6.62459166448574,35.8638493286782,28.6984056903198,null,19.3284666787323,24.3781758104325,22.7490009076572,21.4013592995525,20.8894030388896,26.4211353073392,21.4019343632745,26.8996141028366,21.5398043086492],[0.0104126960017935,0.0152796745231685,0.0550084446324543,0.0515607401830627,0.0512832348497649,null,null,0.0498620262090775,0.0353742770467181,0.0163481038960398,null,null,0.0383480115412593,0.0357436779906553,0.0331286377514803,0.0290128629906986,0.0403033853659986,0.0318223605386071,null,0.0296159973626989],[2.53723530879486,4.35669201391343,19.3051754494606,21.3077530261482,21.3918357780328,null,null,22.4884249907898,16.8708328899276,7.86080970081352,null,null,19.13285584351,17.8488611211578,16.7864502489592,14.7445572834214,20.7409266415592,16.7843826558457,null,16.2484463261153],[0.0134624910331776,0.0878028274283835,0.0303039245171061,0.0583176978440945,0.0580047279356383,0.100361368049797,0.079984644152061,0.054486383081251,0.010795627674826,0.0125337951850125,0.0877305108797921,0.0405783302092694,0.0399317895143995,0.0401912333939091,0.0375085062834322,0.0365010578801329,null,0.0360321236934275,0.0387018158597944,0.034860951281081],[3.28037115342934,25.0352110888376,10.635141268197,24.1001020990713,24.1955800562049,43.3506714489771,35.1561727717022,24.5740703316842,5.14869124260349,6.02674043454196,42.5636712343365,19.9971550353826,19.9230453326212,20.069779705476,19.0057520433805,18.5501147884524,null,19.0047797126657,20.4335003335264,19.1260246558971],[0.0102812043856484,0.0305512953591127,0.0436427418902133,0.0530452635027635,0.0518078338200854,0.0898165368178854,0.0653514179586981,0.0287792597710558,0.0349942305016788,0.0476684405686108,null,0.0362144757026827,0.0143126802291731,0.0237622717467986,0.033470154151572,0.0405046670708437,0.040717606613085,0.0321505910311928,0.0471299090568664,0.0311039453502062],[2.50519507913326,8.71108768082291,15.3163899636785,21.9212402675151,21.6106623605465,38.7958758826921,28.7243353394667,12.979821997968,16.6895796662,22.9208562917905,null,17.8466309830121,7.14098167161529,11.8658602632528,16.9594983562297,20.5847793809055,20.9540931639537,16.9575045139867,24.8833030450387,17.0647903686601]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>genename<\/th>\n      <th>combined_pip<\/th>\n      <th>Heart_Left_Ventricle_nolnc<\/th>\n      <th>Heart_Left_Ventricle_nolnc_Attributable_PIP (%)<\/th>\n      <th>Liver_nolnc<\/th>\n      <th>Liver_nolnc_Attributable_PIP (%)<\/th>\n      <th>Cells_Cultured_fibroblasts_nolnc<\/th>\n      <th>Cells_Cultured_fibroblasts_nolnc_Attributable_PIP (%)<\/th>\n      <th>Skin_Sun_Exposed_Lower_leg_nolnc<\/th>\n      <th>Skin_Sun_Exposed_Lower_leg_nolnc_Attributable_PIP (%)<\/th>\n      <th>Stomach_nolnc<\/th>\n      <th>Stomach_nolnc_Attributable_PIP (%)<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[2,3,4,5,6,7,8,9,10,11,12]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-e42bd0a3cb6582a7647c">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Genes with combined pip &gt; 0.8, 0 means pip=0; NA means no pip reported by ctwas or no such gene in this tissue<\/caption>","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20"],["ARHGEF19","ARSI","BBS2","C19orf54","CCDC102A","FLOT1","GCH1","LGR6","MMP7","MTMR6","NDUFS5","NSD3","PAQR5","POLI","RHOQ","SLC35G1","TCOF1","TMEM74","TNK1","ZDHHC21"],[0.200257471600164,0.194318152040717,0.207969719637761,0.221723069665833,0.241981123583463,0.209677123100648,0.239732743752771,0.231510527277346,0.227512376479279,0.182269718398236,0.196769983886327,0.197353444356316,0.410395360875666,0.189595061022539,0.200430149345777,0.35071734413109,0.206115939569186,0.202920516130774,0.189403749862152,0.284941438509389],[0.0550037144368281,0.0619560981842345,0.0717353861334326,0.0739071526131243,0.0790574220535425,0.0533147003719015,0.0786369471472823,0.0413326224096639,null,0.0474282837473443,0.0496473209510789,0.0510098264530936,0.20469926541845,0.0490129752432571,0.0589764538763193,0.118481706967421,0.118385428689394,0.0869062858741737,0.0526231471362705,0.102664283815521],["rs221048.chr1_16204221_T_C_b38.-0.266, rs221063.chr1_16210794_T_G_b38.-0.6099, rs75922480.chr1_16213054_C_CATCCCT_b38.0.545","rs10039050.chr5_150339295_A_C_b38.2e-04","rs2303284.chr16_56520101_C_T_b38.-0.2927, rs17841923.chr16_56520206_T_C_b38.-0.0076","rs2604874.chr19_40751911_C_A_b38.-0.2483, rs66743282.chr19_40752047_A_G_b38.-0.1566","rs77990641.chr16_57522757_T_C_b38.-0.3813, rs118016422.chr16_57536400_C_G_b38.0.0493, rs9939347.chr16_57536792_A_G_b38.-0.2407","rs3094125.chr6_30741580_G_A_b38.0.1134, rs116771824.chr6_30742494_A_G_b38.-0.2781","rs66989494.chr14_54903403_C_T_b38.-0.2432, rs74735555.chr14_54904890_C_T_b38.0.0602","norsid.chr1_202203641_T_G_b38.-0.1943, rs896548.chr1_202226698_A_G_b38.-0.1245",null,"rs3809335.chr13_25287439_A_G_b38.0.3258, rs3924002.chr13_25317137_A_G_b38.-0.0723","rs1984600.chr1_39026255_G_C_b38.-0.0379, rs3768324.chr1_39026790_C_T_b38.-0.3499","rs2978080.chr8_38382359_C_T_b38.0.0282, rs12678205.chr8_38382490_A_G_b38.-0.0614","rs11632550.chr15_69297337_G_C_b38.-0.2276, rs117084659.chr15_69298909_G_C_b38.-0.0539, rs28750234.chr15_69299268_G_A_b38.-0.0082, rs12911277.chr15_69299295_G_A_b38.0.3024, rs117539635.chr15_69390577_A_G_b38.1.21","rs3730668.chr18_54269477_G_T_b38.-0.3829, rs3730672.chr18_54270049_A_G_b38.0.276, rs3730688.chr18_54271578_A_G_b38.0.0606","rs3754554.chr2_46541511_C_T_b38.-0.065","rs11187723.chr10_93893644_G_T_b38.0.1643","rs28372959.chr5_150356800_G_A_b38.0.0202, rs28372960.chr5_150357401_C_T_b38.0.0366","rs2935792.chr8_108763989_T_C_b38.0.3247","rs35499164.chr17_7380561_G_A_b38.-0.1209","rs4278237.chr9_14672654_A_C_b38.-0.2787, rs10756604.chr9_14692678_G_A_b38.-0.2217"],[27.4664980024561,31.8838448871479,34.4931878825342,33.3330910150723,32.6709046072655,25.4270468725907,32.8019218052158,17.8534526683307,null,26.0209343406783,25.2311455083311,25.8469400518782,49.8785524723477,25.8513987542274,29.4249413418211,33.7826768336656,57.4363287656635,42.8277473028731,27.7835825185983,36.0299591216313],[0.0455565740319726,0.0513410618773991,0.0596839938546654,0.0146882479913247,null,0.0751982875055234,null,null,0.0821763143685202,0.0392605406569061,0.041104074993573,0.0422363197167375,0.171539704036597,0.040577010516054,0.048861214184626,0.0986018398530045,null,0.0392214243446482,0.0509488778092209,0.0533220436540943],["rs221063.chr1_16210794_T_G_b38.-1.029, rs1874630.chr1_16212818_G_A_b38.0.87","rs10039050.chr5_150339295_A_C_b38.4e-04","rs2303284.chr16_56520101_C_T_b38.-0.7932, rs17841923.chr16_56520206_T_C_b38.-0.0136","rs1455434.chr19_40751141_G_T_b38.0.0942","rs118016422.chr16_57536400_C_G_b38.0.0467, rs372239941.chr16_57536593_G_A_b38.-0.4898","rs3094125.chr6_30741580_G_A_b38.0.1862, rs2284173.chr6_30745519_G_A_b38.0.0133","rs75097692.chr14_54901997_C_A_b38.0.084","rs3010096.chr1_202202211_G_A_b38.-0.0609","rs11568819.chr11_102530902_G_A_b38.0.1107, rs11568818.chr11_102530930_T_C_b38.-0.3717","rs3809335.chr13_25287439_A_G_b38.0.3545","rs3768324.chr1_39026790_C_T_b38.-0.524","rs2978080.chr8_38382359_C_T_b38.0.0292, rs12678205.chr8_38382490_A_G_b38.-0.0514","rs117084659.chr15_69298909_G_C_b38.0.0027, rs28750234.chr15_69299268_G_A_b38.0.0935","rs3730668.chr18_54269477_G_T_b38.-0.3339, rs582474.chr18_54269749_G_T_b38.0.547, rs3730672.chr18_54270049_A_G_b38.0.3375","rs3754554.chr2_46541511_C_T_b38.-0.0773","rs11187723.chr10_93893644_G_T_b38.-0.007, rs78690104.chr10_93905565_T_G_b38.-0.0087","rs28372960.chr5_150357401_C_T_b38.0.0727","rs11995185.chr8_108788312_A_G_b38.-0.1475","rs7503417.chr17_7380407_A_G_b38.0.0591, rs35499164.chr17_7380561_G_A_b38.-0.0412","rs10756604.chr9_14692678_G_A_b38.-0.3465, norsid.chr9_14693272_G_A_b38.0.3155"],[22.7490009076572,26.4211353073392,28.6984056903198,6.62459166448574,null,35.8638493286782,null,null,36.1194918888311,21.5398043086492,20.8894030388896,21.4013592995525,41.7986459862948,21.4019343632745,24.3781758104325,28.1143323827604,null,19.3284666787323,26.8996141028366,18.7133341970327],[0.0357436779906553,0.0403033853659986,0.0163481038960398,0.0498620262090775,0.0515607401830627,0.0353742770467181,0.0512832348497649,null,null,0.0296159973626989,0.0290128629906986,0.0331286377514803,0.0104126960017935,0.0318223605386071,0.0383480115412593,0.0152796745231685,null,null,null,0.0550084446324543],["rs221048.chr1_16204221_T_C_b38.-0.1091, rs221063.chr1_16210794_T_G_b38.-0.8546","rs13185389.chr5_150317321_G_C_b38.-0.0551, rs10039050.chr5_150339295_A_C_b38.1e-04","rs2303284.chr16_56520101_C_T_b38.-0.6018, rs72487912.chr16_56520180_G_C_b38.-0.0167, rs446167.chr16_56525553_G_A_b38.0.3304","norsid.chr19_40751491_C_T_b38.-0.2505, rs2604874.chr19_40751911_C_A_b38.-0.2202, rs2233152.chr19_40775111_G_A_b38.0.0115","rs118016422.chr16_57536400_C_G_b38.0.0664, rs372239941.chr16_57536593_G_A_b38.-0.3949, rs9939347.chr16_57536792_A_G_b38.-0.2108","rs9501029.chr6_30729963_A_G_b38.-0.3115","rs75097692.chr14_54901997_C_A_b38.0.1191, rs66989494.chr14_54903403_C_T_b38.-0.1395",null,"rs11568819.chr11_102530902_G_A_b38.0.2006, rs880197.chr11_102534940_A_T_b38.0.2245","rs7995484.chr13_25279851_A_G_b38.-0.2345, rs3809335.chr13_25287439_A_G_b38.0.4138, rs3809334.chr13_25287518_G_A_b38.-0.0027","rs76289224.chr1_39028109_C_T_b38.-0.6024, rs61734091.chr1_39028754_C_T_b38.0.06","rs2978080.chr8_38382359_C_T_b38.0.0303, rs12678205.chr8_38382490_A_G_b38.-0.0785","rs12148317.chr15_69290281_A_C_b38.-0.2117, rs28706802.chr15_69301177_C_T_b38.0.3293, rs72756346.chr15_69305593_G_T_b38.0.3771","rs3730668.chr18_54269477_G_T_b38.-0.3515, rs582474.chr18_54269749_G_T_b38.0.1653","rs3754554.chr2_46541511_C_T_b38.-0.0763, rs3754552.chr2_46542063_T_C_b38.-0.0641","rs10882361.chr10_93886973_A_G_b38.-0.2462","rs28372960.chr5_150357401_C_T_b38.0.006","rs76855082.chr8_108791738_G_C_b38.-0.2561",null,"rs10756585.chr9_14616168_A_G_b38.0.0105, rs28537759.chr9_14676729_C_T_b38.0.2581, rs562519822.chr9_14685428_A_C_b38.-0.5413, norsid.chr9_14693272_G_A_b38.0.3427, rs4326470.chr9_14694538_A_C_b38.0.4744"],[17.8488611211578,20.7409266415592,7.86080970081352,22.4884249907898,21.3077530261482,16.8708328899276,21.3918357780328,null,null,16.2484463261153,14.7445572834214,16.7864502489592,2.53723530879486,16.7843826558457,19.13285584351,4.35669201391343,null,null,null,19.3051754494606],[0.0401912333939091,null,0.0125337951850125,0.054486383081251,0.0583176978440945,0.010795627674826,0.0580047279356383,0.100361368049797,0.079984644152061,0.034860951281081,0.0365010578801329,0.0375085062834322,0.0134624910331776,0.0360321236934275,0.0399317895143995,0.0878028274283835,0.0877305108797921,0.0405783302092694,0.0387018158597944,0.0303039245171061],["rs12751725.chr1_16213082_G_A_b38.0.2643, rs12728772.chr1_16213318_C_T_b38.0.3334",null,"rs11647104.chr16_56513342_C_T_b38.-0.3838, rs2303284.chr16_56520101_C_T_b38.-0.5058, rs370151.chr16_56527582_T_G_b38.0.3709, rs11076157.chr16_56545692_G_A_b38.-0.3435","rs2604874.chr19_40751911_C_A_b38.-0.2855","norsid.chr16_57473330_C_G_b38.-0.0093, rs372239941.chr16_57536593_G_A_b38.-0.5624, rs9939347.chr16_57536792_A_G_b38.-0.219","rs2284173.chr6_30745519_G_A_b38.0.009, rs7774646.chr6_30792677_G_T_b38.-0.0606","rs66989494.chr14_54903403_C_T_b38.-0.3366","rs1812761.chr1_202194388_C_A_b38.-0.0341, rs2924111.chr1_202252146_C_A_b38.0.0968","rs2408390.chr11_102530352_C_A_b38.0.1117, rs11568819.chr11_102530902_G_A_b38.0.1918, rs11568818.chr11_102530930_T_C_b38.-0.1934","rs3809335.chr13_25287439_A_G_b38.0.36, rs3809334.chr13_25287518_G_A_b38.0.0986","rs74910205.chr1_39024826_G_C_b38.0.4529, rs3768324.chr1_39026790_C_T_b38.-0.7282, rs6981.chr1_39034514_G_A_b38.0.2514","rs12678205.chr8_38382490_A_G_b38.-0.0527","rs12911277.chr15_69299295_G_A_b38.-0.0293, rs34533413.chr15_69304651_G_A_b38.-0.3269, rs76311754.chr15_69305592_G_A_b38.0.2372","rs3730668.chr18_54269477_G_T_b38.-0.5604, rs3729509.chr18_54269587_GCGA_G_b38.-0.4094, rs582474.chr18_54269749_G_T_b38.0.7214","rs11683396.chr2_46550554_C_T_b38.-0.0556, rs62136873.chr2_46634098_G_A_b38.-0.0986","rs7088236.chr10_93892373_T_A_b38.-0.2393, rs11187723.chr10_93893644_G_T_b38.0.1425","rs28372959.chr5_150356800_G_A_b38.0.0072, rs28372960.chr5_150357401_C_T_b38.0.0779","rs62509436.chr8_108787887_A_G_b38.-0.1992, rs35733516.chr8_108788073_C_G_b38.-0.0654","rs35499164.chr17_7380561_G_A_b38.-0.0151","norsid.chr9_14693272_G_A_b38.0.4316, rs10961636.chr9_14649730_G_A_b38.-0.385, norsid.chr9_14693045_G_C_b38.0.1081"],[20.069779705476,null,6.02674043454196,24.5740703316842,24.1001020990713,5.14869124260349,24.1955800562049,43.3506714489771,35.1561727717022,19.1260246558971,18.5501147884524,19.0057520433805,3.28037115342934,19.0047797126657,19.9230453326212,25.0352110888376,42.5636712343365,19.9971550353826,20.4335003335264,10.635141268197],[0.0237622717467986,0.040717606613085,0.0476684405686108,0.0287792597710558,0.0530452635027635,0.0349942305016788,0.0518078338200854,0.0898165368178854,0.0653514179586981,0.0311039453502062,0.0405046670708437,0.033470154151572,0.0102812043856484,0.0321505910311928,0.0143126802291731,0.0305512953591127,null,0.0362144757026827,0.0471299090568664,0.0436427418902133],["rs12751725.chr1_16213082_G_A_b38.0.3942, rs75754810.chr1_16246013_C_T_b38.0.0221","rs10039050.chr5_150339295_A_C_b38.2e-04","rs2303284.chr16_56520101_C_T_b38.-0.6314, rs72487912.chr16_56520180_G_C_b38.-0.0123","rs4803354.chr19_40657774_C_T_b38.0.0115, rs7255821.chr19_40746867_T_C_b38.-0.2173","rs118016422.chr16_57536400_C_G_b38.0.0221, rs9928663.chr16_57536650_C_T_b38.-0.1199","rs4713356.chr6_30718130_A_G_b38.-0.1527, rs1059612.chr6_30741178_C_T_b38.0.2547, rs116771824.chr6_30742494_A_G_b38.-0.2287","rs66989494.chr14_54903403_C_T_b38.-0.1392","rs1812761.chr1_202194388_C_A_b38.-0.0425, rs6665965.chr1_202209007_C_G_b38.-0.1666","rs11568819.chr11_102530902_G_A_b38.0.331, rs11568818.chr11_102530930_T_C_b38.-0.2278","rs3809335.chr13_25287439_A_G_b38.0.4245, rs3809334.chr13_25287518_G_A_b38.0.0578","rs10888634.chr1_39021550_T_C_b38.-0.4233, rs3768324.chr1_39026790_C_T_b38.-0.6076","rs2978080.chr8_38382359_C_T_b38.0.0297, rs12678205.chr8_38382490_A_G_b38.-0.0537","rs12148317.chr15_69290281_A_C_b38.0.0671, rs117084659.chr15_69298909_G_C_b38.-0.0153","rs3730668.chr18_54269477_G_T_b38.-0.4422, rs3729509.chr18_54269587_GCGA_G_b38.-0.3616, rs582474.chr18_54269749_G_T_b38.0.2817","rs3754553.chr2_46541996_T_C_b38.-0.0868, rs3754552.chr2_46542063_T_C_b38.-0.082","rs10882361.chr10_93886973_A_G_b38.-0.226, rs11187723.chr10_93893644_G_T_b38.0.1665","rs28372960.chr5_150357401_C_T_b38.0.089","rs62509436.chr8_108787887_A_G_b38.-0.0843","rs35499164.chr17_7380561_G_A_b38.-0.0082, rs34140799.chr17_7380749_T_G_b38.0.004","rs4278237.chr9_14672654_A_C_b38.-0.4187, norsid.chr9_14693045_G_C_b38.0.3377, norsid.chr9_14693272_G_A_b38.0.2725"],[11.8658602632528,20.9540931639537,22.9208562917905,12.979821997968,21.9212402675151,16.6895796662,21.6106623605465,38.7958758826921,28.7243353394667,17.0647903686601,20.5847793809055,16.9594983562297,2.50519507913326,16.9575045139867,7.14098167161529,8.71108768082291,null,17.8466309830121,24.8833030450387,15.3163899636785],["ENSG00000142632.16","ENSG00000183876.8","ENSG00000125124.11","ENSG00000188493.14","ENSG00000135736.5","ENSG00000137312.14","ENSG00000131979.18","ENSG00000133067.17","ENSG00000137673.8","ENSG00000139505.11","ENSG00000168653.10","ENSG00000147548.16","ENSG00000137819.13","ENSG00000101751.10","ENSG00000119729.11","ENSG00000176273.14","ENSG00000070814.17","ENSG00000164841.4","ENSG00000174292.12","ENSG00000175893.11"],["protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>genename<\/th>\n      <th>combined_pip<\/th>\n      <th>Heart_Left_Ventricle_nolnc<\/th>\n      <th>eqtl_pos_weight_for_Heart_Left_Ventricle_nolnc<\/th>\n      <th>Heart_Left_Ventricle_nolnc_Attributable_PIP (%)<\/th>\n      <th>Liver_nolnc<\/th>\n      <th>eqtl_pos_weight_for_Liver_nolnc<\/th>\n      <th>Liver_nolnc_Attributable_PIP (%)<\/th>\n      <th>Cells_Cultured_fibroblasts_nolnc<\/th>\n      <th>eqtl_pos_weight_for_Cells_Cultured_fibroblasts_nolnc<\/th>\n      <th>Cells_Cultured_fibroblasts_nolnc_Attributable_PIP (%)<\/th>\n      <th>Skin_Sun_Exposed_Lower_leg_nolnc<\/th>\n      <th>eqtl_pos_weight_for_Skin_Sun_Exposed_Lower_leg_nolnc<\/th>\n      <th>Skin_Sun_Exposed_Lower_leg_nolnc_Attributable_PIP (%)<\/th>\n      <th>Stomach_nolnc<\/th>\n      <th>eqtl_pos_weight_for_Stomach_nolnc<\/th>\n      <th>Stomach_nolnc_Attributable_PIP (%)<\/th>\n      <th>gene<\/th>\n      <th>gene_type<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[2,3,5,6,8,9,11,12,14,15,17]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <pre class="r"><code>attributable_columns &lt;- colnames(df_gene)[seq(4,12,by=2)]
 
 plot_stacked_histogram(df_gene, &quot;genename&quot;, &quot;combined_pip&quot;, attributable_columns)</code></pre>
 <p><img src="figure/multi_tissue_ss200.Rmd/unnamed-chunk-4-4.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-4">
+Past versions of unnamed-chunk-4-4.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-4-4" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/ctwas_tibetan/blob/f42b034459874d2920e37bda4955ab534a1e233b/docs/figure/multi_tissue_ss200.Rmd/unnamed-chunk-4-4.png" target="_blank">f42b034</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2024-01-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>table_show &lt;- ctwas_res[ctwas_res$genename %in% df_gene$genename,]
 table_show &lt;- rbind(table_show,ctwas_res[ctwas_res$type!=&quot;SNP&quot; &amp; ctwas_res$susie_pip &gt; 0.8,])
 table_show &lt;- table_show[!duplicated(table_show$id),]
@@ -935,6 +1274,43 @@ ctwas_parameters &lt;- ctwas:::ctwas_summarize_parameters(outputdir = outputdir,
 
 ctwas_parameters$convergence_plot</code></pre>
 <p><img src="figure/multi_tissue_ss200.Rmd/unnamed-chunk-5-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-1">
+Past versions of unnamed-chunk-5-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/ctwas_tibetan/blob/f42b034459874d2920e37bda4955ab534a1e233b/docs/figure/multi_tissue_ss200.Rmd/unnamed-chunk-5-1.png" target="_blank">f42b034</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2024-01-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>ctwas_res &lt;- process_data(weight = weight,outputdir = outputdir,outname = outname,z_snp = z_snp,z_gene = z_gene)
 
 para &lt;- process_ctwas_results(ctwas_parameters = ctwas_parameters,ctwas_res = ctwas_res)
@@ -942,16 +1318,52 @@ DT::datatable(para,caption = htmltools::tags$caption( style = &#39;caption-side:
 <div id="htmlwidget-9e5cc00bbdf65f3fb644" style="width:100%;height:auto;" class="datatables html-widget"></div>
 <script type="application/json" data-for="htmlwidget-9e5cc00bbdf65f3fb644">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Parameters<\/caption>","data":[["1","2","3","4","5","6"],["Esophagus_Gastroesophageal_Junction_nolnc","Esophagus_Mucosa_nolnc","Heart_Atrial_Appendage_nolnc","SNP","Skin_Sun_Exposed_Lower_leg_nolnc","Stomach_nolnc"],[0.148575146675653,0.402033659954975,0.279693716788553,null,0.207457061960232,0.106847777444653],["4592","5071","4705","2694600","5360","4386"],["0.00341962483323217","0.00639071826451694","0.00301276362654612","0.000313568619860324","0.00332731303817663","0.00250732421114877"],["1.68414062461373","1.68414062461373","1.68414062461373","0.631021378849757","1.68414062461373","1.68414062461373"],["10.9055071733754","20.3806052638929","9.60798828622622",null,"10.6111161239883","7.99609416358573"],["0.0273767296470673","0.056499487468324","0.0247130252406379","0.551942513280393","0.0310927888126555","0.0191725706683635"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>type<\/th>\n      <th>max_susie_pip<\/th>\n      <th>group_size<\/th>\n      <th>group_prior<\/th>\n      <th>group_prior_var<\/th>\n      <th>enrichment<\/th>\n      <th>group_pve<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":2},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <pre class="r"><code>df_gene &lt;- process_gene_data(ctwas_res = ctwas_res)
-
 df_gene &lt;- attributable_pip(df_gene, &quot;combined_pip&quot;)
-
-DT::datatable(df_gene,caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;Genes with combined pip &gt; 0.8, 0 means pip=0; NA means no such gene in this tissue&#39;),options = list(pageLength = 10) )</code></pre>
+df_gene_full &lt;- add_eqtl(df_gene)
+DT::datatable(df_gene_full,caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;Genes with combined pip &gt; 0.8, 0 means pip=0; NA means no pip reported by ctwas or no such gene in this tissue&#39;),options = list(pageLength = 10) )</code></pre>
 <div id="htmlwidget-11e080672726f09bfcac" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-11e080672726f09bfcac">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Genes with combined pip &gt; 0.8, 0 means pip=0; NA means no such gene in this tissue<\/caption>","data":[["7206","4568","979","5312","6866","9668","3655","780","1263","389","9555","2696","2119","8677","2304","8188","1062","4629","9189","308"],["SELENOT","LRRC8B","C17orf62","NDRG4","RNF150","ZNF829","HIF3A","BCKDHB","CBX5","ANKRD31","ZNF568","ERLIN1","CYP27C1","TRIM22","DIP2B","TBX2","C2orf74","LYNX1","WIPI1","ALDH8A1"],[0.663835172198756,0.481176656896666,0.41127026567365,0.402033659954975,0.344660629118994,0.332922653692085,0.331376254788155,0.324166675373525,0.321340690328089,0.320029861079432,0.319023993454256,0.313962213396949,0.309255373965413,0.303649234300972,0.302586122349408,0.30250302959413,0.299285982812414,0.290955398666743,0.290348812735304,0.283791012302937],[0.224588186976224,0.143736052217903,0.14379735661377,0.402033659954975,0.178356167082231,0.0492243083683299,0.0651030907347958,0.141208470875214,0.145585632827026,0.140240578290372,0.207760130168285,0.105936776361721,0.309255373965413,0.114140086188333,0.102155597343318,0.108567064806089,0.120479117325879,0.113052101049802,0.0574316679174088,0.093579765683189],[33.8319203895664,29.8717841270448,34.9641996068531,100,51.7483437368918,14.7855088328885,19.646275131094,43.5604525704269,45.3056949240953,43.8210915123212,65.1236692007854,33.7418873486483,100,37.5894529920663,33.7608336265187,35.8895793380165,40.2555162101903,38.8554746080827,19.7802317069457,32.9748870211914],[0.175757235948038,0.0699852922063098,0.0588424494360074,null,0.056051859389898,0.0234534344118078,0.0943090384967007,0.0687131302410935,0.0992942132548747,null,0.0234534344118078,0.0511244003391783,null,0.0551882006550157,0.0492566689992918,0.0687221782884194,null,0.0161552971118866,0.00858041236885976,0.0505849470424304],[26.4760355143423,14.5446149980919,14.3074893439293,null,16.2629133281556,7.04470968007468,28.459805774856,21.1968519472022,30.8999813106442,null,7.351620847656,16.2836157211507,null,18.1749842979397,16.2785618245946,22.717847943746,null,5.55249951914132,2.95520835371284,17.8247177850836],[0.122620976536383,0.181678007773183,0.0710094831720324,null,null,0.0258765059431668,0.0365021399441862,0.0756635136942653,0.027473743492765,0.0455938030457762,0.0647640237576244,0.0563391260495928,null,0.0510528491259631,0.0542852922883038,0.0756734499175385,0.0596936434386868,0.0178298887421982,0.207457061960232,0.0557421062319122],[18.4715998295537,37.7570285609676,17.2658927957558,null,null,7.77252783978455,11.0153154961334,23.3409290474048,8.5497244263446,14.2467340053808,20.3006748979558,17.9445562700127,null,16.8130999057157,17.9404434898764,25.0157659640863,19.9453522272379,6.12804877445163,71.4509765016191,19.6419561632944],[0.0809685846787049,0.0189234231577607,0.0791071185491258,null,0.0634244743422782,0.148575146675653,0.056912134765124,0.0188315774119464,0.0282272618193397,0.0771471708009314,null,0.0578651483045968,null,0.052483204743314,0.0557570122135803,0.0495403365820834,0.0685050957744897,0.0392198583715657,0.00973463278993503,0.0508064836527564],[12.1970916983083,3.93273923132654,19.2348256491508,null,18.4020073613865,44.6275268528491,17.1744758240168,5.80922680909366,8.78421646213545,24.1062413803265,null,18.4306091100959,null,17.2841551417494,18.4268239999439,16.3768067541512,22.8895102706588,13.4796805803517,3.3527372467025,17.9027810783952],[0.059900188059406,0.0668538815415093,0.0585138579027144,null,0.0468281283045869,0.0857932582931272,0.0785498508473479,0.0197499831510053,0.0207598389340837,0.057048308942352,0.0230464051165389,0.0426967623418596,null,0.0307848935883461,0.041131551504914,null,0.050608126273359,0.0273806943753953,0.0071450376988681,0.0330777096926491],[9.02335256822932,13.8938330825692,14.227592604311,null,13.586735573566,25.7697267944032,23.7041277738998,6.09253962587245,6.46038287678037,17.8259331019716,7.22403505360278,13.5993315500924,null,10.138307662529,13.5933370590664,null,16.909621291913,9.41061568228774,2.46084619101986,11.6556579520354]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>genename<\/th>\n      <th>combined_pip<\/th>\n      <th>Esophagus_Mucosa_nolnc<\/th>\n      <th>Esophagus_Mucosa_nolnc_Attributable_PIP (%)<\/th>\n      <th>Heart_Atrial_Appendage_nolnc<\/th>\n      <th>Heart_Atrial_Appendage_nolnc_Attributable_PIP (%)<\/th>\n      <th>Skin_Sun_Exposed_Lower_leg_nolnc<\/th>\n      <th>Skin_Sun_Exposed_Lower_leg_nolnc_Attributable_PIP (%)<\/th>\n      <th>Esophagus_Gastroesophageal_Junction_nolnc<\/th>\n      <th>Esophagus_Gastroesophageal_Junction_nolnc_Attributable_PIP (%)<\/th>\n      <th>Stomach_nolnc<\/th>\n      <th>Stomach_nolnc_Attributable_PIP (%)<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[2,3,4,5,6,7,8,9,10,11,12]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-11e080672726f09bfcac">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Genes with combined pip &gt; 0.8, 0 means pip=0; NA means no pip reported by ctwas or no such gene in this tissue<\/caption>","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21"],["ALDH8A1","ANKRD31","BCKDHB","C17orf62","C2orf74","CBX5","CYP27C1","DIP2B","ERLIN1","HIF3A","LRRC8B","LYNX1","LYNX1","NDRG4","RNF150","SELENOT","TBX2","TRIM22","WIPI1","ZNF568","ZNF829"],[0.283791012302937,0.320029861079432,0.324166675373525,0.41127026567365,0.299285982812414,0.321340690328089,0.309255373965413,0.302586122349408,0.313962213396949,0.331376254788155,0.481176656896666,0.290955398666743,0.290955398666743,0.402033659954975,0.344660629118994,0.663835172198756,0.30250302959413,0.303649234300972,0.290348812735304,0.319023993454256,0.332922653692085],[0.093579765683189,0.140240578290372,0.141208470875214,0.14379735661377,0.120479117325879,0.145585632827026,0.309255373965413,0.102155597343318,0.105936776361721,0.0651030907347958,0.143736052217903,0.113052101049802,0.113052101049802,0.402033659954975,0.178356167082231,0.224588186976224,0.108567064806089,0.114140086188333,0.0574316679174088,0.207760130168285,0.0492243083683299],["rs9399129.chr6_134964010_C_A_b38.-0.7767","rs375392181.chr5_75236866_G_T_b38.-0.1499, rs115597141.chr5_75236941_G_A_b38.-0.0082","rs3812148.chr6_80106428_G_A_b38.0.0321, norsid.chr6_80107249_G_C_b38.0.1977","rs9912718.chr17_82448346_C_T_b38.-0.2321, rs9912066.chr17_82450543_A_C_b38.-0.1597","rs3213944.chr2_61145163_C_G_b38.1.1183, rs11125869.chr2_61152398_A_G_b38.1.1148","rs3809162.chr12_54280451_A_G_b38.0.0876, rs2071391.chr12_54281329_G_A_b38.0.0962","rs4413109.chr2_127178739_A_G_b38.-0.252, norsid.chr2_127219974_G_C_b38.-0.2382","rs79564340.chr12_50504652_T_C_b38.-0.1711, rs61927768.chr12_50504945_G_A_b38.0.1217","rs3808916.chr10_100187980_C_T_b38.0.0561","rs3810302.chr19_46296611_A_G_b38.0.1824, rs199501715.chr19_46297149_T_C_b38.-0.1036, rs3810298.chr19_46297376_G_A_b38.0.0926","rs528433.chr1_89522381_A_G_b38.0.1147, norsid.chr1_89525142_C_G_b38.-0.0362","rs2196316.chr8_142778483_G_A_b38.0.458, rs55818528.chr8_142780034_T_G_b38.0.5277","norsid.chr8_142681306_C_A_b38.-0.1718, rs2289073.chr8_142769436_A_G_b38.0.1621","rs183272197.chr16_58463394_G_T_b38.-0.1973, rs12102928.chr16_58472293_T_C_b38.0.0093","rs2321866.chr4_141212743_A_C_b38.-0.0437, rs62327564.chr4_141213673_G_A_b38.0.0113","rs2204113.chr3_150602535_T_C_b38.-0.0369","rs1476781.chr17_61399054_T_C_b38.-0.1898, rs2286524.chr17_61399531_C_T_b38.-0.0596","rs2291841.chr11_5689666_A_C_b38.-0.2591","rs67556103.chr17_68457179_A_C_b38.-0.2903, norsid.chr17_68457203_C_T_b38.0.2227, rs376803261.chr17_68457495_A_T_b38.0.0763","rs544964.chr19_36918659_A_G_b38.0.1864, rs4806377.chr19_36926153_G_C_b38.0.3939","rs4805190.chr19_36916312_C_A_b38.-0.1804"],[32.9748870211914,43.8210915123212,43.5604525704269,34.9641996068531,40.2555162101903,45.3056949240953,100,33.7608336265187,33.7418873486483,19.646275131094,29.8717841270448,38.8554746080827,38.8554746080827,100,51.7483437368918,33.8319203895664,35.8895793380165,37.5894529920663,19.7802317069457,65.1236692007854,14.7855088328885],[0.0505849470424304,null,0.0687131302410935,0.0588424494360074,null,0.0992942132548747,null,0.0492566689992918,0.0511244003391783,0.0943090384967007,0.0699852922063098,0.0161552971118866,0.0161552971118866,null,0.056051859389898,0.175757235948038,0.0687221782884194,0.0551882006550157,0.00858041236885976,0.0234534344118078,0.0234534344118078],["norsid.chr6_134950748_C_T_b38.-0.5434, rs4646868.chr6_134950808_A_G_b38.-0.6903, rs13199205.chr6_134965367_T_C_b38.-0.7045",null,"rs3812148.chr6_80106428_G_A_b38.0.0302","rs9911854.chr17_82450472_A_G_b38.-0.1785, norsid.chr17_82451589_A_G_b38.-0.2135","norsid.chr2_61144623_A_G_b38.0.8798, rs3213944.chr2_61145163_C_G_b38.0.9279","rs2071391.chr12_54281329_G_A_b38.-0.0917",null,"rs79564340.chr12_50504652_T_C_b38.-0.036, rs61927768.chr12_50504945_G_A_b38.0.0409","rs3808916.chr10_100187980_C_T_b38.-0.0168","rs3826796.chr19_46296578_G_T_b38.0.1141, rs3810302.chr19_46296611_A_G_b38.0.1555","rs528433.chr1_89522381_A_G_b38.0.1704, rs75506969.chr1_89525128_A_G_b38.0.3483, rs143919532.chr1_89525143_T_G_b38.0.1435","rs61054943.chr8_142767785_C_T_b38.0.2834, rs4355750.chr8_142777665_G_A_b38.0.2548","rs4506190.chr8_142769957_C_T_b38.-0.254, rs2289071.chr8_142770004_C_T_b38.0.299","rs7186158.chr16_58423423_A_C_b38.0.2542, rs7202037.chr16_58463066_A_C_b38.-0.0079","rs2321865.chr4_141212652_A_G_b38.-0.0421","rs1818788.chr3_150601897_T_C_b38.-0.0327, rs2204112.chr3_150602502_G_A_b38.-0.0348, rs13066567.chr3_150604339_G_A_b38.-0.0186","rs1476781.chr17_61399054_T_C_b38.-0.2042","rs2291841.chr11_5689666_A_C_b38.-0.5081","rs8075656.chr17_68417398_G_A_b38.-0.053, rs71378928.chr17_68457164_C_G_b38.-0.1005, rs71378929.chr17_68457269_C_T_b38.0.0391","rs4805190.chr19_36916312_C_A_b38.0.1525, rs34380733.chr19_36916115_C_A_b38.0.1976","rs4805190.chr19_36916312_C_A_b38.-0.115"],[17.8247177850836,null,21.1968519472022,14.3074893439293,null,30.8999813106442,null,16.2785618245946,16.2836157211507,28.459805774856,14.5446149980919,5.55249951914132,5.55249951914132,null,16.2629133281556,26.4760355143423,22.717847943746,18.1749842979397,2.95520835371284,7.351620847656,7.04470968007468],[0.0557421062319122,0.0455938030457762,0.0756635136942653,0.0710094831720324,0.0596936434386868,0.027473743492765,null,0.0542852922883038,0.0563391260495928,0.0365021399441862,0.181678007773183,0.0178298887421982,0.0178298887421982,null,null,0.122620976536383,0.0756734499175385,0.0510528491259631,0.207457061960232,0.0647640237576244,0.0258765059431668],["norsid.chr6_134950748_C_T_b38.-0.6828, rs4646868.chr6_134950808_A_G_b38.-0.766, rs13199205.chr6_134965367_T_C_b38.-0.7884","rs4704193.chr5_75232397_G_A_b38.-0.0842, rs114937130.chr5_75236898_C_T_b38.-0.4085","rs79568129.chr6_80091940_G_A_b38.0.25, rs3812148.chr6_80106428_G_A_b38.0.036, norsid.chr6_80107249_G_C_b38.0.1811","rs9912718.chr17_82448346_C_T_b38.-0.2186","rs1177277.chr2_61144588_G_A_b38.0.8588, rs3213944.chr2_61145163_C_G_b38.0.9158","rs3809162.chr12_54280451_A_G_b38.0.1033","rs11680885.chr2_127200941_C_T_b38.0.1905, norsid.chr2_127219974_G_C_b38.-0.1608","rs79564340.chr12_50504652_T_C_b38.-0.096, rs61927768.chr12_50504945_G_A_b38.0.1101","rs3808916.chr10_100187980_C_T_b38.0.0046","rs3810302.chr19_46296611_A_G_b38.0.2068, rs3810298.chr19_46297376_G_A_b38.0.0942, rs117257291.chr19_46299220_G_T_b38.-0.0845","rs168611.chr1_89523775_C_T_b38.0.3405, rs6428555.chr1_89544829_A_C_b38.0.4247","rs77175256.chr8_142773420_C_T_b38.-0.0218, rs60096034.chr8_142778078_C_A_b38.0.7641, rs55818528.chr8_142780034_T_G_b38.0.7657","norsid.chr8_142763040_G_A_b38.-0.1977, rs4506190.chr8_142769957_C_T_b38.0.1526","rs181313014.chr16_58462197_T_C_b38.-0.1185, norsid.chr16_58463645_A_C_b38.-0.2156",null,"rs2204113.chr3_150602535_T_C_b38.-0.0366, rs3745.chr3_150602806_A_G_b38.0.0056","rs1476781.chr17_61399054_T_C_b38.-0.18","norsid.chr11_5681756_A_ATTCCAGCCTTTGTATAAGGGCACTGGCTCTATCAGCTTTTAATATTTTTTTTTCTTTTTTGAGACGGAGTCT_b38.-0.3807, rs2291841.chr11_5689666_A_C_b38.-0.3133, rs7129909.chr11_5689947_A_G_b38.-0.0205","rs374644476.chr17_68411788_C_T_b38.0.0849, rs74252535.chr17_68435228_T_C_b38.-0.1232, rs71378928.chr17_68457164_C_G_b38.0.0902, rs376803261.chr17_68457495_A_T_b38.0.0573","rs34380733.chr19_36916115_C_A_b38.0.2698, rs497130.chr19_36920726_A_G_b38.0.2061, rs62115615.chr19_36924585_T_C_b38.0.3412","rs4805190.chr19_36916312_C_A_b38.-0.1578"],[19.6419561632944,14.2467340053808,23.3409290474048,17.2658927957558,19.9453522272379,8.5497244263446,null,17.9404434898764,17.9445562700127,11.0153154961334,37.7570285609676,6.12804877445163,6.12804877445163,null,null,18.4715998295537,25.0157659640863,16.8130999057157,71.4509765016191,20.3006748979558,7.77252783978455],[0.0508064836527564,0.0771471708009314,0.0188315774119464,0.0791071185491258,0.0685050957744897,0.0282272618193397,null,0.0557570122135803,0.0578651483045968,0.056912134765124,0.0189234231577607,0.0392198583715657,0.0392198583715657,null,0.0634244743422782,0.0809685846787049,0.0495403365820834,0.052483204743314,0.00973463278993503,null,0.148575146675653],["rs140617021.chr6_134950731_C_T_b38.0.0636, rs4896119.chr6_134972253_C_T_b38.-0.846","rs114937130.chr5_75236898_C_T_b38.-0.377, rs115597141.chr5_75236941_G_A_b38.-0.0067","rs75153732.chr6_80104736_G_C_b38.0.15, rs35447745.chr6_80107031_T_C_b38.-0.0938","rs9912718.chr17_82448346_C_T_b38.-0.2891, rs9912066.chr17_82450543_A_C_b38.-0.2223","norsid.chr2_61144623_A_G_b38.1.054, rs34279970.chr2_61145372_A_G_b38.1.1178","rs3809162.chr12_54280451_A_G_b38.0.0412","rs72845929.chr2_127238080_A_C_b38.-0.1127","rs79564340.chr12_50504652_T_C_b38.-0.0016, rs61927768.chr12_50504945_G_A_b38.0.0324","rs3808916.chr10_100187980_C_T_b38.-0.0213","rs3810302.chr19_46296611_A_G_b38.0.1969","rs11580069.chr1_89515817_T_C_b38.0.1847, rs148221014.chr1_89525155_A_T_b38.0.2302","rs60096034.chr8_142778078_C_A_b38.0.6399, rs77236552.chr8_142779279_G_A_b38.-0.3538","rs2289072.chr8_142769495_G_T_b38.5e-04, rs60096034.chr8_142778078_C_A_b38.0.5324",null,"rs2321866.chr4_141212743_A_C_b38.-0.0374","rs2204112.chr3_150602502_G_A_b38.-0.021","rs1476781.chr17_61399054_T_C_b38.-0.2527, rs2286524.chr17_61399531_C_T_b38.-0.1258","rs2291841.chr11_5689666_A_C_b38.-0.6101, rs7129909.chr11_5689947_A_G_b38.-0.0398","rs71378929.chr17_68457269_C_T_b38.0.0855, rs376803261.chr17_68457495_A_T_b38.0.0801","rs4806377.chr19_36926153_G_C_b38.0.313","rs4805190.chr19_36916312_C_A_b38.-0.0958, rs544964.chr19_36918659_A_G_b38.-0.0692"],[17.9027810783952,24.1062413803265,5.80922680909366,19.2348256491508,22.8895102706588,8.78421646213545,null,18.4268239999439,18.4306091100959,17.1744758240168,3.93273923132654,13.4796805803517,13.4796805803517,null,18.4020073613865,12.1970916983083,16.3768067541512,17.2841551417494,3.3527372467025,null,44.6275268528491],[0.0330777096926491,0.057048308942352,0.0197499831510053,0.0585138579027144,0.050608126273359,0.0207598389340837,null,0.041131551504914,0.0426967623418596,0.0785498508473479,0.0668538815415093,0.0273806943753953,0.0273806943753953,null,0.0468281283045869,0.059900188059406,null,0.0307848935883461,0.0071450376988681,0.0230464051165389,0.0857932582931272],["rs2072827.chr6_134932465_G_A_b38.0.4321, rs4646870.chr6_134950190_C_A_b38.-0.4416, rs13199205.chr6_134965367_T_C_b38.-0.5729","rs115597141.chr5_75236941_G_A_b38.0.063","rs3812148.chr6_80106428_G_A_b38.0.0229, rs35447745.chr6_80107031_T_C_b38.-0.0568","rs9912718.chr17_82448346_C_T_b38.-0.2779, rs9303029.chr17_82450939_C_T_b38.-0.2127","rs3213944.chr2_61145163_C_G_b38.1.0216, rs34279970.chr2_61145372_A_G_b38.1.0057","rs3809162.chr12_54280451_A_G_b38.0.0417","norsid.chr2_127219974_G_C_b38.-0.1574","rs79564340.chr12_50504652_T_C_b38.-0.1238, rs61927768.chr12_50504945_G_A_b38.0.1598","rs3808916.chr10_100187980_C_T_b38.-0.0053","rs8102595.chr19_46294573_G_A_b38.0.148, rs3826796.chr19_46296578_G_T_b38.0.0758, rs3810301.chr19_46296657_G_A_b38.0.0028","rs6428555.chr1_89544829_A_C_b38.0.1742","rs2585126.chr8_142777765_A_C_b38.0.2056, rs55818528.chr8_142780034_T_G_b38.0.5684","rs12549344.chr8_142770337_C_G_b38.-0.16, rs2304397.chr8_142775790_G_A_b38.-0.1118",null,"rs2321865.chr4_141212652_A_G_b38.-0.0248, rs11934874.chr4_141213661_C_A_b38.0.0035","rs2204112.chr3_150602502_G_A_b38.-0.031","rs112850893.chr17_61396091_T_G_b38.-0.0547","rs2291841.chr11_5689666_A_C_b38.-0.4897, rs7129909.chr11_5689947_A_G_b38.-0.0511, rs34624600.chr11_5711904_A_G_b38.0.0603","rs71378929.chr17_68457269_C_T_b38.0.1132","rs34380733.chr19_36916115_C_A_b38.0.188, rs139582992.chr19_36924338_C_T_b38.0.1987","rs4805190.chr19_36916312_C_A_b38.-0.1337, rs544964.chr19_36918659_A_G_b38.-0.0656"],[11.6556579520354,17.8259331019716,6.09253962587245,14.227592604311,16.909621291913,6.46038287678037,null,13.5933370590664,13.5993315500924,23.7041277738998,13.8938330825692,9.41061568228774,9.41061568228774,null,13.586735573566,9.02335256822932,null,10.138307662529,2.46084619101986,7.22403505360278,25.7697267944032],["ENSG00000118514.13","ENSG00000145700.9","ENSG00000083123.14","ENSG00000178927.17","ENSG00000237651.6","ENSG00000094916.15","ENSG00000186684.12","ENSG00000066084.12","ENSG00000107566.13","ENSG00000124440.15","ENSG00000197147.13","ENSG00000180155.19","ENSG00000283992.1","ENSG00000103034.14","ENSG00000170153.10","ENSG00000198843.12","ENSG00000121068.13","ENSG00000132274.15","ENSG00000070540.12","ENSG00000198453.12","ENSG00000185869.14"],["protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding","protein_coding"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>genename<\/th>\n      <th>combined_pip<\/th>\n      <th>Esophagus_Mucosa_nolnc<\/th>\n      <th>eqtl_pos_weight_for_Esophagus_Mucosa_nolnc<\/th>\n      <th>Esophagus_Mucosa_nolnc_Attributable_PIP (%)<\/th>\n      <th>Heart_Atrial_Appendage_nolnc<\/th>\n      <th>eqtl_pos_weight_for_Heart_Atrial_Appendage_nolnc<\/th>\n      <th>Heart_Atrial_Appendage_nolnc_Attributable_PIP (%)<\/th>\n      <th>Skin_Sun_Exposed_Lower_leg_nolnc<\/th>\n      <th>eqtl_pos_weight_for_Skin_Sun_Exposed_Lower_leg_nolnc<\/th>\n      <th>Skin_Sun_Exposed_Lower_leg_nolnc_Attributable_PIP (%)<\/th>\n      <th>Esophagus_Gastroesophageal_Junction_nolnc<\/th>\n      <th>eqtl_pos_weight_for_Esophagus_Gastroesophageal_Junction_nolnc<\/th>\n      <th>Esophagus_Gastroesophageal_Junction_nolnc_Attributable_PIP (%)<\/th>\n      <th>Stomach_nolnc<\/th>\n      <th>eqtl_pos_weight_for_Stomach_nolnc<\/th>\n      <th>Stomach_nolnc_Attributable_PIP (%)<\/th>\n      <th>gene<\/th>\n      <th>gene_type<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[2,3,5,6,8,9,11,12,14,15,17]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <pre class="r"><code>attributable_columns &lt;- colnames(df_gene)[seq(4,12,by=2)]
 
 plot_stacked_histogram(df_gene, &quot;genename&quot;, &quot;combined_pip&quot;, attributable_columns)</code></pre>
 <p><img src="figure/multi_tissue_ss200.Rmd/unnamed-chunk-5-4.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-4">
+Past versions of unnamed-chunk-5-4.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-4" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/ctwas_tibetan/blob/f42b034459874d2920e37bda4955ab534a1e233b/docs/figure/multi_tissue_ss200.Rmd/unnamed-chunk-5-4.png" target="_blank">f42b034</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2024-01-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>table_show &lt;- ctwas_res[ctwas_res$genename %in% df_gene$genename,]
 table_show &lt;- rbind(table_show,ctwas_res[ctwas_res$type!=&quot;SNP&quot; &amp; ctwas_res$susie_pip &gt; 0.8,])
 table_show &lt;- table_show[!duplicated(table_show$id),]
@@ -989,19 +1401,19 @@ loaded via a namespace (and not attached):
  [1] Rcpp_1.0.8.3      lattice_0.20-45   rprojroot_2.0.3   digest_0.6.29    
  [5] foreach_1.5.2     utf8_1.2.2        R6_2.5.1          evaluate_0.15    
  [9] highr_0.9         pillar_1.9.0      rlang_1.1.2       rstudioapi_0.13  
-[13] jquerylib_0.1.4   blob_1.2.3        Matrix_1.5-3      rmarkdown_2.14   
-[17] labeling_0.4.2    stringr_1.5.1     htmlwidgets_1.5.4 bit_4.0.4        
-[21] munsell_0.5.0     compiler_4.2.0    httpuv_1.6.5      xfun_0.30        
-[25] pkgconfig_2.0.3   htmltools_0.5.2   tidyselect_1.2.0  tibble_3.2.1     
-[29] workflowr_1.7.0   logging_0.10-108  codetools_0.2-18  fansi_1.0.3      
-[33] withr_2.5.0       later_1.3.0       grid_4.2.0        jsonlite_1.8.0   
-[37] gtable_0.3.0      lifecycle_1.0.4   DBI_1.1.2         git2r_0.30.1     
-[41] magrittr_2.0.3    scales_1.2.0      cli_3.6.1         stringi_1.7.6    
-[45] cachem_1.0.6      farver_2.1.0      fs_1.5.2          promises_1.2.0.1 
-[49] pgenlibr_0.3.3    bslib_0.3.1       generics_0.1.2    vctrs_0.6.5      
-[53] iterators_1.0.14  bit64_4.0.5       glue_1.6.2        purrr_1.0.2      
-[57] crosstalk_1.2.0   fastmap_1.1.0     yaml_2.3.5        colorspace_2.0-3 
-[61] memoise_2.0.1     knitr_1.39        sass_0.4.1       </code></pre>
+[13] whisker_0.4       jquerylib_0.1.4   blob_1.2.3        Matrix_1.5-3     
+[17] rmarkdown_2.14    labeling_0.4.2    stringr_1.5.1     htmlwidgets_1.5.4
+[21] bit_4.0.4         munsell_0.5.0     compiler_4.2.0    httpuv_1.6.5     
+[25] xfun_0.30         pkgconfig_2.0.3   htmltools_0.5.2   tidyselect_1.2.0 
+[29] tibble_3.2.1      workflowr_1.7.0   logging_0.10-108  codetools_0.2-18 
+[33] fansi_1.0.3       withr_2.5.0       later_1.3.0       grid_4.2.0       
+[37] jsonlite_1.8.0    gtable_0.3.0      lifecycle_1.0.4   DBI_1.1.2        
+[41] git2r_0.30.1      magrittr_2.0.3    scales_1.2.0      cli_3.6.1        
+[45] stringi_1.7.6     cachem_1.0.6      farver_2.1.0      fs_1.5.2         
+[49] promises_1.2.0.1  pgenlibr_0.3.3    bslib_0.3.1       generics_0.1.2   
+[53] vctrs_0.6.5       iterators_1.0.14  bit64_4.0.5       glue_1.6.2       
+[57] purrr_1.0.2       crosstalk_1.2.0   fastmap_1.1.0     yaml_2.3.5       
+[61] colorspace_2.0-3  memoise_2.0.1     knitr_1.39        sass_0.4.1       </code></pre>
 </div>
 </div>
 
@@ -1054,6 +1466,11 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
 
 <script>
 $(document).ready(function ()  {

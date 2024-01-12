@@ -2,9 +2,10 @@
 title: "Multi tissue analysis -- using uncorrelated tissues reported by single tissue analysis (merging the LD blocks)"
 author: "XSun"
 date: "2024-01-01"
-output: workflowr::wflow_html
-editor_options:
-  chunk_output_type: console
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+    toc: true
 ---
 
 # Overview
@@ -33,6 +34,8 @@ suppressMessages(library(dplyr))
 suppressMessages(library(tidyr))
 
 thin <- 0.1
+
+load("/project2/xinhe/shared_data/multigroup_ctwas/weights/gene_mapping_pred_nolnc.rdata")
 
 process_data <- function(weight, outputdir, outname, z_snp, z_gene, display_datatable = TRUE) {
   # Splitting and constructing weight file paths
@@ -113,10 +116,10 @@ process_gene_data <- function(ctwas_res, weight = NULL) {
   df_to_display <- head(df_gene, n_rows)
   
   # Return a datatable
- # return(DT::datatable(df_to_display,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Genes with combined pip > 0.8, 0 means pip=0; NA means no such gene in this tissue'),options = list(pageLength = 10) ))
+ # return(DT::datatable(df_to_display,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Genes with combined pip > 0.8, 0 means pip=0; NA means no pip reported by ctwas or no such gene in this tissue'),options = list(pageLength = 10) ))
     datatable_display <- DT::datatable(df_to_display, 
                                      caption = htmltools::tags$caption(style = 'caption-side: left; text-align: left; color:black; font-size:150%;', 
-                                     'Genes with combined pip > 0.8, 0 means pip=0; NA means no such gene in this tissue'), 
+                                     'Genes with combined pip > 0.8, 0 means pip=0; NA means no pip reported by ctwas or no such gene in this tissue'), 
                                      options = list(pageLength = 10))
   return(df_to_display)
 }
@@ -164,7 +167,7 @@ attributable_pip <- function(df, combined_pip_col) {
       new_order <- unlist(lapply(relevant_cols, function(col) {
         c(col, paste0(col, "_Attributable_PIP (%)"))
       }))
-      select(., all_of(c("genename", combined_pip_col, new_order)))
+      dplyr::select(., all_of(c("genename", combined_pip_col, new_order)))
     }
 
   df
@@ -176,7 +179,7 @@ plot_stacked_histogram <- function(df, genename_col, combined_pip_col, attributa
   df[[genename_col]] <- factor(df[[genename_col]], levels = df[[genename_col]])
   
   long_df_attributable <- df %>%
-    select(all_of(c(genename_col, combined_pip_col, attributable_cols))) %>%
+    dplyr::select(all_of(c(genename_col, combined_pip_col, attributable_cols))) %>%
     pivot_longer(
       cols = all_of(attributable_cols),
       names_to = "Tissue",
@@ -200,6 +203,52 @@ plot_stacked_histogram <- function(df, genename_col, combined_pip_col, attributa
     theme(axis.text.x = element_text(angle = 45, hjust = 1))
   
   return(p)
+}
+
+add_eqtl <- function(df_gene) {
+  # Merge with gene_ensbl_symbl if needed
+  # df_gene <- merge(df_gene, gene_ensbl_symbl, by="genename")
+  df_gene <- merge(df_gene, gene_ensbl_symbl, by="genename")
+  df_gene_extended <- df_gene
+  candi_col <- seq(3, ncol(df_gene) - 1, by = 2)
+  
+  for (j in candi_col[1:5]) {
+    tissue <- names(df_gene)[j]
+    weight <- paste0("/project2/xinhe/shared_data/multigroup_ctwas/weights/predictdb_nolnc/mashr_", tissue, ".db")
+    
+    sqlite <- DBI::dbDriver("SQLite")
+    db <- DBI::dbConnect(sqlite, weight)
+    query <- function(...) DBI::dbGetQuery(db, ...)
+    weight_info <- query("SELECT * FROM weights")
+    DBI::dbDisconnect(db)
+    
+    weight_info <- weight_info[weight_info$gene %in% df_gene$gene,]
+    norsid <- grep(pattern = "rs",x=weight_info$rsid,invert = T)
+    weight_info$rsid[norsid] <- "norsid"
+    
+    rearranged_df <- weight_info %>%
+      dplyr::group_by(gene) %>%
+      dplyr::summarize(
+        combined_info = paste(rsid, varID, round(weight, digits = 4), sep = ".", collapse = ", ")
+      )
+    
+    merged_df <- dplyr::left_join(df_gene_extended, rearranged_df, by = "gene")
+    new_col_name <- paste0("eqtl_pos_weight_for_", tissue)
+    
+    # Rename the column
+    merged_df <- merged_df %>%
+      dplyr::rename(!!new_col_name := combined_info)
+    
+    # Move the new column next to its corresponding tissue column
+    tissue_position <- which(names(merged_df) == tissue)
+    merged_df <- merged_df %>%
+      dplyr::select(names(merged_df)[1:tissue_position], new_col_name, everything())
+    
+    # Update df_gene_extended for the next iteration
+    df_gene_extended <- merged_df
+  }
+  
+  return(df_gene_extended)
 }
 
 ```
@@ -228,10 +277,9 @@ para <- process_ctwas_results(ctwas_parameters = ctwas_parameters,ctwas_res = ct
 DT::datatable(para,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Parameters'))
 
 df_gene <- process_gene_data(ctwas_res = ctwas_res)
-
 df_gene <- attributable_pip(df_gene, "combined_pip")
-
-DT::datatable(df_gene,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Genes with combined pip > 0.8, 0 means pip=0; NA means no such gene in this tissue'),options = list(pageLength = 10) )
+df_gene_full <- add_eqtl(df_gene)
+DT::datatable(df_gene_full,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Genes with combined pip > 0.8, 0 means pip=0; NA means no pip reported by ctwas or no such gene in this tissue'),options = list(pageLength = 10) )
 
 attributable_columns <- colnames(df_gene)[seq(4,12,by=2)]
 
@@ -268,10 +316,9 @@ para <- process_ctwas_results(ctwas_parameters = ctwas_parameters,ctwas_res = ct
 DT::datatable(para,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Parameters'))
 
 df_gene <- process_gene_data(ctwas_res = ctwas_res)
-
 df_gene <- attributable_pip(df_gene, "combined_pip")
-
-DT::datatable(df_gene,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Genes with combined pip > 0.8, 0 means pip=0; NA means no such gene in this tissue'),options = list(pageLength = 10) )
+df_gene_full <- add_eqtl(df_gene)
+DT::datatable(df_gene_full,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Genes with combined pip > 0.8, 0 means pip=0; NA means no pip reported by ctwas or no such gene in this tissue'),options = list(pageLength = 10) )
 
 attributable_columns <- colnames(df_gene)[seq(4,12,by=2)]
 
@@ -310,10 +357,9 @@ para <- process_ctwas_results(ctwas_parameters = ctwas_parameters,ctwas_res = ct
 DT::datatable(para,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Parameters'))
 
 df_gene <- process_gene_data(ctwas_res = ctwas_res)
-
 df_gene <- attributable_pip(df_gene, "combined_pip")
-
-DT::datatable(df_gene,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Genes with combined pip > 0.8, 0 means pip=0; NA means no such gene in this tissue'),options = list(pageLength = 10) )
+df_gene_full <- add_eqtl(df_gene)
+DT::datatable(df_gene_full,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Genes with combined pip > 0.8, 0 means pip=0; NA means no pip reported by ctwas or no such gene in this tissue'),options = list(pageLength = 10) )
 
 attributable_columns <- colnames(df_gene)[seq(4,12,by=2)]
 
@@ -351,10 +397,9 @@ para <- process_ctwas_results(ctwas_parameters = ctwas_parameters,ctwas_res = ct
 DT::datatable(para,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Parameters'))
 
 df_gene <- process_gene_data(ctwas_res = ctwas_res)
-
 df_gene <- attributable_pip(df_gene, "combined_pip")
-
-DT::datatable(df_gene,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Genes with combined pip > 0.8, 0 means pip=0; NA means no such gene in this tissue'),options = list(pageLength = 10) )
+df_gene_full <- add_eqtl(df_gene)
+DT::datatable(df_gene_full,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Genes with combined pip > 0.8, 0 means pip=0; NA means no pip reported by ctwas or no such gene in this tissue'),options = list(pageLength = 10) )
 
 attributable_columns <- colnames(df_gene)[seq(4,12,by=2)]
 
