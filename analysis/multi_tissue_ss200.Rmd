@@ -18,9 +18,23 @@ LB, MC, OxHb, Pulse
 
 We used the top 5 tissues decided [here](https://xsun1229.github.io/ctwas_tibetan/single_tissue_ss200.html)
 
+The weights contains only protein-coding genes
+
 ## Settings
 
-We merged the LD blocks if there are genes expanding the blocks.
+1. preharmonize snp z score:
+harmonize_z=T, 
+strand_ambig_action_z="drop"
+
+2. impute gene z-scores for both sets of prediction weights by chromosome
+harmonize_z = F (we have pre-harmonized)
+harmonize_wgt = T
+strand_ambig_action_wgt="drop"
+
+3. ctwas_rss parameter estimation & fine mapping
+LD merge=T, 
+group_prior_var_structure = "shared"
+
 
 ## Functions used
 
@@ -251,6 +265,39 @@ add_eqtl <- function(df_gene) {
   return(df_gene_extended)
 }
 
+create_pie_chart <- function(para) {
+  # Extract relevant columns
+  data <- para[, c("type", "group_pve")]
+  
+  # Calculate the 'unexplained' part
+  total_pve <- sum(as.numeric(data$group_pve), na.rm = TRUE)
+  unexplained_pve <- 1 - total_pve
+  data <- rbind(data, data.frame(type = "Unexplained", group_pve = unexplained_pve))
+  data$group_pve <- round(as.numeric(data$group_pve), digits = 5)
+  
+  # Set colors for each type, with specific colors for "Unexplained" and "SNP"
+  unique_types <- unique(data$type)
+  colors <- c("#e41a1c", "#377eb8", "#4daf4a", "#984ea3", "#ff7f00", "#ffff33", "#a65628")
+  names(colors) <- data$type
+  colors["Unexplained"] <- "grey"
+  colors["SNP"] <- "#f781bf"
+  
+  # Adjust type labels to include group_pve values
+  data$type <- paste0(data$type, ":", data$group_pve)
+  names(colors) <- data$type
+  
+  # Create and display the pie chart
+  pie <- ggplot(data, aes(x = "", y = group_pve, fill = type)) + 
+    geom_bar(stat = "identity", width = 1) +
+    coord_polar("y", start = 0) +
+    scale_fill_manual(values = colors) +
+    theme_void() +
+    labs(fill = "Type") +
+    ggtitle("Pie Chart of Group PVE")
+  
+  print(pie)
+}
+
 ```
 
 # LB
@@ -275,7 +322,7 @@ ctwas_res <- process_data(weight = weight,outputdir = outputdir,outname = outnam
 
 para <- process_ctwas_results(ctwas_parameters = ctwas_parameters,ctwas_res = ctwas_res)
 DT::datatable(para,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Parameters'))
-
+create_pie_chart(para)
 df_gene <- process_gene_data(ctwas_res = ctwas_res)
 df_gene <- attributable_pip(df_gene, "combined_pip")
 df_gene_full <- add_eqtl(df_gene)
@@ -314,7 +361,7 @@ ctwas_res <- process_data(weight = weight,outputdir = outputdir,outname = outnam
 
 para <- process_ctwas_results(ctwas_parameters = ctwas_parameters,ctwas_res = ctwas_res)
 DT::datatable(para,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Parameters'))
-
+create_pie_chart(para)
 df_gene <- process_gene_data(ctwas_res = ctwas_res)
 df_gene <- attributable_pip(df_gene, "combined_pip")
 df_gene_full <- add_eqtl(df_gene)
@@ -355,7 +402,7 @@ ctwas_res <- process_data(weight = weight,outputdir = outputdir,outname = outnam
 
 para <- process_ctwas_results(ctwas_parameters = ctwas_parameters,ctwas_res = ctwas_res)
 DT::datatable(para,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Parameters'))
-
+create_pie_chart(para)
 df_gene <- process_gene_data(ctwas_res = ctwas_res)
 df_gene <- attributable_pip(df_gene, "combined_pip")
 df_gene_full <- add_eqtl(df_gene)
@@ -395,7 +442,7 @@ ctwas_res <- process_data(weight = weight,outputdir = outputdir,outname = outnam
 
 para <- process_ctwas_results(ctwas_parameters = ctwas_parameters,ctwas_res = ctwas_res)
 DT::datatable(para,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Parameters'))
-
+create_pie_chart(para)
 df_gene <- process_gene_data(ctwas_res = ctwas_res)
 df_gene <- attributable_pip(df_gene, "combined_pip")
 df_gene_full <- add_eqtl(df_gene)

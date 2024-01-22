@@ -18,6 +18,8 @@ output:
 
 PredictDB, 29 tissues with sample size (RNASeq.and.Genotyped.samples below) >= 200, brain tissues were excluded
 
+The weights contains only protein-coding genes.
+
 ```{r }
 load("/project/xinhe/xsun/ctwas/2.TIBETN_coding/results_data/summary_table.rdata")
 
@@ -27,6 +29,20 @@ DT::datatable(weights,options = list(pageLength = 5))
 num_top <- 10
 ```
 
+## Setting
+
+1. preharmonize snp z score:
+harmonize_z=T, 
+strand_ambig_action_z="drop"
+
+2. impute gene z-scores for both sets of prediction weights by chromosome
+harmonize_z = F (we have pre-harmonized)
+harmonize_wgt = T
+strand_ambig_action_wgt="drop"
+
+3. ctwas_rss parameter estimation & fine mapping
+LD merge=T, 
+group_prior_var_structure = "shared"
 
 ##  Tissue-tissue correlation data 
 

@@ -15,7 +15,7 @@
 
 <title>Multi tissue analysis – using uncorrelated tissues reported by single tissue analysis (merging the LD blocks)</title>
 
-<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -31,7 +31,7 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
@@ -46,8 +46,8 @@
 <script src="site_libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
 <link href="site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
 <script src="site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
-<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
-<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
 
 <link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
 <!-- Add a small amount of space between sections. -->
@@ -167,11 +167,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -200,8 +204,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -209,16 +213,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -414,7 +411,7 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2024-01-12
+<strong>Last updated:</strong> 2024-01-21
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -548,15 +545,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229ctwastibetantreef42b034459874d2920e37bda4955ab534a1e233btargetblankf42b034a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229ctwastibetantree7397665774d479a915bdcccfe4ddf2bc215bb663targetblank7397665a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/xsun1229/ctwas_tibetan/tree/f42b034459874d2920e37bda4955ab534a1e233b" target="_blank">f42b034</a>
+<a href="https://github.com/xsun1229/ctwas_tibetan/tree/7397665774d479a915bdcccfe4ddf2bc215bb663" target="_blank">7397665</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229ctwastibetantreef42b034459874d2920e37bda4955ab534a1e233btargetblankf42b034a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229ctwastibetantree7397665774d479a915bdcccfe4ddf2bc215bb663targetblank7397665a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -566,7 +563,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/xsun1229/ctwas_tibetan/tree/f42b034459874d2920e37bda4955ab534a1e233b" target="_blank">f42b034</a>.
+<a href="https://github.com/xsun1229/ctwas_tibetan/tree/7397665774d479a915bdcccfe4ddf2bc215bb663" target="_blank">7397665</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -580,11 +577,9 @@ depends on. Below is the status of the Git repository when the results
 were generated:
 </p>
 <pre><code>
-Ignored files:
-    Ignored:    analysis/figure/
-
 Unstaged changes:
     Modified:   analysis/multi_tissue_ss200.Rmd
+    Modified:   analysis/single_tissue_ss200.Rmd
 
 </code></pre>
 <p>
@@ -630,6 +625,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/xsun1229/ctwas_tibetan/blob/7397665774d479a915bdcccfe4ddf2bc215bb663/analysis/multi_tissue_ss200.Rmd" target="_blank">7397665</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2024-01-12
+</td>
+<td>
+update
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/xsun1229/ctwas_tibetan/7397665774d479a915bdcccfe4ddf2bc215bb663/docs/multi_tissue_ss200.html" target="_blank">7397665</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2024-01-12
+</td>
+<td>
+update
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -681,10 +710,19 @@ update
 <h2>Tissues</h2>
 <p>We used the top 5 tissues decided <a
 href="https://xsun1229.github.io/ctwas_tibetan/single_tissue_ss200.html">here</a></p>
+<p>The weights contains only protein-coding genes</p>
 </div>
 <div id="settings" class="section level2">
 <h2>Settings</h2>
-<p>We merged the LD blocks if there are genes expanding the blocks.</p>
+<ol style="list-style-type: decimal">
+<li><p>preharmonize snp z score: harmonize_z=T,
+strand_ambig_action_z=“drop”</p></li>
+<li><p>impute gene z-scores for both sets of prediction weights by
+chromosome harmonize_z = F (we have pre-harmonized) harmonize_wgt = T
+strand_ambig_action_wgt=“drop”</p></li>
+<li><p>ctwas_rss parameter estimation &amp; fine mapping LD merge=T,
+group_prior_var_structure = “shared”</p></li>
+</ol>
 </div>
 <div id="functions-used" class="section level2">
 <h2>Functions used</h2>
@@ -912,6 +950,39 @@ add_eqtl &lt;- function(df_gene) {
   }
   
   return(df_gene_extended)
+}
+
+create_pie_chart &lt;- function(para) {
+  # Extract relevant columns
+  data &lt;- para[, c(&quot;type&quot;, &quot;group_pve&quot;)]
+  
+  # Calculate the &#39;unexplained&#39; part
+  total_pve &lt;- sum(as.numeric(data$group_pve), na.rm = TRUE)
+  unexplained_pve &lt;- 1 - total_pve
+  data &lt;- rbind(data, data.frame(type = &quot;Unexplained&quot;, group_pve = unexplained_pve))
+  data$group_pve &lt;- round(as.numeric(data$group_pve), digits = 5)
+  
+  # Set colors for each type, with specific colors for &quot;Unexplained&quot; and &quot;SNP&quot;
+  unique_types &lt;- unique(data$type)
+  colors &lt;- c(&quot;#e41a1c&quot;, &quot;#377eb8&quot;, &quot;#4daf4a&quot;, &quot;#984ea3&quot;, &quot;#ff7f00&quot;, &quot;#ffff33&quot;, &quot;#a65628&quot;)
+  names(colors) &lt;- data$type
+  colors[&quot;Unexplained&quot;] &lt;- &quot;grey&quot;
+  colors[&quot;SNP&quot;] &lt;- &quot;#f781bf&quot;
+  
+  # Adjust type labels to include group_pve values
+  data$type &lt;- paste0(data$type, &quot;:&quot;, data$group_pve)
+  names(colors) &lt;- data$type
+  
+  # Create and display the pie chart
+  pie &lt;- ggplot(data, aes(x = &quot;&quot;, y = group_pve, fill = type)) + 
+    geom_bar(stat = &quot;identity&quot;, width = 1) +
+    coord_polar(&quot;y&quot;, start = 0) +
+    scale_fill_manual(values = colors) +
+    theme_void() +
+    labs(fill = &quot;Type&quot;) +
+    ggtitle(&quot;Pie Chart of Group PVE&quot;)
+  
+  print(pie)
 }</code></pre>
 </div>
 </div>
@@ -975,6 +1046,8 @@ para &lt;- process_ctwas_results(ctwas_parameters = ctwas_parameters,ctwas_res =
 DT::datatable(para,caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;Parameters&#39;))</code></pre>
 <div id="htmlwidget-13e8fe57641ddb9d279b" style="width:100%;height:auto;" class="datatables html-widget"></div>
 <script type="application/json" data-for="htmlwidget-13e8fe57641ddb9d279b">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Parameters<\/caption>","data":[["1","2","3","4","5","6"],["Cells_Cultured_fibroblasts_nolnc","Esophagus_Gastroesophageal_Junction_nolnc","Lung_nolnc","Muscle_Skeletal_nolnc","SNP","Skin_Not_Sun_Exposed_Suprapubic_nolnc"],[0.0754389742207744,0.0709046345101727,0.0801338222407388,0.0621652205328847,null,0.0755921475924076],["5124","4592","5011","4772","2694570","5117"],["0.00240679103033508","0.00225777305704194","0.00301837897198924","0.00200902962838371","0.000352444471766897","0.00349905132681794"],["0.470899272090706","0.470899272090706","0.470899272090706","0.470899272090706","0.678384033297197","0.470899272090706"],["6.82885170043725","6.40603907254703","8.56412630579027","5.70027277860797",null,"9.92795066206111"],["0.00601171519998375","0.00505397463807413","0.00737308196799894","0.00467345073875842","0.666927559789955","0.00872803788675085"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>type<\/th>\n      <th>max_susie_pip<\/th>\n      <th>group_size<\/th>\n      <th>group_prior<\/th>\n      <th>group_prior_var<\/th>\n      <th>enrichment<\/th>\n      <th>group_pve<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":2},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>create_pie_chart(para)</code></pre>
+<p><img src="figure/multi_tissue_ss200.Rmd/unnamed-chunk-2-3.png" width="1152" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>df_gene &lt;- process_gene_data(ctwas_res = ctwas_res)
 df_gene &lt;- attributable_pip(df_gene, &quot;combined_pip&quot;)
 df_gene_full &lt;- add_eqtl(df_gene)
@@ -984,44 +1057,7 @@ DT::datatable(df_gene_full,caption = htmltools::tags$caption( style = &#39;capti
 <pre class="r"><code>attributable_columns &lt;- colnames(df_gene)[seq(4,12,by=2)]
 
 plot_stacked_histogram(df_gene, &quot;genename&quot;, &quot;combined_pip&quot;, attributable_columns)</code></pre>
-<p><img src="figure/multi_tissue_ss200.Rmd/unnamed-chunk-2-4.png" width="1152" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-2-4">
-Past versions of unnamed-chunk-2-4.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-2-4" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/xsun1229/ctwas_tibetan/blob/f42b034459874d2920e37bda4955ab534a1e233b/docs/figure/multi_tissue_ss200.Rmd/unnamed-chunk-2-4.png" target="_blank">f42b034</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2024-01-03
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/multi_tissue_ss200.Rmd/unnamed-chunk-2-5.png" width="1152" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>table_show &lt;- ctwas_res[ctwas_res$genename %in% df_gene$genename,]
 table_show &lt;- rbind(table_show,ctwas_res[ctwas_res$type!=&quot;SNP&quot; &amp; ctwas_res$susie_pip &gt; 0.8,])
 table_show &lt;- table_show[!duplicated(table_show$id),]
@@ -1089,6 +1125,8 @@ para &lt;- process_ctwas_results(ctwas_parameters = ctwas_parameters,ctwas_res =
 DT::datatable(para,caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;Parameters&#39;))</code></pre>
 <div id="htmlwidget-cb13f050035c9c94f379" style="width:100%;height:auto;" class="datatables html-widget"></div>
 <script type="application/json" data-for="htmlwidget-cb13f050035c9c94f379">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Parameters<\/caption>","data":[["1","2","3","4","5","6"],["Cells_Cultured_fibroblasts_nolnc","Colon_Sigmoid_nolnc","Nerve_Tibial_nolnc","Pituitary_nolnc","SNP","Testis_nolnc"],[0.150277350237479,0.192113227280273,0.110790003847379,0.140299222338659,null,0.141902389305319],["5124","4498","5475","4412","2694570","5409"],["0.00474587241507993","0.00749278729841771","0.00448158905486804","0.00571531508364113","0.000364701293178517","0.00540737353370113"],["0.848396526466438","0.848396526466438","0.848396526466438","0.848396526466438","0.914041681930642","0.848396526466438"],["13.0130397227763","20.5449978888616","12.2883826810955","15.6712224237811",null,"14.8268559361929"],["0.0213573288689051","0.0295995160656805","0.0215495353156525","0.0221461091986687","0.929855893246168","0.0256876933313893"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>type<\/th>\n      <th>max_susie_pip<\/th>\n      <th>group_size<\/th>\n      <th>group_prior<\/th>\n      <th>group_prior_var<\/th>\n      <th>enrichment<\/th>\n      <th>group_pve<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":2},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>create_pie_chart(para)</code></pre>
+<p><img src="figure/multi_tissue_ss200.Rmd/unnamed-chunk-3-3.png" width="1152" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>df_gene &lt;- process_gene_data(ctwas_res = ctwas_res)
 df_gene &lt;- attributable_pip(df_gene, &quot;combined_pip&quot;)
 df_gene_full &lt;- add_eqtl(df_gene)
@@ -1098,44 +1136,7 @@ DT::datatable(df_gene_full,caption = htmltools::tags$caption( style = &#39;capti
 <pre class="r"><code>attributable_columns &lt;- colnames(df_gene)[seq(4,12,by=2)]
 
 plot_stacked_histogram(df_gene, &quot;genename&quot;, &quot;combined_pip&quot;, attributable_columns)</code></pre>
-<p><img src="figure/multi_tissue_ss200.Rmd/unnamed-chunk-3-4.png" width="1152" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-4">
-Past versions of unnamed-chunk-3-4.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-3-4" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/xsun1229/ctwas_tibetan/blob/f42b034459874d2920e37bda4955ab534a1e233b/docs/figure/multi_tissue_ss200.Rmd/unnamed-chunk-3-4.png" target="_blank">f42b034</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2024-01-03
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/multi_tissue_ss200.Rmd/unnamed-chunk-3-5.png" width="1152" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>table_show &lt;- ctwas_res[ctwas_res$genename %in% df_gene$genename,]
 table_show &lt;- rbind(table_show,ctwas_res[ctwas_res$type!=&quot;SNP&quot; &amp; ctwas_res$susie_pip &gt; 0.8,])
 table_show &lt;- table_show[!duplicated(table_show$id),]
@@ -1203,6 +1204,8 @@ para &lt;- process_ctwas_results(ctwas_parameters = ctwas_parameters,ctwas_res =
 DT::datatable(para,caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;Parameters&#39;))</code></pre>
 <div id="htmlwidget-b6ca72bea8853d3a6e44" style="width:100%;height:auto;" class="datatables html-widget"></div>
 <script type="application/json" data-for="htmlwidget-b6ca72bea8853d3a6e44">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Parameters<\/caption>","data":[["1","2","3","4","5","6"],["Cells_Cultured_fibroblasts_nolnc","Heart_Left_Ventricle_nolnc","Liver_nolnc","SNP","Skin_Sun_Exposed_Lower_leg_nolnc","Stomach_nolnc"],[0.12860452889739,0.20469926541845,0.171539704036597,null,0.113735262161089,0.0898165368178854],["5120","4373","3863","2694310","5356","4386"],["0.0031513344024143","0.00488832016315012","0.00403281664892861","0.0003431545508936","0.00357440473596789","0.00318426776470644"],["0.868371610661062","0.868371610661062","0.868371610661062","0.722328070961416","0.868371610661062","0.868371610661062"],["9.18342593507208","14.2452435802485","11.7521875738697",null,"10.4163116201137","9.27939832479089"],["0.0145041720222271","0.0192162044277045","0.0140043087140166","0.691344786430214","0.0172096796246642","0.0125547103657516"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>type<\/th>\n      <th>max_susie_pip<\/th>\n      <th>group_size<\/th>\n      <th>group_prior<\/th>\n      <th>group_prior_var<\/th>\n      <th>enrichment<\/th>\n      <th>group_pve<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":2},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>create_pie_chart(para)</code></pre>
+<p><img src="figure/multi_tissue_ss200.Rmd/unnamed-chunk-4-3.png" width="1152" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>df_gene &lt;- process_gene_data(ctwas_res = ctwas_res)
 df_gene &lt;- attributable_pip(df_gene, &quot;combined_pip&quot;)
 df_gene_full &lt;- add_eqtl(df_gene)
@@ -1212,44 +1215,7 @@ DT::datatable(df_gene_full,caption = htmltools::tags$caption( style = &#39;capti
 <pre class="r"><code>attributable_columns &lt;- colnames(df_gene)[seq(4,12,by=2)]
 
 plot_stacked_histogram(df_gene, &quot;genename&quot;, &quot;combined_pip&quot;, attributable_columns)</code></pre>
-<p><img src="figure/multi_tissue_ss200.Rmd/unnamed-chunk-4-4.png" width="1152" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-4">
-Past versions of unnamed-chunk-4-4.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-4-4" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/xsun1229/ctwas_tibetan/blob/f42b034459874d2920e37bda4955ab534a1e233b/docs/figure/multi_tissue_ss200.Rmd/unnamed-chunk-4-4.png" target="_blank">f42b034</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2024-01-03
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/multi_tissue_ss200.Rmd/unnamed-chunk-4-5.png" width="1152" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>table_show &lt;- ctwas_res[ctwas_res$genename %in% df_gene$genename,]
 table_show &lt;- rbind(table_show,ctwas_res[ctwas_res$type!=&quot;SNP&quot; &amp; ctwas_res$susie_pip &gt; 0.8,])
 table_show &lt;- table_show[!duplicated(table_show$id),]
@@ -1317,6 +1283,8 @@ para &lt;- process_ctwas_results(ctwas_parameters = ctwas_parameters,ctwas_res =
 DT::datatable(para,caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;Parameters&#39;))</code></pre>
 <div id="htmlwidget-9e5cc00bbdf65f3fb644" style="width:100%;height:auto;" class="datatables html-widget"></div>
 <script type="application/json" data-for="htmlwidget-9e5cc00bbdf65f3fb644">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Parameters<\/caption>","data":[["1","2","3","4","5","6"],["Esophagus_Gastroesophageal_Junction_nolnc","Esophagus_Mucosa_nolnc","Heart_Atrial_Appendage_nolnc","SNP","Skin_Sun_Exposed_Lower_leg_nolnc","Stomach_nolnc"],[0.148575146675653,0.402033659954975,0.279693716788553,null,0.207457061960232,0.106847777444653],["4592","5071","4705","2694600","5360","4386"],["0.00341962483323217","0.00639071826451694","0.00301276362654612","0.000313568619860324","0.00332731303817663","0.00250732421114877"],["1.68414062461373","1.68414062461373","1.68414062461373","0.631021378849757","1.68414062461373","1.68414062461373"],["10.9055071733754","20.3806052638929","9.60798828622622",null,"10.6111161239883","7.99609416358573"],["0.0273767296470673","0.056499487468324","0.0247130252406379","0.551942513280393","0.0310927888126555","0.0191725706683635"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>type<\/th>\n      <th>max_susie_pip<\/th>\n      <th>group_size<\/th>\n      <th>group_prior<\/th>\n      <th>group_prior_var<\/th>\n      <th>enrichment<\/th>\n      <th>group_pve<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":2},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>create_pie_chart(para)</code></pre>
+<p><img src="figure/multi_tissue_ss200.Rmd/unnamed-chunk-5-3.png" width="1152" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>df_gene &lt;- process_gene_data(ctwas_res = ctwas_res)
 df_gene &lt;- attributable_pip(df_gene, &quot;combined_pip&quot;)
 df_gene_full &lt;- add_eqtl(df_gene)
@@ -1326,44 +1294,7 @@ DT::datatable(df_gene_full,caption = htmltools::tags$caption( style = &#39;capti
 <pre class="r"><code>attributable_columns &lt;- colnames(df_gene)[seq(4,12,by=2)]
 
 plot_stacked_histogram(df_gene, &quot;genename&quot;, &quot;combined_pip&quot;, attributable_columns)</code></pre>
-<p><img src="figure/multi_tissue_ss200.Rmd/unnamed-chunk-5-4.png" width="1152" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-4">
-Past versions of unnamed-chunk-5-4.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-5-4" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/xsun1229/ctwas_tibetan/blob/f42b034459874d2920e37bda4955ab534a1e233b/docs/figure/multi_tissue_ss200.Rmd/unnamed-chunk-5-4.png" target="_blank">f42b034</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2024-01-03
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/multi_tissue_ss200.Rmd/unnamed-chunk-5-5.png" width="1152" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>table_show &lt;- ctwas_res[ctwas_res$genename %in% df_gene$genename,]
 table_show &lt;- rbind(table_show,ctwas_res[ctwas_res$type!=&quot;SNP&quot; &amp; ctwas_res$susie_pip &gt; 0.8,])
 table_show &lt;- table_show[!duplicated(table_show$id),]
@@ -1402,9 +1333,9 @@ loaded via a namespace (and not attached):
  [5] foreach_1.5.2     utf8_1.2.2        R6_2.5.1          evaluate_0.15    
  [9] highr_0.9         pillar_1.9.0      rlang_1.1.2       rstudioapi_0.13  
 [13] whisker_0.4       jquerylib_0.1.4   blob_1.2.3        Matrix_1.5-3     
-[17] rmarkdown_2.14    labeling_0.4.2    stringr_1.5.1     htmlwidgets_1.5.4
+[17] rmarkdown_2.25    labeling_0.4.2    stringr_1.5.1     htmlwidgets_1.5.4
 [21] bit_4.0.4         munsell_0.5.0     compiler_4.2.0    httpuv_1.6.5     
-[25] xfun_0.30         pkgconfig_2.0.3   htmltools_0.5.2   tidyselect_1.2.0 
+[25] xfun_0.41         pkgconfig_2.0.3   htmltools_0.5.2   tidyselect_1.2.0 
 [29] tibble_3.2.1      workflowr_1.7.0   logging_0.10-108  codetools_0.2-18 
 [33] fansi_1.0.3       withr_2.5.0       later_1.3.0       grid_4.2.0       
 [37] jsonlite_1.8.0    gtable_0.3.0      lifecycle_1.0.4   DBI_1.1.2        
