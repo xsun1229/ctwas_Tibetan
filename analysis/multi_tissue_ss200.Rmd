@@ -265,7 +265,7 @@ add_eqtl <- function(df_gene) {
   return(df_gene_extended)
 }
 
-create_pie_chart <- function(para) {
+create_pie_chart_unexplained_added <- function(para) {
   # Extract relevant columns
   data <- para[, c("type", "group_pve")]
   
@@ -281,6 +281,34 @@ create_pie_chart <- function(para) {
   names(colors) <- data$type
   colors["Unexplained"] <- "grey"
   colors["SNP"] <- "#f781bf"
+  
+  # Adjust type labels to include group_pve values
+  data$type <- paste0(data$type, ":", data$group_pve)
+  names(colors) <- data$type
+  
+  # Create and display the pie chart
+  pie <- ggplot(data, aes(x = "", y = group_pve, fill = type)) + 
+    geom_bar(stat = "identity", width = 1) +
+    coord_polar("y", start = 0) +
+    scale_fill_manual(values = colors) +
+    theme_void() +
+    labs(fill = "Type") +
+    ggtitle("Pie Chart of Group PVE")
+  
+  print(pie)
+}
+
+create_pie_chart <- function(para) {
+  # Extract relevant columns
+  data <- para[, c("type", "group_pve")]
+  
+  data$group_pve <- round(as.numeric(data$group_pve), digits = 5)
+  
+  # Set colors for each type, with specific colors for "Unexplained" and "SNP"
+  unique_types <- unique(data$type)
+  colors <- c("#e41a1c", "#377eb8", "#4daf4a", "#984ea3", "#ff7f00", "#ffff33")
+  names(colors) <- data$type
+  colors["SNP"] <- "grey"
   
   # Adjust type labels to include group_pve values
   data$type <- paste0(data$type, ":", data$group_pve)
