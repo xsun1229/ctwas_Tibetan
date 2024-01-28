@@ -326,6 +326,38 @@ create_pie_chart <- function(para) {
   print(pie)
 }
 
+create_pie_chart_relative_pve <- function(para) {
+  
+  data <- para[, c("type", "group_pve")]
+  # Convert group_pve to numeric and calculate relative PVE
+  data$group_pve <- as.numeric(data$group_pve)
+  total_pve <- sum(data$group_pve, na.rm = TRUE)
+  data$relative_pve <- round(data$group_pve / total_pve, digits = 5)
+
+# Set colors for each type, with specific colors for "Unexplained" and "SNP"
+  unique_types <- unique(data$type)
+  colors <- c("#e41a1c", "#377eb8", "#4daf4a", "#984ea3", "#ff7f00", "#ffff33")
+  names(colors) <- data$type
+  colors["SNP"] <- "grey"
+
+# Adjust type labels to include relative_pve values
+  data$type <- paste0(data$type, ":", data$relative_pve)
+  names(colors) <- data$type
+
+# Create and display the pie chart
+  pie <- ggplot(data, aes(x = "", y = relative_pve, fill = type)) + 
+  geom_bar(stat = "identity", width = 1) +
+  coord_polar("y", start = 0) +
+  scale_fill_manual(values = colors) +
+  theme_void() +
+  labs(fill = "Type") +
+  ggtitle("Pie Chart of Relative Group PVE")
+
+  print(pie)
+  
+}
+
+
 ```
 
 # LB
@@ -350,7 +382,7 @@ ctwas_res <- process_data(weight = weight,outputdir = outputdir,outname = outnam
 
 para <- process_ctwas_results(ctwas_parameters = ctwas_parameters,ctwas_res = ctwas_res)
 DT::datatable(para,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Parameters'))
-create_pie_chart(para)
+create_pie_chart_relative_pve(para)
 df_gene <- process_gene_data(ctwas_res = ctwas_res)
 df_gene <- attributable_pip(df_gene, "combined_pip")
 df_gene_full <- add_eqtl(df_gene)
@@ -389,7 +421,7 @@ ctwas_res <- process_data(weight = weight,outputdir = outputdir,outname = outnam
 
 para <- process_ctwas_results(ctwas_parameters = ctwas_parameters,ctwas_res = ctwas_res)
 DT::datatable(para,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Parameters'))
-create_pie_chart(para)
+create_pie_chart_relative_pve(para)
 df_gene <- process_gene_data(ctwas_res = ctwas_res)
 df_gene <- attributable_pip(df_gene, "combined_pip")
 df_gene_full <- add_eqtl(df_gene)
@@ -430,7 +462,7 @@ ctwas_res <- process_data(weight = weight,outputdir = outputdir,outname = outnam
 
 para <- process_ctwas_results(ctwas_parameters = ctwas_parameters,ctwas_res = ctwas_res)
 DT::datatable(para,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Parameters'))
-create_pie_chart(para)
+create_pie_chart_relative_pve(para)
 df_gene <- process_gene_data(ctwas_res = ctwas_res)
 df_gene <- attributable_pip(df_gene, "combined_pip")
 df_gene_full <- add_eqtl(df_gene)
@@ -470,7 +502,7 @@ ctwas_res <- process_data(weight = weight,outputdir = outputdir,outname = outnam
 
 para <- process_ctwas_results(ctwas_parameters = ctwas_parameters,ctwas_res = ctwas_res)
 DT::datatable(para,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Parameters'))
-create_pie_chart(para)
+create_pie_chart_relative_pve(para)
 df_gene <- process_gene_data(ctwas_res = ctwas_res)
 df_gene <- attributable_pip(df_gene, "combined_pip")
 df_gene_full <- add_eqtl(df_gene)
@@ -485,4 +517,7 @@ table_show <- rbind(table_show,ctwas_res[ctwas_res$type!="SNP" & ctwas_res$susie
 table_show <- table_show[!duplicated(table_show$id),]
 DT::datatable(table_show,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Detailed table for genes with susiepip > 0.8 & combined pip >0.8'),options = list(pageLength = 5))
 
+source("/project/xinhe/xsun/ctwas/2.TIBETN_coding/locus_plot_pulse.R")
+locus_plot(region_tag = "3_93",ctwas_res = ctwas_res)
+locus_plot(region_tag = "1_54",ctwas_res = ctwas_res)
 ```
